@@ -20,15 +20,137 @@
       <div class="mt-10 border-top pt-10">
         <p>当前待审核：<span class="main-color">{{data.totalTaskApplyCount}}</span> 人</p>
         <template v-if="data.isMoreKeywordsPlan">
-          <div class="inline-block tag" v-for="item in keywordPlanInfo" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">
-            <span @click="selectChangeScheme(item.index)">{{item.title ? item.title : `关键词方案${item.index + 1}`}}</span>
-            <sup class="badge-count" v-show="item.addTaskNumber > 0">{{item.addTaskNumber}}</sup>
+          <div class="inline-block tag" v-for="item in keywordPlanInfo" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''" @click="selectChangeScheme(item.index)">
+            <span>{{item.searchKeyword ? item.searchKeyword : `关键词方案${item.index + 1}`}}</span>
+            <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
+            <span v-if="!item.oldKeyword && item.index === keywordPlanInfo.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close"/></span>
           </div>
+          <i-button class="ml-5 mt-15" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
         </template>
+        <!--原来的逻辑-->
+        <!--<template v-if="data.isMoreKeywordsPlan">-->
+          <!--<div class="inline-block tag" v-for="item in keywordPlanInfo" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">-->
+            <!--<span @click="selectChangeScheme(item.index)">{{item.title ? item.title : `关键词方案${item.index + 1}`}}</span>-->
+            <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
+          <!--</div>-->
+        <!--</template>-->
+        <div v-for="(item,index) in keywordPlanInfo" v-show="selectKeywordScheme === item.index && !item.oldKeyword">
+          <div class="keyword-plan-detail">
+            <div class="search-keyword mt-10">
+              <span class="required">搜索关键词：</span>
+              <i-input v-model="item.searchKeyword" placeholder="请输入搜索关键词" style="width: 260px"/>
+            </div>
+            <div class="sort-by mt-10">
+              <span class="required">排序方式：</span>
+              <radio-group v-model="item.searchSort">
+                <radio label="zong_he">
+                  <span>综合排序</span>
+                </radio>
+                <radio label="xiao_liang">
+                  <span>销量排序</span>
+                </radio>
+              </radio-group>
+            </div>
+            <div class="search-price mt-10">
+              <span class="required">展示价格：</span>
+              <i-input v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"/>
+            </div>
+            <div class="baby-location mt-10 clear">
+              <span class="required">宝贝搜索位置：</span>
+              <span>第</span>
+              <i-input v-model.number="item.searchPagePositionMin" style="width: 40px"/>
+              <span>---</span>
+              <i-input v-model.number="item.searchPagePositionMax" style="width: 40px"/>
+              <span>页</span>
+              <span class="blue right mr-15 cursor-p select-none" @click="moreDetail">更多设置 <icon type="md-arrow-dropdown" color="#2D8cF0" size="20" :class="{'select-style' : hasSelect}"/></span>
+            </div>
+            <div v-show="hasSelect">
+              <div class="line"></div>
+              <!--<div class="baby-main-image">-->
+                <!--<span class="lht48">搜索页展示主图</span>-->
+                <!--<upload class="inline-block vtc-top ml-10"-->
+                        <!--:item-index="index"-->
+                        <!--:default-file-list="item.taskMainImageList"-->
+                        <!--:on-remove="removeMainImage"-->
+                        <!--:on-success="changeMainImageSuccess"-->
+                        <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+                        <!--:max-size="1024"-->
+                        <!--:uploadLength="1"-->
+                        <!--name="task"-->
+                        <!--:on-format-error="handleFormatError"-->
+                        <!--:on-exceeded-size="handleMaxSize"-->
+                        <!--type="drag">-->
+                  <!--<div class="camera">-->
+                    <!--<icon type="ios-camera" size="20"/>-->
+                  <!--</div>-->
+                <!--</upload>-->
+                <!--<span class="ml-20">（可更换搜索页展示主图）</span>-->
+              <!--</div>-->
+              <div class="screen-condition mt-10 clear">
+                <span class="left">筛选条件：</span>
+                <div class="left ml-5">
+                  <checkbox-group v-model="item.searchFilter">
+                    <checkbox label="pinkage">
+                      <span>包邮</span>
+                    </checkbox>
+                    <checkbox label="mobile_exclusive">
+                      <span>手机专享</span>
+                    </checkbox>
+                    <checkbox label="tao_coin_deduction">
+                      <span>淘金币抵扣</span>
+                    </checkbox>
+                    <checkbox label="sales_return_7_plus">
+                      <span>7+天退货</span>
+                    </checkbox>
+                    <checkbox label="tmall">
+                      <span>天猫</span>
+                    </checkbox>
+                    <p style="height: 10px;"></p>
+                    <checkbox label="global_shopping">
+                      <span>全球购</span>
+                    </checkbox>
+                    <checkbox label="overseas_goods">
+                      <span>海外商品</span>
+                    </checkbox>
+                    <checkbox label="consumer_protect">
+                      <span>消费者保障</span>
+                    </checkbox>
+                    <checkbox label="pay_after_receive">
+                      <span>货到付款</span>
+                    </checkbox>
+                    <checkbox label="hua_pay_installment">
+                      <span>花呗分期</span>
+                    </checkbox>
+                    <checkbox label="wangwang_online">
+                      <span>旺旺在线</span>
+                    </checkbox>
+                  </checkbox-group>
+                </div>
+              </div>
+              <div class="price-select mt-10">
+                <span>价格区间：</span>
+                <i-input v-model.number="item.priceRangeMin" style="width: 40px"/>
+                <span>---</span>
+                <i-input v-model.number="item.priceRangeMax" style="width: 40px"/>
+                <span>元</span>
+              </div>
+              <div class="deliver-address mt-10">
+                <span>发货地：</span>
+                <i-input v-model="item.deliverAddress" style="width: 120px"/>
+                <span class="sizeColor2 ml-5">（出于安全考虑，请勿大量使用）</span>
+              </div>
+            </div>
+          </div>
+          <!--<div class="mt-10">-->
+            <!--<span>追加份数：</span>-->
+            <!--<i-input v-model.number="item.countAssigned" placeholder="请输入追加份数" class="width-100"/>-->
+            <!--<span class="ml-10 cl000 fs-14" v-if="item.searchKeyword">为{{` "${item.searchKeyword}" `}}追加的份数</span>-->
+          <!--</div>-->
+        </div>
         <div v-for="item in keywordPlanInfo" v-show="selectKeywordScheme === item.index">
           <div class="mt-10">
             <span>追加份数：</span>
-            <i-input v-model.number="item.addTaskNumber" placeholder="请输入追加份数" class="width-100"/>
+            <i-input v-model.number="item.countAssigned" placeholder="请输入追加份数" class="width-100"/>
             <span class="ml-10 cl000 fs-14" v-if="item.title">为{{` "${item.title}" `}}追加的份数</span>
           </div>
         </div>
@@ -88,12 +210,12 @@
 </template>
 
 <script>
-  import {Modal, Input, Button, Icon} from 'iview'
+  import {Modal, Input, Button, Icon, Radio, Checkbox} from 'iview'
   import PayModel from '@/components/PayModel'
   import TimeDown from '@/components/TimeDown'
   import Upload from '@/components/Upload'
   import api from '@/config/apiConfig'
-  import {isInteger, delSpace, debounce} from '@/config/utils'
+  import {isInteger, delSpace, debounce, isNumber} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
 
   export default {
@@ -111,9 +233,28 @@
         step: 'create',
         title: '活动追加名额',
         keywordPlanInfo: [],
+        oldSearchScheme: [],
+        newSearchScheme: [],
+        keywordDetail: {
+          index: 0,
+          // addTaskNumber: null,
+          itemMainImage: this.data.itemMainImage,
+          countAssigned: null,
+          searchKeyword: null,
+          searchSort: 'zong_he',
+          searchPagePrice: null,
+          searchPagePositionMin: null,
+          searchPagePositionMax: null,
+          searchFilter: [],
+          priceRangeMin: null,
+          priceRangeMax: null,
+          deliverAddress: null,
+        },
         selectKeywordScheme: 0,
+        addKeywordScheme: 0,
         timer: null,
         delayDays: null,
+        hasSelect: false
       }
     },
     components: {
@@ -124,6 +265,10 @@
       PayModel: PayModel,
       TimeDown: TimeDown,
       Upload: Upload,
+      Radio: Radio,
+      RadioGroup: Radio.Group,
+      Checkbox: Checkbox,
+      CheckboxGroup: Checkbox.Group
     },
     props: {
       value: {
@@ -289,7 +434,7 @@
        */
       allAddTaskNumber() {
        return this.keywordPlanInfo.reduce((prev, cur) => {
-         return (cur.addTaskNumber > 0 ? cur.addTaskNumber : 0) + prev
+         return (cur.countAssigned > 0 ? cur.countAssigned : 0) + prev
         }, 0)
       },
 
@@ -313,6 +458,8 @@
             reviewContent: '',
             reviewPictures: [],
           }];
+          this.hasSelect = false;
+          this.selectKeywordScheme = 0;
           this.oldAddTaskNumber = null;
           this.delayDays = null;
           // 关闭弹框时延迟渲染创建活动界面
@@ -322,27 +469,129 @@
           }, 200);
         }
       },
+      handleAdd() {
+        this.addKeywordScheme = this.keywordPlanInfo.length - 1;
+        this.addKeywordScheme ++ ;
+        this.selectKeywordScheme = this.addKeywordScheme;
+        this.keywordPlanInfo.push({
+          index: this.addKeywordScheme,
+          itemMainImage: this.data.itemMainImage,
+          // countAssigned: null,
+          searchKeyword: null,
+          searchSort: 'zong_he',
+          searchPagePrice: null,
+          searchPagePositionMin: null,
+          searchPagePositionMax: null,
+          searchFilter: [],
+          priceRangeMin: null,
+          priceRangeMax: null,
+          deliverAddress: null,
+          oldKeyword: false,
+          countAssigned: 1,
+        })
+      },
+      handleClose(index) {
+        this.keywordPlanInfo.splice(index,1);
+        this.addKeywordScheme -= 1;
+        this.selectKeywordScheme = index - 1;
+      },
+      moreDetail() {
+        this.$nextTick(() => {
+          this.hasSelect = !this.hasSelect;
+        })
+      },
+      removeMainImage(file, itemIndex) {
+        this.keywordPlanInfo[itemIndex].itemMainImage = '';
+      },
+      changeMainImageSuccess(res, index) {
+        this.keywordPlanInfo[index].itemMainImage = `${aliCallbackImgUrl}${res.name}`
+      },
       nextStep() {
         let isItemReviewOk = true;
+        // 原关键词追加逻辑不变，newSearchScheme字段只是新追加的关键词数据，所以用两个数组区分新老关键词；
+        this.newSearchScheme = this.keywordPlanInfo.filter(item => {
+          return !item.oldKeyword
+        });
+        this.oldSearchScheme = this.keywordPlanInfo.filter(item => {
+          return item.oldKeyword
+        });
+        this.newSearchScheme.forEach(item => {
+          delete item.oldKeyword;
+        });
         if (!this.data.isMoreKeywordsPlan) {
           // 老活动的校验逻辑（没有关键词人数分配）
-          if (this.keywordPlanInfo[0].addTaskNumber <= 0 || !isInteger(this.keywordPlanInfo[0].addTaskNumber)) {
+          if (this.keywordPlanInfo[0].countAssigned <= 0 || !isInteger(this.keywordPlanInfo[0].countAssigned)) {
             this.$Message.warning(`亲，请输入需要追加的活动份数！`);
             return;
           }
         } else {
           // 新活动的校验逻辑（有关键词人数分配）
-          let keywordPlanInfoIndex = 0;
-          const allOk = this.keywordPlanInfo.some((item, index) => {
-            keywordPlanInfoIndex = index;
-            return item.addTaskNumber && item.addTaskNumber > 0
-          });
-          if (!allOk) {
-            this.$Message.warning(`亲，请输入"${this.keywordPlanInfo[keywordPlanInfoIndex].title}"中需要追加的活动份数！`);
-            return;
+
+          for(let i = 0,len = this.newSearchScheme.length; i < len; i ++) {
+            let index = this.newSearchScheme[i].index + 1;
+            if (!this.newSearchScheme[i].searchKeyword) {
+              this.$Message.warning('亲，关键词方案' + index + '中的搜索关键词不能空！');
+              return;
+            }
+            if (!this.newSearchScheme[i].searchPagePrice) {
+              this.$Message.warning('亲，关键词方案' + index + '中的展示价格不能空！');
+              return;
+            }
+            if (!isNumber(this.newSearchScheme[i].searchPagePrice)) {
+              this.$Message.warning('亲，关键词方案' + index + '中的展示价格必须为数字！');
+              return;
+            }
+            if (!this.newSearchScheme[i].searchPagePositionMin) {
+              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索起始位置不能空！');
+              return;
+            }
+            if (!this.newSearchScheme[i].searchPagePositionMax) {
+              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索结束位置不能空！');
+              return;
+            }
+            if (!isInteger(this.newSearchScheme[i].searchPagePositionMin)) {
+              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索起始位置必须为正整数！');
+              return;
+            }
+            if (!isInteger(this.newSearchScheme[i].searchPagePositionMax)) {
+              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索结束位置必须为正整数！');
+              return;
+            }
+            if (this.newSearchScheme[i].searchPagePositionMax < this.newSearchScheme[i].searchPagePositionMin) {
+              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索位置起始页不能大于结束页！');
+              return;
+            }
+            if (this.newSearchScheme[i].searchPagePositionMax - this.newSearchScheme[i].searchPagePositionMin > 2) {
+              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索位置页数差值最大不大于3页！');
+              return;
+            }
+            if (this.newSearchScheme[i].priceRangeMin) {
+              if (!isInteger(this.newSearchScheme[i].priceRangeMin)) {
+                this.$Message.warning('亲，关键词方案中的价格区间位置需为正整数！');
+                return;
+              }
+            }
+            if (this.newSearchScheme[i].priceRangeMax) {
+              if (!isInteger(this.newSearchScheme[i].priceRangeMax)) {
+                this.$Message.warning('亲，关键词方案中的价格区间位置需为正整数！');
+                return;
+              }
+            }
           }
+
+
         }
-   /*     if (this.data.itemReviewRequired === 'assign_review_detail') {
+        let keywordPlanInfoIndex = 0;
+        const allOk = this.newSearchScheme.every((item, index) => {
+          keywordPlanInfoIndex = index;
+          return item.countAssigned && item.countAssigned > 0
+        });
+        if (!allOk) {
+          this.$Message.warning(`亲，请输入"${this.newSearchScheme[keywordPlanInfoIndex].searchKeyword}"中需要追加的活动份数！`);
+          return;
+        }
+
+        if (this.data.itemReviewRequired === 'assign_review_detail') {
           for (let l = 0, len = this.itemReviewList.length; l < len; l++) {
             if (!this.itemReviewList[l].value || !delSpace(this.itemReviewList[l].value)) {
               // 当用户输入连续空格的时候自动将空格去除
@@ -352,7 +601,7 @@
               break;
             }
           }
-        }*/
+        }
         if (this.data.fastPublish && this.allAddTaskNumber > this.canAddTaskCount) {
           this.$Message.warning(`亲，首单0推广费免费体验最大支持20份名额！`);
           return;
@@ -399,14 +648,15 @@
       },
       confirmPayment(pwd) {
         const _this = this;
-       /* const itemReviewPushList = [];
+        const itemReviewPushList = [];
         if (_this.itemReviewList.length > 0) {
           _this.itemReviewList.forEach(item => {
             itemReviewPushList.push(delSpace(item.value));
           })
-        }*/
-        const additionSearchScheme = _this.keywordPlanInfo.map(item => {
-          return item.addTaskNumber > 0 ? item.addTaskNumber : 0;
+        }
+        // 原关键词追加份数
+        const additionSearchScheme = _this.oldSearchScheme.map(item => {
+          return item.countAssigned > 0 ? item.countAssigned : 0;
         });
         if (_this.delayDays) {
           api.autoAuditTime({
@@ -421,6 +671,7 @@
                 additionCount: _this.allAddTaskNumber,
                 additionSearchScheme: JSON.stringify(additionSearchScheme),
                 additionItemReview: JSON.stringify(_this.itemReviewList),
+                newSearchScheme: JSON.stringify(_this.newSearchScheme)
               }).then(res => {
                 if (res.status) {
                   _this.keywordPlanInfo = [];
@@ -447,6 +698,7 @@
             additionCount: _this.allAddTaskNumber,
             additionItemReview: JSON.stringify(_this.itemReviewList),
             additionSearchScheme: JSON.stringify(additionSearchScheme),
+            newSearchScheme: JSON.stringify(_this.newSearchScheme)
           }).then(res => {
             if (res.status) {
               _this.keywordPlanInfo = [];
@@ -502,11 +754,19 @@
         handler(val) {
           let len = val > 0 ? val : 1;
           for (let i = 0; i < len; i++) {
-            this.keywordPlanInfo.push({
-              addTaskNumber: null,
+            this.keywordPlanInfo.push(Object.assign({},this.keywordDetail,{
+              countAssigned: null,
               index: i,
-              title: this.data.searchKeywords[i] ? this.data.searchKeywords[i] : null
-            })
+              searchKeyword: this.data.searchKeywords[i] ? this.data.searchKeywords[i] : null,
+              oldKeyword: true,
+            }))
+            // 原来的逻辑
+            // this.keywordPlanInfo.push({
+            //   addTaskNumber: null,
+            //   index: i,
+            //   title: this.data.searchKeywords[i] ? this.data.searchKeywords[i] : null,
+            //   oldKeyword: true
+            // })
           }
         }
       }
@@ -538,6 +798,19 @@
     position: relative;
   }
 
+  .close-tag {
+    display: inline-block;
+    font-size: 14px;
+    transform: scale(1.42857143) rotate(0);
+    cursor: pointer;
+    margin-left: 5px;
+    color: inherit;
+    opacity: .66;
+    position: relative;
+    top: 0;
+    line-height: 20px;
+  }
+
   .select-tag-bg {
     background-color: $mainColor;
     color: #fff;
@@ -563,5 +836,19 @@
     transform-origin: -10% center;
     z-index: 10;
     box-shadow: 0 0 0 1px #fff;
+  }
+
+  .keyword-plan-detail {
+    background: #F7F7F7;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    padding: 10px 20px;
+  }
+  .select-style {
+    transform: rotate(180deg);
+  }
+  .line {
+    margin: 15px auto;
+    border-bottom: 1px solid #ddd;
   }
 </style>

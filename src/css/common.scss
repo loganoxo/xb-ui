@@ -839,6 +839,10 @@ input[type="number"] {
   text-overflow: ellipsis;
 }
 
+.select-none {
+  user-select: none;
+}
+
 /*RegionPicker css start*/
 .region-picker {
   width: 482px;
