@@ -66,25 +66,26 @@
             </div>
             <div v-show="hasSelect">
               <div class="line"></div>
-              <div class="baby-main-image">
-                <span class="lht48">搜索页展示主图</span>
-                <upload class="inline-block vtc-top ml-10"
-                        :item-index="index"
-                        :on-remove="removeMainImage"
-                        :on-success="changeMainImageSuccess"
-                        :format="['jpg','jpeg','png','gif','bmp']"
-                        :max-size="1024"
-                        :uploadLength="1"
-                        name="task"
-                        :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize"
-                        type="drag">
-                  <div class="camera">
-                    <icon type="ios-camera" size="20"/>
-                  </div>
-                </upload>
-                <span class="ml-20">（可更换搜索页展示主图）</span>
-              </div>
+              <!--<div class="baby-main-image">-->
+                <!--<span class="lht48">搜索页展示主图</span>-->
+                <!--<upload class="inline-block vtc-top ml-10"-->
+                        <!--:item-index="index"-->
+                        <!--:default-file-list="item.taskMainImageList"-->
+                        <!--:on-remove="removeMainImage"-->
+                        <!--:on-success="changeMainImageSuccess"-->
+                        <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+                        <!--:max-size="1024"-->
+                        <!--:uploadLength="1"-->
+                        <!--name="task"-->
+                        <!--:on-format-error="handleFormatError"-->
+                        <!--:on-exceeded-size="handleMaxSize"-->
+                        <!--type="drag">-->
+                  <!--<div class="camera">-->
+                    <!--<icon type="ios-camera" size="20"/>-->
+                  <!--</div>-->
+                <!--</upload>-->
+                <!--<span class="ml-20">（可更换搜索页展示主图）</span>-->
+              <!--</div>-->
               <div class="screen-condition mt-10 clear">
                 <span class="left">筛选条件：</span>
                 <div class="left ml-5">
@@ -237,7 +238,7 @@
         keywordDetail: {
           index: 0,
           // addTaskNumber: null,
-          itemMainImage: this.data.taskMainImage,
+          itemMainImage: this.data.itemMainImage,
           countAssigned: null,
           searchKeyword: null,
           searchSort: 'zong_he',
@@ -474,7 +475,7 @@
         this.selectKeywordScheme = this.addKeywordScheme;
         this.keywordPlanInfo.push({
           index: this.addKeywordScheme,
-          itemMainImage: this.data.taskMainImage,
+          itemMainImage: this.data.itemMainImage,
           // countAssigned: null,
           searchKeyword: null,
           searchSort: 'zong_he',
@@ -507,6 +508,7 @@
       },
       nextStep() {
         let isItemReviewOk = true;
+        // 原关键词追加逻辑不变，newSearchScheme字段只是新追加的关键词数据，所以用两个数组区分新老关键词；
         this.newSearchScheme = this.keywordPlanInfo.filter(item => {
           return !item.oldKeyword
         });
@@ -526,7 +528,7 @@
           // 新活动的校验逻辑（有关键词人数分配）
 
           for(let i = 0,len = this.newSearchScheme.length; i < len; i ++) {
-            let index = this.newSearchScheme[i].index + this.oldSearchScheme.length;
+            let index = this.newSearchScheme[i].index + 1;
             if (!this.newSearchScheme[i].searchKeyword) {
               this.$Message.warning('亲，关键词方案' + index + '中的搜索关键词不能空！');
               return;
@@ -580,7 +582,7 @@
 
         }
         let keywordPlanInfoIndex = 0;
-        const allOk = this.keywordPlanInfo.some((item, index) => {
+        const allOk = this.keywordPlanInfo.every((item, index) => {
           keywordPlanInfoIndex = index;
           return item.countAssigned && item.countAssigned > 0
         });
@@ -652,6 +654,7 @@
             itemReviewPushList.push(delSpace(item.value));
           })
         }
+        // 原关键词追加份数
         const additionSearchScheme = _this.oldSearchScheme.map(item => {
           return item.countAssigned > 0 ? item.countAssigned : 0;
         });
@@ -755,7 +758,7 @@
               countAssigned: null,
               index: i,
               searchKeyword: this.data.searchKeywords[i] ? this.data.searchKeywords[i] : null,
-              oldKeyword: true
+              oldKeyword: true,
             }))
             // 原来的逻辑
             // this.keywordPlanInfo.push({

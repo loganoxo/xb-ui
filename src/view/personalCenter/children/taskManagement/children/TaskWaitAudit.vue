@@ -526,8 +526,9 @@
           finishTime: item.finishTime,
           endTime: item.endTime,
           fastPublish: item.fastPublish,
+          // 取第一个
+          itemMainImage: item.itemMainImage ? item.itemMainImage : ''
         });
-        console.log(this.taskAdditionalQuotaInfo);
         this.additionalQuotaModal = true;
       },
       addTaskSuccess() {
