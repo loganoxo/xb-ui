@@ -48,7 +48,7 @@
       </div>
     </template>
     <template v-if="step === 'pay'">
-      <pay-model ref="payModelRef" :orderMoney="needPayMoney"
+      <pay-model ref="payModelRef" :orderMoney="needRechargeMoney"
                  :orderType="0"
                  :isBalance="isBalance"
                  @confirmPayment="confirmPayment">
@@ -142,7 +142,7 @@
         return this.getUserBalance - this.payMoney >= 0
       },
 
-      /** 计算当用户账户余额不足以支付选购的会员版本价格的需要额外充值的金额
+      /** 计算当用户账户余额不足以支付选购的会员版本价格的需要额外充值的金额（显示给用户看的文本）
        * @return {Number}
        */
       needPayMoneyText() {
@@ -150,11 +150,11 @@
       },
 
       /**
-       * 计算最终需要支付的金额（传入orderMoney的值）
+       * 计算当用户余额不足时，需要充值的金额，当余额充足时，传入0（传入orderMoney的值）
        * @return {Number}
        */
-      needPayMoney() {
-        return this.isBalance ? this.payMoney : Math.abs(this.getUserBalance - this.payMoney)
+      needRechargeMoney() {
+        return this.isBalance ? 0 : Math.abs(this.getUserBalance - this.payMoney)
       },
 
       visitorFlowOrder() {
