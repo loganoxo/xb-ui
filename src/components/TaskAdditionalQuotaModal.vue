@@ -582,12 +582,12 @@
 
         }
         let keywordPlanInfoIndex = 0;
-        const allOk = this.keywordPlanInfo.every((item, index) => {
+        const allOk = this.newSearchScheme.every((item, index) => {
           keywordPlanInfoIndex = index;
           return item.countAssigned && item.countAssigned > 0
         });
         if (!allOk) {
-          this.$Message.warning(`亲，请输入"${this.keywordPlanInfo[keywordPlanInfoIndex].searchKeyword}"中需要追加的活动份数！`);
+          this.$Message.warning(`亲，请输入"${this.newSearchScheme[keywordPlanInfoIndex].searchKeyword}"中需要追加的活动份数！`);
           return;
         }
 
