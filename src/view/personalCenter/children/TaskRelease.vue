@@ -2860,6 +2860,7 @@
               return true;
             } else {
               _this.checkStoreInfo();
+              return true;
             }
           }
         } else {
