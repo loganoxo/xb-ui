@@ -2854,17 +2854,19 @@
             _this.isSelectStoreUrl = !(detectionStoreInfo.data.sellerId.toString() === _this.selectStoreInfo.sellerId && detectionStoreInfo.data.shopId.toString() === _this.selectStoreInfo.shopId);
             return !_this.isSelectStoreUrl;
           } else {
-            _this.storeCheckFailCount++;
-            if (_this.storeCheckFailCount > 1) {
-              _this.isGetStoreInfoError = true;
-              return false;
-            } else {
-              _this.checkStoreInfo();
-            }
+            // _this.storeCheckFailCount++;
+            // if (_this.storeCheckFailCount > 1) {
+            //   // 当爬虫重试后还是失败的话 则默认校验通过
+            //   return true;
+            // } else {
+            //   _this.checkStoreInfo();
+            // }
+            return true
           }
         } else {
           _this.$Message.error(detectionStoreInfo.msg);
           _this.taskLoading = false;
+          return true
         }
       },
       // 发布活动
@@ -2872,14 +2874,13 @@
         const _this = this;
         _this.taskLoading = true;
 
-       /* let isCheckOk = null;
+        let isCheckOk = null;
         try {
           isCheckOk = await _this.checkStoreInfo();
         } catch (e) {
           isCheckOk = false;
         }
         if (!isCheckOk) return;
-*/
         _this.taskRelease.storeName = _this.selectStoreInfo.storeAlitm;
         _this.taskRelease.realStoreName = _this.selectStoreInfo.storeName;
         _this.taskRelease.itemReviewAssignString = JSON.stringify(_this.itemReviewList);
