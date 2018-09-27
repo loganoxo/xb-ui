@@ -538,9 +538,11 @@
           finishTime: item.finishTime,
           endTime: item.endTime,
           fastPublish: item.fastPublish,
-          // 取第一个
-          itemMainImage: item.itemMainImage ? item.itemMainImage : ''
+          // 取第一个,在node端做了处理
+          itemMainImage: item.itemMainImage ? item.itemMainImage : '',
+          taskType: item.taskType
         });
+        console.log(this.taskAdditionalQuotaInfo);
         this.additionalQuotaModal = true;
       },
       addTaskSuccess() {
