@@ -25,7 +25,7 @@
             <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
             <span v-if="!item.oldKeyword && item.index === keywordPlanInfo.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close"/></span>
           </div>
-          <i-button class="ml-5 mt-15" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
+          <!--<i-button class="ml-5 mt-15" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>-->
         </template>
         <!--原来的逻辑-->
         <!--<template v-if="data.isMoreKeywordsPlan">-->
@@ -141,11 +141,6 @@
               </div>
             </div>
           </div>
-          <!--<div class="mt-10">-->
-            <!--<span>追加份数：</span>-->
-            <!--<i-input v-model.number="item.countAssigned" placeholder="请输入追加份数" class="width-100"/>-->
-            <!--<span class="ml-10 cl000 fs-14" v-if="item.searchKeyword">为{{` "${item.searchKeyword}" `}}追加的份数</span>-->
-          <!--</div>-->
         </div>
         <div v-for="item in keywordPlanInfo" v-show="selectKeywordScheme === item.index">
           <div class="mt-10">
