@@ -61,7 +61,7 @@
                 <i-button v-if="item.taskCount < 20" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>
               </template>
               <template v-else>
-                <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>
+                <i-button v-if="(item.settlementStatus !== 'settlement_finished' || item.settlementStatus !== 'waiting_audit') && !item.speedUp" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>
               </template>
             </p>
           </div>
