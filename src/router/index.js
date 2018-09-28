@@ -813,6 +813,18 @@ export default new Router({
             },
           ]
         },
+        {
+          path: 'service-clause',
+          name: 'ServiceClause',
+          component: _import('personalCenter/children/ServiceClause'),
+          meta: {
+            title: '扣分明细及条款',
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: 1,
+          }
+        },
         // {
         //   path: 'task-fans',
         //   name: 'TaskFans',
