@@ -542,7 +542,6 @@
           itemMainImage: item.itemMainImage ? item.itemMainImage : '',
           taskType: item.taskType
         });
-        console.log(this.taskAdditionalQuotaInfo);
         this.additionalQuotaModal = true;
       },
       addTaskSuccess() {
