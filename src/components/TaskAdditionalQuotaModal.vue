@@ -634,6 +634,10 @@
             // 当用户输入连续空格的时候自动将空格去除
             this.itemReviewList[l].value = delSpace(this.itemReviewList[l].value);
           }
+          // 如果不填写评价（默认第一条），则该字段不传
+          if (!this.itemReviewList[0].value) {
+            this.itemReviewList = [];
+          }
         }
         if (this.data.fastPublish && this.allAddTaskNumber > this.canAddTaskCount) {
           this.$Message.warning(`亲，首单0推广费免费体验最大支持20份名额！`);

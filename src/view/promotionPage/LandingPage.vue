@@ -13,11 +13,11 @@
     <!--</div>-->
     <img src="~assets/img/landing-page/evaluation.png" class="mt-30">
     <img src="~assets/img/landing-page/buyer-shower.png" class="mt-30 mb-20">
-    <div class="floating-window">
-      <img src="~assets/img/landing-page/floating-window.png" class="bottom-window">
-      <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="receive-material"></a>
-      <div class="fast-release" @click="toFastTaskRelease"></div>
-    </div>
+    <!--<div class="floating-window">-->
+      <!--<img src="~assets/img/landing-page/floating-window.png" class="bottom-window">-->
+      <!--<a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="receive-material"></a>-->
+      <!--<div class="fast-release" @click="toFastTaskRelease"></div>-->
+    <!--</div>-->
   </div>
 </template>
 
