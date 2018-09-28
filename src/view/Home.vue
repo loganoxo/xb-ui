@@ -755,7 +755,7 @@
       if (getStorage('weChartPop') === 1 && self.$store.state.userInfo.role === 0 && !getStorage('setWeChartshower' + self.$store.state.userInfo.phone)) {
         self.weChartShowkerAlertFunc();
       }
-      this.showTaskFansHandler();
+      // this.showTaskFansHandler();
     },
     created() {
       const self = this;
