@@ -72,12 +72,12 @@
             <!--</i>-->
             <!--微信加粉-->
           <!--</a>-->
-          <a :class="[activityCategory === 'release-good' ? 'active' : '']" @click="linkToReleaseGood('release-good')" v-if="isLogin && userRole == 1">
-            <i style="position: absolute; top: -17px; left: 34px;">
-              <img src="/static/img/common/news.gif" alt="" >
-            </i>
-            白拿拿商城
-          </a>
+          <!--<a :class="[activityCategory === 'release-good' ? 'active' : '']" @click="linkToReleaseGood('release-good')" v-if="isLogin && userRole == 1">-->
+            <!--<i style="position: absolute; top: -17px; left: 34px;">-->
+              <!--<img src="/static/img/common/news.gif" alt="" >-->
+            <!--</i>-->
+            <!--白拿拿商城-->
+          <!--</a>-->
         </div>
         <!--<div class="merchant-entering right" @click="toLandingPage">-->
           <!--<span class="merchant-entering-icon icon-size"></span>-->
