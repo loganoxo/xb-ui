@@ -177,7 +177,7 @@
             <i-button :disabled="itemReviewList.length === 1" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
           </p>
           <i-button :disabled="itemReviewList.length === allAddTaskNumber || allAddTaskNumber === 0" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
-          <span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；9月测试期免费，10月以后按标准收取。</span>
+          <span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；近期免费，收费待定。</span>
         </div>
       </div>
       <div class="mt-10 border-top pt-10">
@@ -617,26 +617,14 @@
           this.$Message.warning(`亲，请输入"${this.newSearchScheme[keywordPlanInfoIndex].searchKeyword}"中需要追加的活动份数！`);
           return;
         }
-        // 追加的时候评价可以为空
-        // if (this.data.itemReviewRequired === 'assign_review_detail') {
-        //   for (let l = 0, len = this.itemReviewList.length; l < len; l++) {
-        //     if (!this.itemReviewList[l].value || !delSpace(this.itemReviewList[l].value)) {
-        //       // 当用户输入连续空格的时候自动将空格去除
-        //       this.itemReviewList[l].value = delSpace(this.itemReviewList[l].value);
-        //       this.$Message.warning(`亲，追加评价 ${l + 1} 内容不能为空！`);
-        //       isItemReviewOk = false;
-        //       break;
-        //     }
-        //   }
-        // }
         if (this.data.itemReviewRequired === 'assign_review_detail') {
           for (let l = 0, len = this.itemReviewList.length; l < len; l++) {
             // 当用户输入连续空格的时候自动将空格去除
-            this.itemReviewList[l].value = delSpace(this.itemReviewList[l].value);
-          }
-          // 如果不填写评价（默认第一条），则该字段不传
-          if (!this.itemReviewList[0].reviewContent && this.itemReviewList[0].reviewPictures.length === 0) {
-            this.itemReviewList = [];
+            this.itemReviewList[l].reviewContent = delSpace(this.itemReviewList[l].reviewContent);
+            // 如果不填写评价，也可以过
+            if (!this.itemReviewList[l].reviewContent && this.itemReviewList[l].reviewPictures.length === 0) {
+              this.itemReviewList[l] = {}
+            }
           }
         }
         if (this.data.fastPublish && this.allAddTaskNumber > this.canAddTaskCount) {
