@@ -7,10 +7,10 @@
     <img src="~assets/img/landing-page/service.png" class="mt-30">
     <img src="~assets/img/landing-page/platform-comparing.png" class="mt-30">
     <img src="~assets/img/landing-page/process.png" class="mt-30">
-    <div class="mt-30 pos-rel">
-      <img src="~assets/img/landing-page/exclusive-black-tectnology.png">
-      <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="down-load-btn"></a>
-    </div>
+    <!--<div class="mt-30 pos-rel">-->
+      <!--<img src="~assets/img/landing-page/exclusive-black-tectnology.png">-->
+      <!--<a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="down-load-btn"></a>-->
+    <!--</div>-->
     <img src="~assets/img/landing-page/evaluation.png" class="mt-30">
     <img src="~assets/img/landing-page/buyer-shower.png" class="mt-30 mb-20">
     <div class="floating-window">
