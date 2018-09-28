@@ -635,7 +635,7 @@
             this.itemReviewList[l].value = delSpace(this.itemReviewList[l].value);
           }
           // 如果不填写评价（默认第一条），则该字段不传
-          if (!this.itemReviewList[0].value) {
+          if (!this.itemReviewList[0].reviewContent && this.itemReviewList[0].reviewPictures.length === 0) {
             this.itemReviewList = [];
           }
         }
