@@ -168,7 +168,7 @@
                 </p>
               </td>
               <td v-else-if="item.settlementStatus === 'waiting_settlement' || (item.canSettleTask && item.settlementStatus !== 'settlement_finished')">
-                <p class="bond mt-6" v-if="item.taskStatus === 'under_way'">
+                <p class="bond mt-6">
                   <span @click="showSettlement(item)">申请结算</span>
                 </p>
                 <p class="bond mt-6" v-if="(item.taskType === 'pc_search' || item.taskType === 'app_search') && item.taskStatus === 'under_way'">

@@ -833,14 +833,14 @@ input[type="number"] {
   max-width: 800px !important;
 }
 
-.select-none {
-  user-select: none;
-}
-
 .ellipsis {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.select-none {
+  user-select: none;
 }
 
 /*RegionPicker css start*/

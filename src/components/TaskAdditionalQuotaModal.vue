@@ -607,8 +607,6 @@
               }
             }
           }
-
-
         }
         let keywordPlanInfoIndex = 0;
         const allOk = this.newSearchScheme.every((item, index) => {
@@ -619,16 +617,22 @@
           this.$Message.warning(`亲，请输入"${this.newSearchScheme[keywordPlanInfoIndex].searchKeyword}"中需要追加的活动份数！`);
           return;
         }
-
+        // 追加的时候评价可以为空
+        // if (this.data.itemReviewRequired === 'assign_review_detail') {
+        //   for (let l = 0, len = this.itemReviewList.length; l < len; l++) {
+        //     if (!this.itemReviewList[l].value || !delSpace(this.itemReviewList[l].value)) {
+        //       // 当用户输入连续空格的时候自动将空格去除
+        //       this.itemReviewList[l].value = delSpace(this.itemReviewList[l].value);
+        //       this.$Message.warning(`亲，追加评价 ${l + 1} 内容不能为空！`);
+        //       isItemReviewOk = false;
+        //       break;
+        //     }
+        //   }
+        // }
         if (this.data.itemReviewRequired === 'assign_review_detail') {
           for (let l = 0, len = this.itemReviewList.length; l < len; l++) {
-            if (!this.itemReviewList[l].value || !delSpace(this.itemReviewList[l].value)) {
-              // 当用户输入连续空格的时候自动将空格去除
-              this.itemReviewList[l].value = delSpace(this.itemReviewList[l].value);
-              this.$Message.warning(`亲，追加评价 ${l + 1} 内容不能为空！`);
-              isItemReviewOk = false;
-              break;
-            }
+            // 当用户输入连续空格的时候自动将空格去除
+            this.itemReviewList[l].value = delSpace(this.itemReviewList[l].value);
           }
         }
         if (this.data.fastPublish && this.allAddTaskNumber > this.canAddTaskCount) {
@@ -686,6 +690,12 @@
         // 原关键词追加份数
         const additionSearchScheme = _this.oldSearchScheme.map(item => {
           return item.countAssigned > 0 ? item.countAssigned : 0;
+        });
+        // 价格区间传分
+        _this.newSearchScheme.forEach(item => {
+          item.searchPagePrice = (item.searchPagePrice * 100).toFixed(2) * 1;
+          item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(2) * 1 : null;
+          item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(2) * 1 : null;
         });
         if (_this.delayDays) {
           api.autoAuditTime({
