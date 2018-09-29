@@ -121,7 +121,9 @@
           <radio-group v-model="trialCondition">
             <radio label="all">不限制</radio>
             <radio label="refuseOldShowkerFor15Days">拒绝15天内本店下过单的拿手再次申请</radio>
-            <radio label="refuseOldShowkerFor30Days">拒绝30天内本店下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerFor30Days">拒绝30天内本店下过单的拿手再次申请</radio><br/>
+            <radio label="refuseOldShowkerForMerchant15Days">拒绝15天内本账号下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerForMerchant30Days">拒绝30天内本账号下过单的拿手再次申请</radio>
             <!--<radio label="refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
         </div>
@@ -1397,6 +1399,8 @@
           refuseOldShowker: false,
           refuseOldShowkerFor30Days: false,
           refuseOldShowkerFor15Days: false,
+          refuseOldShowkerForMerchant30Days: false,
+          refuseOldShowkerForMerchant15Days: false,
           needBrowseCollectAddCart: false,
           speedUp: false,
           itemIssue: [],
@@ -2804,12 +2808,20 @@
           case 'refuseOldShowkerFor15Days' :
             _this.taskRelease.refuseOldShowkerFor15Days = true;
             break;
+          case 'refuseOldShowkerForMerchant15Days' :
+            _this.taskRelease.refuseOldShowkerForMerchant15Days = true;
+            break;
+          case 'refuseOldShowkerForMerchant30Days' :
+            _this.taskRelease.refuseOldShowkerForMerchant30Days = true;
+            break;
           case 'refuseOldShowker' :
             _this.taskRelease.refuseOldShowker = true;
             break;
           case 'all' :
             _this.taskRelease.refuseOldShowkerFor30Days = false;
             _this.taskRelease.refuseOldShowkerFor15Days = false;
+            _this.taskRelease.refuseOldShowkerForMerchant15Days = false;
+            _this.taskRelease.refuseOldShowkerForMerchant30Days = false;
             _this.taskRelease.refuseOldShowker = false;
             break;
         }
@@ -3176,6 +3188,10 @@
               _this.trialCondition = 'refuseOldShowkerFor30Days'
             } else if (res.data.refuseOldShowkerFor15Days) {
               _this.trialCondition = 'refuseOldShowkerFor15Days'
+            } else if (res.data.refuseOldShowkerForMerchant30Days) {
+              _this.trialCondition = 'refuseOldShowkerForMerchant30Days'
+            } else if (res.data.refuseOldShowkerForMerchant15Days) {
+              _this.trialCondition = 'refuseOldShowkerForMerchant15Days'
             } else {
               _this.trialCondition = 'all'
             }
