@@ -120,10 +120,10 @@
           <span class="ml-8">申请条件：</span>
           <radio-group v-model="trialCondition">
             <radio label="all">不限制</radio>
-            <radio label="refuseOldShowkerFor15Days">拒绝15天内本店下过单的拿手再次申请</radio>
-            <radio label="refuseOldShowkerFor30Days">拒绝30天内本店下过单的拿手再次申请</radio><br/>
-            <radio label="refuseOldShowkerForMerchant15Days">拒绝15天内本账号下过单的拿手再次申请</radio>
-            <radio label="refuseOldShowkerForMerchant30Days">拒绝30天内本账号下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerFor15Days" class="ml-20">拒绝15天内本店下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerFor30Days" class="ml-20">拒绝30天内本店下过单的拿手再次申请</radio><br/>
+            <radio label="refuseOldShowkerForMerchant15Days" class="ml-45">拒绝15天内本账号下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerForMerchant30Days" class="ml-10">拒绝30天内本账号下过单的拿手再次申请</radio>
             <!--<radio label="refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
         </div>
