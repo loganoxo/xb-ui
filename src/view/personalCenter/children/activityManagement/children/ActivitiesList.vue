@@ -253,49 +253,46 @@
                  v-if="(item.taskType === 'pc_search' || item.taskType === 'app_search') && item.taskStatus === 'under_way'">
                 <span @click="toFlowOrderDetail(item.number, item.taskDetailObject.length)">补添流量</span>
               </p>
-
+              <!--可结算-->
               <p class="bond mt-6"
                  v-if="item.settlementStatus === 'waiting_settlement' || (item.canSettleTask && item.settlementStatus !== 'settlement_finished')">
                 <span @click="showSettlement(item)">申请结算</span>
               </p>
-
+              <!--已结算-->
               <p class="copy mt-6"
                  v-if="item.settlementStatus === 'settlement_finished' || item.settlementStatus === 'waiting_audit'">
                 <span @click="billDetails(item.id, item.taskName)">结算详情</span>
               </p>
-
               <p class="copy mt-6" v-if="item.settlementStatus === 'settlement_finished'">
                 <router-link :to="{path:'/user/money-management/transaction-record',query:{taskNumber:item.number}}">
                   查看活动账单
                 </router-link>
               </p>
-
-              <p class="bond mt-6" v-show="item.taskStatus === 'waiting_pay'">
+              <!--待付款-->
+              <p class="del-edit" v-if="item.taskStatus === 'waiting_pay' || item.taskStatus === 'waiting_modify'">
+                <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
+                <span @click="closeTask(item.id, item.fastPublish)">关闭</span>
+              </p>
+              <p class="bond mt-6" v-if="item.taskStatus === 'waiting_pay'">
                   <span
                     @click="depositMoney(item.totalMarginNeed + item.promotionExpensesNeed + item.vasFeeNeed + item.tagVasFeeNeed + item.redEnvelopeDeductionNeed, item.id, item.marginPaid + item.promotionExpensesPaid + item.vasFeePaid + item.tagVasFeePaid + item.redEnvelopeDeductionPaid, item.createTime, item.redEnvelopeDeductionPaid, item.marginPaid, item.promotionExpensesNeed)">存担保金</span>
+              </p>
+
+              <p class="copy mt-6" v-if="item.taskStatus !== 'waiting_pay' && item.taskStatus !== 'waiting_modify'">
+                <span @click="lookTaskDetail(item.id)">查看详情</span>
               </p>
 
               <p class="copy mt-6">
                 <span @click="modifyRemarks(item)">活动备注</span>
               </p>
 
-              <p class="copy mt-6" v-show="item.taskStatus !== 'waiting_pay' && item.taskStatus !== 'waiting_modify'">
-                <span @click="lookTaskDetail(item.id)">查看详情</span>
-              </p>
-
-              <p class="del-edit" v-show="item.taskStatus === 'waiting_pay' || item.taskStatus === 'waiting_modify'">
-                <span class="mr-10" @click="editTask(item.id, item.createTime, item.fastPublish)">编辑</span>
-                <span @click="closeTask(item.id, item.fastPublish)">关闭</span>
-              </p>
-
               <p class="copy mt-6">
                 <span @click="copyTask(item.id)">复制活动</span>
               </p>
-
-              <p class="bond mt-6" v-show="item.taskStatus === 'closed'">
+              <!--已关闭-->
+              <p class="bond mt-6" v-if="item.taskStatus === 'closed'">
                 <span @click="deleteTask(item.id)">彻底删除</span>
               </p>
-
             </td>
           </tr>
         </template>
