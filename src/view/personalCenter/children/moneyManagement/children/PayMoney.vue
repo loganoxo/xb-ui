@@ -146,18 +146,6 @@
         <p>1、请<span class="main-color">尽量使用手机银行</span>APP转账，绝大多数手机银行APP都免手续费,且即时到帐。</p>
         <p>2、<span class="main-color">不推荐使用支付宝</span>转账到银行卡，除超出额度会收取千分之一的手续费外，频繁支付宝对银行卡转出可能存在风险！</p>
       </div>
-      <div class="announcement mt-20 main-color lht20">
-        <p class="mb-20 text-ct"><icon type="md-information-circle" color="#f9284f" size="18"/><span class="ml-5 cl000 f-b vtc-mid">浙商银行关于数据中心搬迁暂停服务的公告</span></p>
-        <p class="fs-16 f-b mb-20 text-ct">10月4日 0:00-24:00无法充值，请提前充值做好准备！</p>
-        <p>浙商银行关于数据中心搬迁暂停服务的公告</p>
-        <p>发布日期：2018-09-21</p>
-        <p>尊敬的客户：</p>
-        <p class="text-indent">为了能够向您提供更加优质、高效的金融服务，本行将于2018年10月4日（周四）0:00至24:00实施数据中心整体搬迁，业务受影响情况如下：</p>
-        <p class="text-indent">一、10月4日0:00至12:00，除本行信用卡持卡交易（仅限非本行电子渠道）外，所有本行营业网点、电子渠道（包括但不限于网上银行、手机银行、电话银行、自助设备、POS、第三方支付等）均暂停服务。</p>
-        <p class="text-indent">二、10月4日12:00至24:00，上述部分本行渠道服务可能会受到短暂影响。</p>
-        <p class="text-indent">请您提前做好资金安排，避开此时段进行操作，如有疑问请咨询本行客服热线95527。搬迁期间给您带来的不便，敬请谅解！本行将努力缩短暂停服务时间，感谢您的理解与支持！</p>
-        <p class="text-indent">特此公告。</p>
-      </div>
       <div slot="footer">
         <i-button long type="error" @click="isShowPayTip = false">确定</i-button>
       </div>
