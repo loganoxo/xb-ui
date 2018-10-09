@@ -409,3 +409,25 @@ export const merchantIncomeType = (type) => {
   };
   return mapList[type];
 };
+
+/**
+ * 商家奖惩映射
+ */
+export const merchantPunishType = (type) => {
+  const mapList = {
+    '11': '商品价格类',
+    '12': '商品运费类',
+    '13': '上下架类',
+    '14': '下单类',
+    '21': '发货时间',
+    '22': '发货快递',
+    '23': '实物商品',
+    '24': '错发漏发',
+    '25': '收货评价',
+    '31': '私下拉群',
+    '32': '领奖审核',
+    '33': '任务押金',
+    '41': '其他行为'
+  };
+  return mapList[type];
+};
