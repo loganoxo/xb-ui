@@ -86,6 +86,10 @@
         type: Boolean,
         default: false
       },
+      showNextStepModal: {
+        type: Boolean,
+        default: false
+      }
     },
     data() {
       return {
@@ -237,7 +241,7 @@
             _this.$Message.success('恭喜您，支付成功！');
             _this.selectItem = {};
             _this.$emit('input', false);
-            _this.$emit('on-success');
+            _this.$emit('on-success',this.showNextStepModal);
           } else {
             _this.$Message.error(res.msg);
           }
