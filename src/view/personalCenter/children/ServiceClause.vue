@@ -7,15 +7,15 @@
     </div>
     <div class="filter-box clear mt-20">
       <span>处罚分类</span>
-      <i-select v-model="punishSort" :clearable="true" :filterable="true" class="width-200 ml-10">
-        <i-option v-for="(item, index) in punishSortList" :value="item.text" :label="item.text" :key="index">{{item.text}}</i-option>
+      <i-select v-model="punishSort" :clearable="true" :filterable="true" placeholder="全部" class="width-200 ml-10" @on-change="changePunishSort">
+        <i-option v-for="(item, index) in punishSortList" :value="item.id" :key="index">{{item.text}}</i-option>
       </i-select>
       <span class="ml-10">状态</span>
       <i-select v-model="punishStatus" class="width-200 ml-10">
-        <i-option v-for="(item, index) in punishStatusList" :value="item.text" :label="item.text" :key="index">{{item.text}}</i-option>
+        <i-option v-for="(item, index) in punishStatusList" :value="item.status" :key="index">{{item.text}}</i-option>
       </i-select>
       <span class="ml-10">扣分时间</span>
-      <date-picker v-model="filterTime" type="daterange" format="yyyy-MM-dd" class="width-200 ml-10" @on-change="selectDate"></date-picker>
+      <date-picker v-model="filterTime" type="daterange" format="yyyy-MM-dd HH:mm:ss" class="width-200 ml-10" @on-change="selectDate"></date-picker>
       <i-button :loading="loading" class="bg-main-color cl-fff ml-10" @click="search">搜索</i-button>
     </div>
     <div class="point-result-box">
@@ -29,28 +29,24 @@
           <th width="40">说明</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-          <td>1</td>
-          <td>2</td>
-          <td>3</td>
-          <td>4</td>
-          <td>5</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>2</td>
-          <td>3</td>
-          <td>4</td>
-          <td>5</td>
+        <tbody v-if="punishList.length > 0">
+        <tr v-for="(item, index) in punishList" :Key="index">
+          <td>{{item.createTime | dateFormat('YYYY-MM-DD')}}</td>
+          <td>{{item.dealMeasure}}</td>
+          <td>{{item.deductPoint}}</td>
+          <td>{{item.status}}</td>
+          <td>{{item.reason}}</td>
         </tr>
         </tbody>
-        <tbody>
+        <tbody v-else>
         <tr>
           <td colspan="5">暂无记录</td>
         </tr>
         </tbody>
       </table>
+      <div v-if="punishList.length > 0" class="mt-10">
+        <page :total="totalElements" :current="pageIndex" :page-size="pageSize" class="right" @on-change="changePage"/>
+      </div>
     </div>
     <div class="clause-box mt-20">
       <p class="title">白拿拿-商家平台服务条款</p>
@@ -242,7 +238,8 @@
 
 <script>
   import api from '@/config/apiConfig'
-  import {Select, Option, DatePicker, Button, Icon} from 'iview'
+  import {Select, Option, DatePicker, Button, Icon, Page} from 'iview'
+  import {merchantPunishType, getSeverTime} from '@/config/utils'
   export default {
     name: "service-clause",
     components: {
@@ -250,83 +247,134 @@
       iOption: Option,
       DatePicker: DatePicker,
       iButton: Button,
-      Icon: Icon
+      Icon: Icon,
+      Page: Page
     },
     data() {
       return {
-        punishSort: null,
         punishSortList: [
           {
-            text: '全部'
+            text: '全部',
+            id: 0
           },
           {
-            text: '商品价格类'
+            text: '商品价格类',
+            id: 11
           },
           {
-            text: '商品运费类'
+            text: '商品运费类',
+            id: 12
           },
           {
-            text: '上下架类'
+            text: '上下架类',
+            id: 13
           },
           {
-            text: '下单类'
+            text: '下单类',
+            id: 14
           },
           {
-            text: '发货时间'
+            text: '发货时间',
+            id: 21
           },
           {
-            text: '发货快递'
+            text: '发货快递',
+            id: 22
           },
           {
-            text: '实物商品'
+            text: '实物商品',
+            id: 23
           },
           {
-            text: '错发漏发'
+            text: '错发漏发',
+            id: 24
           },
           {
-            text: '收货评价'
+            text: '收货评价',
+            id: 25
           },
           {
-            text: '私下拉群'
+            text: '私下拉群',
+            id: 31
           },
           {
-            text: '领奖审核'
+            text: '领奖审核',
+            id: 32
           },
           {
-            text: '任务押金'
+            text: '任务押金',
+            id: 33
           },
           {
-            text: '其他行为'
+            text: '其他行为',
+            id: 41
           },
         ],
         punishStatusList: [
           {
-            text: '已启用'
+            text: '已启用',
+            status: 1
           },
           {
-            text: '未启用'
+            text: '未启用',
+            status: 0
           }
         ],
-        punishStatus: null,
         filterTime: null,
-        loading: false
+        punishSort: null,
+        punishStatus: null,
+        pageIndex: 1,
+        pageSize: 10,
+        dealTimeStart: null,
+        dealTimeEnd: null,
+        loading: false,
+        totalElements: 0,
+        punishList: []
       }
     },
     computed: {
 
     },
     created() {
-
-    },
-    mounted() {
-
+      this.search();
     },
     methods: {
       selectDate(e) {
-        console.log(this.filterTime)
+        this.dealTimeStart = e[0];
+        this.dealTimeEnd = e[1];
+      },
+      changePage(page) {
+        this.pageIndex = page;
+        this.search();
+      },
+      changePunishSort(id) {
+        if (id === 0) {
+          this.punishSort = null;
+        }
       },
       search() {
-        console.log(222);
+        const _this = this;
+        _this.loading = true;
+        api.getPunishInfo({
+          pageIndex: _this.pageIndex,
+          pageSize: _this.pageSize,
+          dealMeasure: _this.punishSort,
+          enable: !!_this.punishStatus,
+          dealTimeStart: _this.dealTimeStart,
+          dealTimeEnd: _this.dealTimeEnd
+        }).then(res => {
+          if (res.status) {
+            res.data.content.forEach(item => {
+              item.dealMeasure = merchantPunishType(item.dealMeasure);
+              item.status = (item.deadLineTime - getSeverTime) > 0 ? '未过期' : '已过期';
+            });
+            _this.punishList = res.data.content;
+            _this.totalElements = res.data.totalElements;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+          _this.loading = false;
+        })
       }
     }
   }
