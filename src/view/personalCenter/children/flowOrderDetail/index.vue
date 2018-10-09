@@ -4,7 +4,7 @@
     <div class="flow-info pt-20 pb-20 fs-12 pl-5">
       <icon type="md-alert" color="#000"/>
       <span class="vtc-mid">当前您的账户剩余收藏加购流量： <span class="main-color">{{flowNumInfo.favoriteCartFlowLeft}}</span> 条（可支配 <span class="main-color">{{usefulFavoriteCartFlow}}</span> 条），访客流量 <span class="main-color">{{flowNumInfo.visitorFlowLeft}}</span> 条（可支配 <span class="main-color">{{usefulVisitorFlow}}</span> 条），若数量不足则无法发布相关任务。</span>
-      <span class="flow-order" @click="showOrder">流量订购</span>
+      <span class="flow-order" @click="showOrder('doNotShowNextModal')">流量订购</span>
       <span v-if="isMember && !notGet" class="free-get-flow" @click="showFreeGetFlow = true">VIP免费领取100条流量</span>
     </div>
     <div class="tabs clear">
@@ -25,7 +25,7 @@
       </div>
     </modal>
     <!--流量订购弹窗-->
-    <flow-order-model v-model="showOrderModel" @on-success="orderSuccess"/>
+    <flow-order-model v-model="showOrderModel" :showNextStepModal="showNextStepModal" @on-success="orderSuccess"/>
   </div>
 </template>
 
@@ -66,7 +66,8 @@
         loading: false,
         notGet: true,
         showOrderModel: false,
-        orderModal: false
+        orderModal: false,
+        showNextStepModal: false
       }
     },
     provide() {
@@ -122,11 +123,18 @@
           _this.loading = false;
         })
       },
-      showOrder() {
+      showOrder(type) {
+        if (type === 'doNotShowNextModal') {
+          this.showNextStepModal = false;
+        } else if (type === 'showNextModal') {
+          this.showNextStepModal = true;
+        }
         this.showOrderModel = true;
       },
-      orderSuccess() {
-        this.$children[1].addFlowModal = true;
+      orderSuccess(e) {
+        if(e) {
+          this.$children[1].addFlowModal = true;
+        }
       }
     }
   }
