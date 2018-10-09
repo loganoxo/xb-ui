@@ -120,7 +120,9 @@
           <radio-group v-model="trialCondition">
             <radio label="all" disabled>不限制</radio>
             <radio label="refuseOldShowkerFor15Days" disabled>拒绝15天内参加过本店铺的拿手再次申请</radio>
-            <radio label="refuseOldShowkerFor30Days" disabled>拒绝30天内参加过本店铺的拿手再次申请</radio>
+            <radio label="refuseOldShowkerFor30Days" disabled>拒绝30天内参加过本店铺的拿手再次申请</radio><br/>
+            <radio label="refuseOldShowkerForMerchant15Days">拒绝15天内本账号下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerForMerchant30Days">拒绝30天内本账号下过单的拿手再次申请</radio>
             <!--<radio label="refuseOldShowker" disabled>拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
         </div>
@@ -1570,6 +1572,10 @@
               _this.trialCondition = 'refuseOldShowkerFor15Days'
             } else if (res.data.refuseOldShowkerFor30Days) {
               _this.trialCondition = 'refuseOldShowkerFor30Days'
+            }  else if (res.data.refuseOldShowkerForMerchant30Days) {
+              _this.trialCondition = 'refuseOldShowkerForMerchant30Days'
+            } else if (res.data.refuseOldShowkerForMerchant15Days) {
+              _this.trialCondition = 'refuseOldShowkerForMerchant15Days'
             } else {
               _this.trialCondition = 'all'
             }
