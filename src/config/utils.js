@@ -354,6 +354,8 @@ export const taskErrorStatusList = (type) => {
     '11': '增值业务交易记录',
     '12': '钱包提取',
     '13': '流量订购',
+    '14': '人工扣款',
+    'PUNISH_SELLER': '商家扣款-商家',
     'waiting_resubmit': '待重新提交',
     'audit_pass': '审核通过',
     'deleted': '未通过',
