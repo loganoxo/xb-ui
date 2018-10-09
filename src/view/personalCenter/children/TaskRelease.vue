@@ -373,10 +373,10 @@
         <div class="task-remark ml-28 mt-15 clear">
           <span class="left">下单要求：</span>
           <div class="left">
-            <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
-                     placeholder="1、下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）
-2、请勿在未勾选增值服务的情况要求拿手执行，若拿手未执行，不算违规。
-3、如果对拿手有特别的要求，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！" v-model="taskRelease.remark"/>
+            <i-input class="task-remark-input" type="textarea" :maxlength="30" v-model="taskRelease.remark"/>
+            <p class="lht20 mt-10 cl999">1、限制（30字），如果您有指定下单规格，请在下单要求中填写。</p>
+            <p class="lht20 cl999">2、请勿在未勾选增值服务的情况要求拿手执行，若拿手未执行，不算违规。</p>
+            <p class="lht20 cl999">3、如果对拿手有特别的要求，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！</p>
           </div>
         </div>
         <div class="product-introduction ml-10 mt-20">
