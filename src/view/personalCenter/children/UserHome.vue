@@ -46,7 +46,7 @@
             <div class="recharge-card-poptip poptip">冲1000送500</div>
             <p class="account-item-num">1500</p>
             <p class="account-item-desc">充值卡</p>
-            <p class="account-item-operate blue"><span class="pr-5">充值</span><span class="pl-5">明细</span></p>
+            <p class="account-item-operate blue"><span class="pr-5" @click="showRechargeCard = true">充值</span><span class="pl-5">明细</span></p>
           </div>
         </div>
       </div>
@@ -271,6 +271,8 @@
     </div>
     <!--流量购买弹窗-->
     <flow-order-model v-model="showFlowOrder"/>
+    <!--充值卡购买弹窗-->
+    <recharge-card-model v-model="showRechargeCard"/>
   </div>
 </template>
 
@@ -280,6 +282,7 @@
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, getSeverTime, encryption, timeToDate} from '@/config/utils'
   import FlowOrderModel from '@/components/FlowOrderModel'
+  import RechargeCardModal from '@/components/RechargeCardModal'
 
   export default {
     name: 'user-home',
@@ -302,7 +305,8 @@
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
       Tooltip: Tooltip,
-      FlowOrderModel: FlowOrderModel
+      FlowOrderModel: FlowOrderModel,
+      RechargeCardModel: RechargeCardModal
     },
     data() {
       return {
@@ -315,6 +319,7 @@
         limit: true,
         freshman: null,
         showFlowOrder: false,
+        showRechargeCard: false
       }
     },
     created() {
