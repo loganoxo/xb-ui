@@ -503,8 +503,8 @@
         let tempTime = new Date(getSeverTime());
         let hour = tempTime.getHours();
         let minute = tempTime.getMinutes();
-        let condition = (hour > 22) || (hour === 22 && minute > 30) || (hour < 7);
-        // let condition = (hour > 22) || (hour === 22 && minute > 30) || (hour < 12);
+        // let condition = (hour > 22) || (hour === 22 && minute > 30) || (hour < 7);
+        let condition = (hour > 16) || (hour === 16 && minute > 30) || (hour < 18);
         if (condition) {
           return true;
         } else {
