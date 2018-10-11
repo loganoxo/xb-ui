@@ -366,7 +366,7 @@
           if (res.status) {
             res.data.content.forEach(item => {
               item.dealMeasure = merchantPunishType(item.dealMeasure);
-              item.status = (item.deadLineTime - getSeverTime) > 0 ? '未过期' : '已过期';
+              item.status = (item.deadLineTime - getSeverTime()) > 0 ? '已生效' : '未生效';
             });
             _this.punishList = res.data.content;
             _this.totalElements = res.data.totalElements;
