@@ -1359,6 +1359,12 @@ export default {
   merchantRemark(params) {
     return axiosConfig.post('/api/merchant-remark.json', params)
   },
+  /**
+   * 检查邀请码是否匹配
+   */
+  checkInvitationCode(params) {
+    return axiosConfig.get('/api/get-invitation-code.json', params)
+  },
 
   /**
    * 查看违规扣分情况
@@ -1366,5 +1372,4 @@ export default {
   getPunishInfo(params) {
     return axiosConfig.get('/api/get-punish.json', params)
   }
-
 }
