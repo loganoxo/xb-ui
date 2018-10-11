@@ -46,7 +46,7 @@
             <div class="recharge-card-poptip poptip">冲1000送500</div>
             <p class="account-item-num">1500</p>
             <p class="account-item-desc">充值卡</p>
-            <p class="account-item-operate blue"><span class="pr-5" @click="showRechargeCard = true">充值</span><span class="pl-5">明细</span></p>
+            <p class="account-item-operate blue"><span class="pr-5" @click="showRechargeCard = true">充值</span><span class="pl-5" @click="toRechargeCardDetail">明细</span></p>
           </div>
         </div>
       </div>
@@ -377,6 +377,9 @@
       }
     },
     methods: {
+      toRechargeCardDetail() {
+        this.$router.push({path: '/user/recharge-card-detail'})
+      },
       toVipOrder() {
         this.$router.push({path: '/user/vip-member/order'});
       },

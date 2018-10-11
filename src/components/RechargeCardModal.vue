@@ -1,5 +1,5 @@
 <template>
-  <modal :value="value" :mask-closable="false" @on-visible-change="change" width="600" footer-hide="true">
+  <modal :value="value" :mask-closable="false" @on-visible-change="change" width="600" :footer-hide="true">
     <template v-if="step === 'select'">
       <div slot="header">
         <img src="~assets/img/icon/recharge-card-icon.png" alt="">
@@ -35,7 +35,7 @@
           </p>
           <p>充值卡仅限支付推广费</p>
         </div>
-        <i-button class="right confirm-btn">去支付{{selectCard.price / 100}}元</i-button>
+        <i-button class="right confirm-btn" @click="toPay">去支付{{selectCard.price / 100}}元</i-button>
       </div>
     </template>
     <template v-if="step === 'pay'">
@@ -103,14 +103,57 @@
           id: 3
         },
         hasRead: false,
-
+        payMoney: null
       }
     },
     computed: {
+      /** 获取用户账户余额
+       * @return {Number}
+       */
+      getUserBalance() {
+        return this.$store.getters.getUserBalance
+      },
+
+      /** 获取用户会员版本等级（100：普通用户， 200：VIP， 300：SVIP）
+       * @return {Number}
+       */
+      getMemberVersionLevel() {
+        if (this.$store.getters.getMemberLevel === 100) {
+          return 100
+        } else {
+          return 200
+        }
+      },
+      /** 获取用户会员状态
+       * @return {boolean}
+       */
+      isMember() {
+        return this.$store.getters.isMemberOk
+      },
+      /** 计算用户账户余额是否足够支付选购商品的价格（true: 余额足够， false: 余额不足）
+       * @return {boolean}
+       */
+      isBalance() {
+        return this.getUserBalance - this.payMoney >= 0
+      },
+
+      /** 计算当用户账户余额不足以支付选购的会员版本价格的需要额外充值的金额（显示给用户看的文本）
+       * @return {Number}
+       */
+      needPayMoneyText() {
+        return !this.isBalance ? Math.ceil(Math.abs(this.getUserBalance - this.payMoney) / 0.994): 0
+      },
+
+      /**
+       * 计算当用户余额不足时，需要充值的金额，当余额充足时，传入0（传入orderMoney的值）
+       * @return {Number}
+       */
+      needRechargeMoney() {
+        return this.isBalance ? 0 : Math.abs(this.getUserBalance - this.payMoney)
+      },
 
     },
     created() {
-
     },
     mounted() {
 
@@ -121,7 +164,17 @@
       },
       selectOrderCard(card) {
         this.selectCard = card;
-      }
+      },
+      toPay() {
+        this.payMoney = this.selectCard.price;
+        this.step = 'pay';
+      },
+      confirmPayment() {
+
+      },
+      needPayMoneyText() {
+
+      },
     }
   }
 </script>

@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="register-ctt">
     <role-top></role-top>
     <div class="container">

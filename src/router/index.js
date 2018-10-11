@@ -367,6 +367,18 @@ export default new Router({
           }
         },
         {
+          path: 'recharge-card-detail',
+          name: 'RechargeCardDetail',
+          component: _import('personalCenter/children/rechargeCardDetail/index'),
+          meta: {
+            title: "充值卡",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: 1
+          }
+        },
+        {
           path: 'bind-store',
           name: 'BindStore',
           component: _import('personalCenter/children/bindStore/index'),
