@@ -622,7 +622,6 @@
       if (!getSessionStorage('recommendCode') && this.recommendCode) {
         setSessionStorage('recommendCode',this.recommendCode);
       }
-      this.checkInvitationCode();
     },
     methods: {
       getRegVrcode() {
@@ -667,7 +666,7 @@
             invitationCode: _this.invitationCode
           }).then(res => {
             if (res.status) {
-              resolve(res.data);
+              resolve(res);
             } else {
               reject(res.msg);
               _this.$Message.error(res.msg);
@@ -724,7 +723,13 @@
           recommendCode = getSessionStorage('recommendCode');
         }
         if (this.needInvitationCode) {
-          await self.checkInvitationCode();
+          const checkCodeResult = await self.checkInvitationCode();
+          if (checkCodeResult.status && checkCodeResult.data) {
+            console.log('邀请码正确，可以注册');
+          } else {
+            self.$Message.error(checkCodeResult.msg);
+            return
+          }
         }
         api.register({
           phone: self.formCustom.phone,
