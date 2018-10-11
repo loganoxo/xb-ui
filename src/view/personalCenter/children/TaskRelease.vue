@@ -181,7 +181,7 @@
           </div>
         </div>
         <div class="task-speed-up ml-20 mt-20">
-          <span class="ml-8">一键加速：</span>
+          <span class="ml-8">审批托管：</span>
           <checkbox v-model="taskRelease.speedUp">需要</checkbox>
           <span class="sizeColor2"><span
             v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'"

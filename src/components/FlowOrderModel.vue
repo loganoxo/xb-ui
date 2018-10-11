@@ -27,7 +27,7 @@
             <span v-show="defaultTab.type === 'visitor_flow'">单价：￥0.20元/条</span>
             <span v-show="defaultTab.type === 'visitor_flow'"
                   class="ml-15 mr-15 text-decoration-through">VIP：￥0.10元/条</span>
-            <span>(<span class="blue text-decoration-underline">升级VIP</span><span
+            <span @click="toVipOrder" class="cursor-p">(<span class="blue text-decoration-underline">升级VIP</span><span
               class="main-color text-decoration-underline">，享受5折订购</span>)</span>
           </p>
           <p v-else class="mt-15 ml-56">
@@ -198,6 +198,10 @@
           }
         })
 
+      },
+      toVipOrder() {
+        let routeData = this.$router.resolve({path: '/user/vip-member/order'});
+        window.open(routeData.href,'_blank');
       },
       change(value) {
         if (!value) {

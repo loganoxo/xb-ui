@@ -1060,7 +1060,7 @@ export default {
   },
 
   /**
-   * 商家开启活动一键加速功能
+   * 商家开启活动审批托管功能
    */
   taskSpeedUp(params) {
     return axiosConfig.post('/api/task-speed-up.json', params)
