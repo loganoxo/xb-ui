@@ -30,7 +30,11 @@
         </div>
         <div class="mt-80 form-box">
           <i-form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="400">
-            <form-item label="手机号码:" prop="phone" class="" style="width: 650px">
+            <form-item v-if="needInvitationCode" label="邀请码">
+              <i-input type="text" v-model="invitationCode" size="large" class="width-150"/>
+              <a href="" class="text-decoration-underline ml-20">获取邀请码</a>
+            </form-item>
+            <form-item label="手机号码" prop="phone" class="" style="width: 650px">
               <i-input type="text" size="large" v-model="formCustom.phone"></i-input>
             </form-item>
             <form-item label="设置登录密码" prop="pwd" style="width: 650px">
@@ -470,6 +474,23 @@
           return null
         }
       },
+
+      /**
+       * 处理邀请码的判断（在注册商家账号时，补人气、查排名、卖家巴士、补订单、大师傅渠道正常注册，其他渠道需要获取并验证邀请码）
+       * @return {boolean} true:需邀请码 false:无需要邀请码
+       */
+      needInvitationCode() {
+        let qudao = getCookie('from_qudao');
+        let condition1 = qudao && qudao === ('MJBS' || 'CPM' || 'BRQ' || 'BDD');
+        let condition2 = this.isDSF === 'acceptDisciple';
+        let condition3 = this.selLogin.seller;
+        if (condition3 && (condition1 || condition2)) {
+          return false;
+        } else {
+          return true;
+        }
+
+      }
     },
     data() {
       //表单验证
@@ -581,6 +602,7 @@
             {validator: validateAgreeStrip, trigger: 'blur'}
           ]
         },
+        invitationCode: null
       }
     },
     created() {
