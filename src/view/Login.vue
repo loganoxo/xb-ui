@@ -328,19 +328,19 @@
               });
               self.$store.dispatch('getFlowNumInfo');
               self.$Message.success({top: 50, content: '登录成功', duration: 1,});
-              self.btnState.trendsLoginBtn = false;
               setStorage('weChartPop', 1);
               self.$router.go(-1);
             } else if (res.statusCode === 'need_reg') {
-              self.$router.push({
-                name: 'SelRole',
-                query: {
-                  phone: self.loginTrendsCustom.phone,
-                  validateCode: self.loginTrendsCustom.validateCode,
-                  smsCode: self.loginTrendsCustom.smsCode,
-                  role: self.loginTrendsCustom.role,
-                }
-              });
+              self.$Message.info('该用户不存在，请先注册！！');
+              // self.$router.push({
+              //   name: 'SelRole',
+              //   query: {
+              //     phone: self.loginTrendsCustom.phone,
+              //     validateCode: self.loginTrendsCustom.validateCode,
+              //     smsCode: self.loginTrendsCustom.smsCode,
+              //     role: self.loginTrendsCustom.role,
+              //   }
+              // });
             }
           } else {
             if (res.statusCode === 'merchant_has_been_frozen') {
@@ -354,9 +354,9 @@
             } else {
               self.instance('error', '', res.msg);
               self.getVrcode();
-              self.btnState.trendsLoginBtn = false;
             }
           }
+          self.btnState.trendsLoginBtn = false;
         })
       },
       sendCodeSuccess(res) {
