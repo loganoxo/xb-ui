@@ -622,6 +622,7 @@
       if (!getSessionStorage('recommendCode') && this.recommendCode) {
         setSessionStorage('recommendCode',this.recommendCode);
       }
+      this.checkInvitationCode();
     },
     methods: {
       getRegVrcode() {
@@ -658,6 +659,21 @@
       },
       handleReset(name) {
         this.$refs[name].resetFields();
+      },
+      checkInvitationCode() {
+        const _this = this;
+        return new Promise((resolve, reject) => {
+          api.checkInvitationCode({
+            invitationCode: _this.invitationCode
+          }).then(res => {
+            if (res.status) {
+              resolve(res.data);
+            } else {
+              reject(res.msg);
+              _this.$Message.error(res.msg);
+            }
+          })
+        });
       },
       registerBuyer() {
         const self = this;
@@ -696,7 +712,7 @@
           self.btnState.registerBuyerBtn = false;
         })
       },
-      registerSeller() {
+      async registerSeller() {
         const self = this;
         self.formCustom.role = 1;
         let recommendCode = '';
@@ -706,6 +722,9 @@
         }
         if (getSessionStorage('recommendCode')) {
           recommendCode = getSessionStorage('recommendCode');
+        }
+        if (this.needInvitationCode) {
+          await self.checkInvitationCode();
         }
         api.register({
           phone: self.formCustom.phone,
