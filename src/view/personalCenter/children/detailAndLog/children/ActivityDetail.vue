@@ -157,7 +157,7 @@
           <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页面中挑选一段文案，输入文本框内的文案最长不能超过8个字（建议3-8字）拿手将提供本文案所在位置截图</p>
         </div>
         <div class="task-speed-up ml-20 mt-20">
-          <span class="ml-4">一键加速：</span>
+          <span class="ml-4">审批托管：</span>
           <checkbox v-model="taskRelease.speedUp" :disabled="true">需要</checkbox>
           <span class="sizeColor2"><span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>

@@ -75,7 +75,7 @@
               <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
               <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
             </div>
-            <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp && item.zone !== 'coin_earn'" type="error" @click.stop="openSpeedUp(item.id, item.userId)"><span class="mr-5">一键加速</span>
+            <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp && item.zone !== 'coin_earn'" type="error" @click.stop="openSpeedUp(item.id, item.userId)"><span class="mr-5">审批托管</span>
               <tooltip class="vtc-text-btm" style="line-height: 0" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
                 <icon type="help-circled" size="14" color="#fff"/>
               </tooltip>
@@ -277,11 +277,11 @@
       <img v-if="lookScreenShot === 2" class="border-radius-5 border-ddd cursor-p"
            src="~assets/img/task-management/eyes-demo-02.png" width="100%" alt="火眼金睛功能截图2">
     </modal>
-    <!--开启一键加速功能确认弹框-->
+    <!--开启审批托管功能确认弹框-->
     <modal v-model="speedUpModal" width="360" @on-visible-change="modalChange">
       <p slot="header" class="text-ct">
         <icon color="#f9284f" type="md-alert"/>
-        <span class="main-color">一键加速</span>
+        <span class="main-color">审批托管</span>
       </p>
       <div>
         <p>启用后，该活动剩余名额将全部由系统进行匹配和审核，且无法修改，适合于需要快速消化单量的商家！</p>
@@ -932,7 +932,7 @@
           if (res.status) {
             _this.appliesWaitingAuditTask();
             _this.selectId = null;
-            _this.$Message.success('一键加速开启成功！');
+            _this.$Message.success('审批托管开启成功！');
           } else {
             _this.$Message.error(res.msg)
           }
@@ -986,7 +986,7 @@
       remarkSuccess() {
         this.appliesWaitingAuditTask();
       },
-      // 在一键加速和审核拿手的提示弹窗消失之后，要将unSuitableTime重置为false
+      // 在审批托管和审核拿手的提示弹窗消失之后，要将unSuitableTime重置为false
       modalChange(value) {
         if (!value) {
           this.unSuitableTime = false;
