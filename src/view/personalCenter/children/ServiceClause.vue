@@ -7,30 +7,34 @@
     </div>
     <div class="filter-box clear mt-20">
       <span>处罚分类</span>
-      <i-select v-model="punishSort" :clearable="true" :filterable="true" placeholder="全部" class="width-200 ml-10" @on-change="changePunishSort">
+      <i-select v-model="punishSort" :clearable="true" :filterable="true" placeholder="全部" class="width-150 ml-10" @on-change="changePunishSort">
         <i-option v-for="(item, index) in punishSortList" :value="item.id" :key="index">{{item.text}}</i-option>
       </i-select>
       <span class="ml-10">状态</span>
-      <i-select v-model="punishStatus" class="width-200 ml-10">
+      <i-select v-model="punishStatus" class="width-100 ml-10">
         <i-option v-for="(item, index) in punishStatusList" :value="item.status" :key="index">{{item.text}}</i-option>
       </i-select>
       <span class="ml-10">扣分时间</span>
       <date-picker v-model="filterTime" type="daterange" format="yyyy-MM-dd HH:mm:ss" class="width-200 ml-10" @on-change="selectDate"></date-picker>
+      <span class="ml-10">ID</span>
+      <i-input v-model="punisherId" type="text" class="width-100 ml-10"></i-input>
       <i-button :loading="loading" class="bg-main-color cl-fff ml-10" @click="search">搜索</i-button>
     </div>
     <div class="point-result-box">
       <table>
         <thead>
         <tr>
+          <th width="10">ID</th>
           <th width="15">创建时间</th>
           <th width="15">处罚分类</th>
           <th width="15">扣分</th>
           <th width="15">状态</th>
-          <th width="40">说明</th>
+          <th width="30">说明</th>
         </tr>
         </thead>
         <tbody v-if="punishList.length > 0">
         <tr v-for="(item, index) in punishList" :Key="index">
+          <td>{{item.id}}</td>
           <td>{{item.createTime | dateFormat('YYYY-MM-DD')}}</td>
           <td>{{item.dealMeasure}}</td>
           <td>{{item.deductPoint}}</td>
@@ -40,7 +44,7 @@
         </tbody>
         <tbody v-else>
         <tr>
-          <td colspan="5">暂无记录</td>
+          <td colspan="6">暂无记录</td>
         </tr>
         </tbody>
       </table>
@@ -243,7 +247,7 @@
 
 <script>
   import api from '@/config/apiConfig'
-  import {Select, Option, DatePicker, Button, Icon, Page} from 'iview'
+  import {Select, Option, DatePicker, Button, Icon, Page, Input} from 'iview'
   import {merchantPunishType, getSeverTime} from '@/config/utils'
   export default {
     name: "service-clause",
@@ -253,7 +257,8 @@
       DatePicker: DatePicker,
       iButton: Button,
       Icon: Icon,
-      Page: Page
+      Page: Page,
+      iInput: Input
     },
     data() {
       return {
@@ -318,11 +323,11 @@
         ],
         punishStatusList: [
           {
-            text: '已启用',
+            text: '已生效',
             status: 1
           },
           {
-            text: '未启用',
+            text: '未生效',
             status: 0
           }
         ],
@@ -333,6 +338,7 @@
         pageSize: 10,
         dealTimeStart: null,
         dealTimeEnd: null,
+        punisherId: null,
         loading: false,
         totalElements: 0,
         punishList: []
@@ -368,7 +374,8 @@
           dealMeasure: _this.punishSort,
           enable: !!_this.punishStatus,
           dealTimeStart: _this.dealTimeStart,
-          dealTimeEnd: _this.dealTimeEnd
+          dealTimeEnd: _this.dealTimeEnd,
+          id: _this.punisherId
         }).then(res => {
           if (res.status) {
             res.data.content.forEach(item => {
