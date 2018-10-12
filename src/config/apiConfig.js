@@ -1365,6 +1365,11 @@ export default {
    */
   getPunishInfo(params) {
     return axiosConfig.get('/api/get-punish.json', params)
+  },
+  /**
+   * 检查邀请码是否匹配
+   */
+  checkInvitationCode(params) {
+    return axiosConfig.get('/api/get-invitation-code.json', params)
   }
-
 }
