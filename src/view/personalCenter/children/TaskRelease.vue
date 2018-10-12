@@ -1748,6 +1748,14 @@
       },
 
       /**
+       * 获取充值卡余额
+       * @return {number}
+       */
+      getRechargeCardBalance() {
+        return 10
+      },
+
+      /**
        * 从vuex中获取用户QQ号码
        * @return {number}
        */
@@ -1896,14 +1904,11 @@
        * @return {boolean}
        */
       isBalance() {
-        if (this.payMethod === 'balancePay') {
-          if (this.priceHasChange) {
-            return this.offerMethod === 'redEnvelopes' ? this.replenishMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.replenishMoney <= this.getUserBalance
-          } else {
-            return this.offerMethod === 'redEnvelopes' ? this.orderMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.orderMoney <= this.getUserBalance
-          }
-        } else if (this.payMethod === 'balancePay')
-
+        if (this.priceHasChange) {
+          return this.offerMethod === 'redEnvelopes' ? this.replenishMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.replenishMoney <= this.getUserBalance
+        } else {
+          return this.offerMethod === 'redEnvelopes' ? this.orderMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.orderMoney <= this.getUserBalance
+        }
       },
 
       /**
@@ -1928,6 +1933,7 @@
         }
       },
 
+
       /**
        * 计算当用户账户余额不足以支付活动所需金额要额外充值的金额
        * @return {number}
@@ -1936,7 +1942,7 @@
         if (!this.isBalance && !this.priceHasChange) {
           let money = this.orderMoney - this.getUserBalance;
           return money > 0 ? money : 0
-        } else if (!this.isBalanceReplenish && this.priceHasChange) {
+        } else if (!this.isCardBalanceReplenish && this.priceHasChange) {
           let money = this.replenishMoney - this.getUserBalance;
           return money > 0 ? money : 0
         } else {
