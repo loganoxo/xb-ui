@@ -61,12 +61,15 @@
             <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
               <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span
                 class="main-color">{{item.residueCount || 0}}</span>个
-              <template v-if="item.fastPublish">
-                <i-button v-if="item.taskCount < 20" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>
+              <template v-if="(item.settlementStatus !== 'settlement_finished' || item.settlementStatus !== 'waiting_audit') && !item.speedUp">
+                <i-button v-if="(item.fastPublish === null || !item.fastPublish) || (item.fastPublish && item.taskCount < 20)" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>
               </template>
-              <template v-else>
-                <i-button v-if="(item.settlementStatus !== 'settlement_finished' || item.settlementStatus !== 'waiting_audit') && !item.speedUp" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>
-              </template>
+              <!--<template v-if="item.fastPublish">-->
+                <!--<i-button v-if="item.taskCount < 20" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>-->
+              <!--</template>-->
+              <!--<template v-else>-->
+                <!--<i-button v-if="(item.settlementStatus !== 'settlement_finished' || item.settlementStatus !== 'waiting_audit') && !item.speedUp" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>-->
+              <!--</template>-->
             </p>
           </div>
           <icon :class="{'show-table-styles' : selectId === item.id}" class="right mt-20 mr-5" size="20" type="md-arrow-dropright"/>
