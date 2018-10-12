@@ -83,11 +83,11 @@
                 </iButton>
               </iForm>
               <p class="fs-14 login-rt-ctt-btm">
-                <a class="left"
-                   href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.51bainana.com%2Fqq-login">
-                  <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
-                  QQ账号登录
-                </a>
+                <!--<a class="left"-->
+                   <!--href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.51bainana.com%2Fqq-login">-->
+                  <!--<img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">-->
+                  <!--QQ账号登录-->
+                <!--</a>-->
                 <iButton class="right mt-6 ml-5" size="small" type="primary" @click="goSelRole">注册</iButton>
                 <span class="right">没有账号，点击</span>
               </p>
