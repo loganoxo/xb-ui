@@ -32,7 +32,7 @@
           <i-form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="400">
             <form-item v-if="needInvitationCode" label="邀请码" prop="invitationCode" required>
               <i-input type="text" v-model="formCustom.invitationCode" size="large" class="width-150"/>
-              <a href="" class="text-decoration-underline ml-20">获取邀请码</a>
+              <!--<a href="" class="text-decoration-underline ml-20">获取邀请码</a>-->
             </form-item>
             <form-item label="手机号码" prop="phone" class="" style="width: 650px" required>
               <i-input type="text" size="large" v-model="formCustom.phone"></i-input>
