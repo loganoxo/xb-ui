@@ -372,7 +372,7 @@
           pageIndex: _this.pageIndex,
           pageSize: _this.pageSize,
           dealMeasure: _this.punishSort,
-          enable: !!_this.punishStatus,
+          enable: _this.punishStatus === null ? null : !!_this.punishStatus,
           dealTimeStart: _this.dealTimeStart,
           dealTimeEnd: _this.dealTimeEnd,
           id: _this.punisherId
