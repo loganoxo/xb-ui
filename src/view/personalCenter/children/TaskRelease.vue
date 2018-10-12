@@ -1013,13 +1013,13 @@
         <div class="pay-info mt-28" v-if="isBalanceReplenish && priceHasChange">
           <p>该任务已付总费用&nbsp;<strong>{{(paidDeposit / 100).toFixed(2)}}</strong>&nbsp;元（包含红包抵扣&nbsp;{{(redEnvelopeDeductionPaid / 100).toFixed(2)}}&nbsp;元）。</p>
           <p class="mt-10">本次修改需要支付超出部分的金额为：<strong class="main-color">{{((needPayMoneyAfterAsRedEnvelopes > 0 ? needPayMoneyAfterAsRedEnvelopes : 0) / 100).toFixed(2)}}</strong>
-            &nbsp;元<span v-if="redEnvelopesState">（包含红包抵扣&nbsp;{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}&nbsp;元）</span>。</p>
+            &nbsp;元<span v-if="offerMethod === 'redEnvelopes'">（包含红包抵扣&nbsp;{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}&nbsp;元）</span>。</p>
           <p class="mt-10">您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元。</p>
         </div>
         <div class="pay-info mt-28" v-if="!isBalanceReplenish && priceHasChange">
           <p>该任务已付总费用&nbsp;<strong>{{((paidDeposit / 100)).toFixed(2)}}</strong>&nbsp;元（包含红包抵扣&nbsp;{{(redEnvelopeDeductionPaid / 100).toFixed(2)}}&nbsp;元）。</p>
           <p>本次修改需要支付超出部分的金额为：<strong class="main-color">{{((needPayMoneyBeforeAsRedEnvelopes > 0 ? needPayMoneyBeforeAsRedEnvelopes : 0) / 100).toFixed(2)}}</strong>
-            &nbsp;元<span v-if="redEnvelopesState">（包含红包抵扣&nbsp;{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}&nbsp;元）</span></p>
+            &nbsp;元<span v-if="offerMethod === 'redEnvelopes'">（包含红包抵扣&nbsp;{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}&nbsp;元）</span></p>
           <p>您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元,还需充值：<span class="second-color">{{((needPayMoneyBeforeAsRedEnvelopes > 0 ? needPayMoneyBeforeAsRedEnvelopes : 0) / 100).toFixed(2)}}</span>&nbsp;元。</p>
         </div>
         <div class="description-fees-footer">
@@ -1059,8 +1059,8 @@
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
       <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
-                 :isShowUpgradeVIP="true" :isBalance="isBalance" :redEnvelopesState="redEnvelopesState"
-                 @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber"
+                 :isShowUpgradeVIP="true" :isBalance="isBalance" :offerMethod="offerMethod"
+                 @change="offerMethod = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber"
                  :disabledRedEnvelopes="disabledRedEnvelopes">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
@@ -1072,6 +1072,13 @@
           <icon color="#FF2424" size="18px" type="md-alert"/>
           <span class="ml-5">您本次需要支付金额为 <span
             class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。</span>
+        </div>
+        <div slot="noRechargeBalance" class="title-tip">
+          <span><icon color="#FF2424" size="18px" type="md-alert"/><span class="ml-10">您本次需要支付金额为72元。当前充值卡余额为：10元；还需支付 62元。</span></span>
+        </div>
+        <div slot="isRechargeBalance" class="title-tip">
+          <icon color="#FF2424" size="18px" type="md-alert"/>
+          <span class="ml-5">您本次需要支付金额为：72元</span>
         </div>
       </pay-model>
     </div>
@@ -1336,7 +1343,7 @@
             ]
           }
         },
-        showPayModel: false,
+        showPayModel: true,
         stepName: 'information',
         taskLoading: false,
         storeCheckFailCount: 0,
@@ -1477,7 +1484,8 @@
         originalVasMainItem: [],
         upgradeMembershipModal: false,
         createFastTaskStatus: false,
-        redEnvelopesState: true,
+        // redEnvelopesState: true,
+        offerMethod: 'noUseOffer',
         disabledRedEnvelopes: false,
         redEnvelopeDeductionPaid: 0,
         redEnvelopeDeductionNumber: 0,
@@ -1872,15 +1880,30 @@
       },
 
       /**
+       * 计算支付方式是走余额还是走充值卡
+       * @return {string}
+       */
+      payMethod() {
+        if (this.offerMethod === 'noUseOffer' || this.offerMethod === 'redEnvelopes') {
+          return 'balancePay';
+        } else if (this.offerMethod === 'rechargeCard') {
+          return 'rechargeCardPay';
+        }
+      },
+
+      /**
        * 计算余额是否足够支付订单金额
        * @return {boolean}
        */
       isBalance() {
-        if (this.priceHasChange) {
-          return this.redEnvelopesState ? this.replenishMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.replenishMoney <= this.getUserBalance
-        } else {
-          return this.redEnvelopesState ? this.orderMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.orderMoney <= this.getUserBalance
-        }
+        if (this.payMethod === 'balancePay') {
+          if (this.priceHasChange) {
+            return this.offerMethod === 'redEnvelopes' ? this.replenishMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.replenishMoney <= this.getUserBalance
+          } else {
+            return this.offerMethod === 'redEnvelopes' ? this.orderMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.orderMoney <= this.getUserBalance
+          }
+        } else if (this.payMethod === 'balancePay')
+
       },
 
       /**
@@ -1926,7 +1949,7 @@
        * @return {number}
        */
       needPayMoneyAfterAsRedEnvelopes() {
-        return this.isBalance ? this.redEnvelopesState ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : this.needPayMoneyAfter : 0
+        return this.isBalance ? this.offerMethod === 'redEnvelopes' ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : this.needPayMoneyAfter : 0
       },
 
       /**
@@ -1934,7 +1957,7 @@
        * @return {number}
        */
       needPayMoneyBeforeAsRedEnvelopes() {
-        return !this.isBalance ? this.redEnvelopesState ? this.needPayMoneyBefore - this.redEnvelopeDeductionNumber : this.needPayMoneyBefore : 0
+        return !this.isBalance ? this.offerMethod === 'redEnvelopes' ? this.needPayMoneyBefore - this.redEnvelopeDeductionNumber : this.needPayMoneyBefore : 0
       },
 
       /** 计算充值界面上的金额文本显示
@@ -3118,7 +3141,7 @@
               _this.taskRelease.taskId = res.data.id;
             }
             if ((_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') && _this.paidDeposit > 0 && type !== 'copy') {
-              _this.redEnvelopesState = res.data.redEnvelopeDeductionPaid > 0;
+              _this.offerMethod = res.data.redEnvelopeDeductionPaid > 0 ? 'redEnvelopes' : 'noUseOffer';
               _this.disabledRedEnvelopes = true;
             }
             _this.mainDefaultList.push({src: res.data.taskMainImage});
@@ -3493,7 +3516,7 @@
       confirmPayment(pwd) {
         const _this = this;
         api.editPromotion({
-          redEnvelopesState: _this.redEnvelopesState,
+          redEnvelopesState: _this.offerMethod === 'redEnvelopes',
           taskId: _this.taskPayId,
         }).then(res => {
           return res

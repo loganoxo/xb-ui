@@ -1,12 +1,23 @@
 <template>
   <div class="pay-model-con">
     <slot name="closeModel"/>
-    <checkbox v-if="redEnvelopeDeductionNumber > 0" class="mt-40" :value="redEnvelopesState" :disabled="disabledRedEnvelopes" @on-change="checkboxChange">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>
-    <template v-if="!isBalance">
+    <!--<checkbox v-if="redEnvelopeDeductionNumber > 0" class="mt-40" :value="redEnvelopesState" :disabled="disabledRedEnvelopes" @on-change="checkboxChange">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>-->
+    <radio-group v-model="payMethod" class="mt-40" vertical @on-change="checkboxChange">
+      <radio label="noUseOffer">不使用优惠</radio>
+      <radio label="redEnvelopes" v-if="redEnvelopeDeductionNumber > 0" :disabled="disabledRedEnvelopes">使用<span class="main-color">推广费减免红包</span>抵扣</radio>
+      <radio label="rechargeCard">使用<span class="main-color">充值卡</span>支付</radio>
+    </radio-group>
+    <template v-if="payMethod === ('noUseOffer' || 'redEnvelopes') && !isBalance">
       <slot name="noBalance"/>
     </template>
-    <template v-else>
+    <template v-if="payMethod === ('noUseOffer' || 'redEnvelopes') && isBalance">
       <slot name="isBalance"/>
+    </template>
+    <template v-if="payMethod === 'rechargeCard' && !isBalance">
+      <slot name="noRechargeBalance"></slot>
+    </template>
+    <template v-if="payMethod === 'rechargeCard' && isBalance">
+      <slot name="isRechargeBalance"></slot>
     </template>
     <div class="hasBalance mt-30" v-if="isBalance">
       <span class="input-pay-pwd">请输入支付密码：</span>
@@ -114,9 +125,14 @@
         required: true
       },
       // 红包启用状态
-      redEnvelopesState: {
-        type: Boolean,
-        default: true
+      // redEnvelopesState: {
+      //   type: Boolean,
+      //   default: true
+      // },
+      // 选择的优惠方式（是否开启优惠，是否开启红包抵扣，是否使用充值卡，单选）
+      offerMethod: {
+        type: String,
+        default: 'noUseOffer'
       },
       // 红包按钮禁用状态
       disabledRedEnvelopes: {
@@ -153,6 +169,7 @@
         payPopWindowWX: false,
         payLoading: false,
         showFreePayModel: false,
+        payMethod: this.offerMethod
       }
     },
     computed: {
@@ -202,6 +219,7 @@
         this.$router.push({path: '/user/vip-member/order'})
       },
       checkboxChange(value) {
+        console.log(value);
         this.$emit('change', value)
       },
       confirmRecharge() {
