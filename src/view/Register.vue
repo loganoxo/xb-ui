@@ -484,12 +484,15 @@
         let condition1 = qudao && qudao === ('MJBS' || 'CPM' || 'BRQ' || 'BDD');
         let condition2 = this.isDSF === 'acceptDisciple';
         let condition3 = this.selLogin.seller;
-        if (condition3 && (condition1 || condition2)) {
-          return false;
+        if (condition3) {
+          if (condition1 || condition2) {
+            return false;
+          } else {
+            return true;
+          }
         } else {
-          return true;
+          return false;
         }
-
       }
     },
     data() {
@@ -565,8 +568,8 @@
         countRegTimeText: "获取动态码",
         regImgSrc: null,
         selLogin: {
-          buyer: true,
-          seller: false
+          buyer: false,
+          seller: true
         },
         formRes: {
           phoneRes: false,
