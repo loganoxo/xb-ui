@@ -499,7 +499,15 @@
               [{'color': []}, {'background': []}],
               [{'align': []}],
               ['image']
-            ]
+            ],
+            handlers: {
+              image: function (image) {
+                if (image) {
+                  let fileInput = document.getElementById('presentGet');
+                  fileInput.click();
+                }
+              }
+            }
           }
         },
         showPayModel: false,
@@ -598,7 +606,7 @@
       }
     },
     mounted() {
-      const _this = this;
+    /*  const _this = this;
       const imgHandlerPresentGet = async function (image) {
         _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
         if (image) {
@@ -606,7 +614,7 @@
           fileInput.click()
         }
       };
-      _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
+      _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);*/
     },
     created() {
       this.getItemCatalog();

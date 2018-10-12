@@ -1326,14 +1326,24 @@
         editorOption: {
           placeholder: "有吸引力的产品介绍，将吸引更多的拿手来申请活动哦！请在这里编辑您的商品简介（商品简介中至少包含一张图片，可以直接复制淘宝的宝贝详情到这里），但请注意，不要在该简介中，放置任何外链，比如店铺或者商品链接，以免申请的拿手绕过相应的下单条件，造成损失！",
           modules: {
-            toolbar: [
-              ['bold', 'italic', 'underline', 'strike'],
-              [{'list': 'ordered'}, {'list': 'bullet'}],
-              [{'header': [1, 2, 3, 4, 5, 6, false]}],
-              [{'color': []}, {'background': []}],
-              [{'align': []}],
-              ['image']
-            ]
+            toolbar: {
+              container: [
+                ['bold', 'italic', 'underline', 'strike'],
+                [{'list': 'ordered'}, {'list': 'bullet'}],
+                [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                [{'color': []}, {'background': []}],
+                [{'align': []}],
+                ['image']
+              ],
+              handlers: {
+                image: function (image) {
+                  if (image) {
+                    let fileInput = document.getElementById('presentGet');
+                    fileInput.click();
+                  }
+                }
+              }
+            }
           }
         },
         showPayModel: false,
@@ -1693,6 +1703,7 @@
         vm.getStoreBindInfoList()
       })
     },*/
+/*
     mounted() {
       const _this = this;
       const imgHandlerPresentGet = async function (image) {
@@ -1704,6 +1715,7 @@
       };
       _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
     },
+*/
     created() {
       this.getItemCatalog();
       this.getTaskVasList();
