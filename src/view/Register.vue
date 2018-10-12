@@ -32,7 +32,7 @@
           <i-form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="400">
             <form-item v-if="needInvitationCode" label="邀请码" prop="invitationCode" required>
               <i-input type="text" v-model="formCustom.invitationCode" size="large" class="width-150"/>
-              <!--<a href="" class="text-decoration-underline ml-20">获取邀请码</a>-->
+              <a :href="link" target="_blank" class="text-decoration-underline ml-20">获取邀请码</a>
             </form-item>
             <form-item label="手机号码" prop="phone" class="" style="width: 650px" required>
               <i-input type="text" size="large" v-model="formCustom.phone"></i-input>
@@ -613,7 +613,8 @@
             {validator: validateAgreeStrip, trigger: 'blur'}
           ]
         },
-
+        link: null,
+        qqGroup:[2331878513,1601200804,2922384498,5151719917,380022398,507532103,3166255711,2837915788,1504366981,3406860086,312696008,1072462088,1628680163,1149784829]
       }
     },
     created() {
@@ -633,8 +634,13 @@
       if (!getSessionStorage('recommendCode') && this.recommendCode) {
         setSessionStorage('recommendCode',this.recommendCode);
       }
+      this.getCodeLink();
     },
     methods: {
+      getCodeLink() {
+        let index = Math.floor(Math.random() * this.qqGroup.length);
+        this.link = `http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=${this.qqGroup[index]}`;
+      },
       getRegVrcode() {
         this.regImgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
