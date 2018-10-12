@@ -331,6 +331,7 @@
               setStorage('weChartPop', 1);
               self.$router.go(-1);
             } else if (res.statusCode === 'need_reg') {
+              // 动态验证码只登录，不注册
               self.$Message.info('该用户不存在，请先注册！！');
               // self.$router.push({
               //   name: 'SelRole',
