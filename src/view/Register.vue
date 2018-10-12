@@ -30,27 +30,27 @@
         </div>
         <div class="mt-80 form-box">
           <i-form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="400">
-            <form-item v-if="needInvitationCode" label="邀请码">
-              <i-input type="text" v-model="invitationCode" size="large" class="width-150"/>
+            <form-item v-if="needInvitationCode" label="邀请码" prop="invitationCode" required>
+              <i-input type="text" v-model="formCustom.invitationCode" size="large" class="width-150"/>
               <a href="" class="text-decoration-underline ml-20">获取邀请码</a>
             </form-item>
-            <form-item label="手机号码" prop="phone" class="" style="width: 650px">
+            <form-item label="手机号码" prop="phone" class="" style="width: 650px" required>
               <i-input type="text" size="large" v-model="formCustom.phone"></i-input>
             </form-item>
-            <form-item label="设置登录密码" prop="pwd" style="width: 650px">
+            <form-item label="设置登录密码" prop="pwd" style="width: 650px" required>
               <i-input type="password" v-model="formCustom.pwd" size="large"></i-input>
             </form-item>
-            <form-item label="确认密码" prop="repwd" style="width: 650px">
+            <form-item label="确认密码" prop="repwd" style="width: 650px" required>
               <i-input type="password" v-model="formCustom.repwd" size="large"></i-input>
             </form-item>
-            <form-item label="QQ号" prop="qqNumber" style="width: 650px">
+            <form-item label="QQ号" prop="qqNumber" style="width: 650px" required>
               <i-input type="text" v-model="formCustom.qqNumber" size="large"></i-input>
             </form-item>
-            <form-item label="图形验证码" prop="validateCode" class="pos-rel" style="width: 550px">
+            <form-item label="图形验证码" prop="validateCode" class="pos-rel" style="width: 550px" required>
               <i-input type="text" size="large" v-model="formCustom.validateCode"></i-input>
               <img class="vrcode-image" :src="regImgSrc" width="100" alt="图形验证码" @click="getRegVrcode">
             </form-item>
-            <form-item class="pos-rel" label="短信验证码" prop="smsCode" style="width: 650px">
+            <form-item class="pos-rel" label="短信验证码" prop="smsCode" style="width: 650px" required>
               <i-input type="text" v-model="formCustom.smsCode" number size="large"></i-input>
               <sms-countdown style="top:3px;" :on-success="sendCodeSuccess"
                              :phone="formCustom.phone"
@@ -494,6 +494,13 @@
     },
     data() {
       //表单验证
+      const validateInvitationCode = (rule, value, callback) => {
+        if (this.needInvitationCode && !value) {
+          callback(new Error('请输入邀请码'));
+        } else {
+          callback();
+        }
+      };
       const validatePhone = (rule, value, callback) => {
         if (!(/^1\d{10}$/.test(value))) {
           callback(new Error('请输入正确手机号'));
@@ -569,6 +576,7 @@
           registerSellerBtn: false,
         },
         formCustom: {
+          invitationCode: null,
           phone: null,
           pwd: null,
           repwd: null,
@@ -580,6 +588,9 @@
           agreeStrip: true,
         },
         ruleCustom: {
+          invitationCode: [
+            {validator: validateInvitationCode, trigger: 'blur'}
+          ],
           phone: [
             {validator: validatePhone, trigger: 'blur'}
           ],
@@ -602,7 +613,7 @@
             {validator: validateAgreeStrip, trigger: 'blur'}
           ]
         },
-        invitationCode: null
+
       }
     },
     created() {
@@ -663,7 +674,7 @@
         const _this = this;
         return new Promise((resolve, reject) => {
           api.checkInvitationCode({
-            invitationCode: _this.invitationCode
+            invitationCode: _this.formCustom.invitationCode
           }).then(res => {
             if (res.status) {
               resolve(res);

@@ -276,6 +276,7 @@
            src="~assets/img/task-management/eyes-demo-01.png" width="100%" alt="火眼金睛功能截图1">
       <img v-if="lookScreenShot === 2" class="border-radius-5 border-ddd cursor-p"
            src="~assets/img/task-management/eyes-demo-02.png" width="100%" alt="火眼金睛功能截图2">
+
     </modal>
     <!--开启审批托管功能确认弹框-->
     <modal v-model="speedUpModal" width="360" @on-visible-change="modalChange">
