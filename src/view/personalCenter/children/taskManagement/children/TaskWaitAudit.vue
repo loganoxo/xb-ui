@@ -499,7 +499,15 @@
        */
       showkerApplySuccessCount7Limit() {
         return this.$store.getters.getSysConfigValue('showkerApplySuccessCount7Limit').configValue
+      },
+
+      /** 获取拿手近7天下单次数限制配置
+       * @return {number}
+       */
+      showkerOrderFillCount7Limit() {
+        return this.$store.getters.getSysConfigValue('showkerOrderFillCount7Limit').configValue
       }
+
     },
     methods: {
       // 处理时间段 （在22:30~次日7:00之间建议不要审批拿手）return Boolean
@@ -619,7 +627,7 @@
           _this.showkerApplyInfoModalText = '目前审批通过后，拿手可能会因为时间不足导致无法完成任务，建议22:30分至次日7点之间不要进行审批操作！';
           _this.showkerApplyInfoModal = true;
         } else {
-          if (orderCount7Days > 6) {
+          if (orderCount7Days > this.showkerOrderFillCount7Limit) {
             _this.showkerApplyInfoModal = true;
             _this.showkerApplyInfoModalText = '该用户近七天下单数较为频繁，请谨慎选择！'
           } else if (orderCount7Days <= 6 && todayApplySuccessCountGreaterThan2) {
