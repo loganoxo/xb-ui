@@ -25,7 +25,7 @@ export default new Router({
       name: 'Home',
       component: _import('Home'),
       meta: {
-        title: "白拿拿 - 海量优质商品 商品评测",
+        title: "白拿拿 - 海量优质商品评测",
         logInAuthority: false,
         topShow: true,
         bottomShow: true,
@@ -97,7 +97,7 @@ export default new Router({
       name: 'ShowkerDrainage',
       component: _import('ShowkerDrainage'),
       meta: {
-        title: "拿手白拿拿 - 海量优质商品 商品评测",
+        title: "拿手白拿拿 - 海量优质商品评测",
         logInAuthority: true,
         topShow: false,
         bottomShow: true,
