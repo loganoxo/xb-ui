@@ -102,6 +102,10 @@
       },
       changePage(page) {
 
+      },
+      getRechargeCardRechargeDetail() {
+        const _this = this;
+
       }
 
     }

@@ -8,8 +8,8 @@
       <div class="pl-20 pr-20">
         <div class="card-list">
           <i-button class="card-order pos-rel" v-for="item in cardList" :key="item.id" @click="selectOrderCard(item)" :class="{'is-active': selectCard.id === item.id}">
-            <span class="fs-16 f-b">￥{{item.price / 100}}</span><br/>
-            <span>赠送{{item.gift / 100}}元</span>
+            <span class="fs-16 f-b">￥{{item.rechargeAmount / 100}}</span><br/>
+            <span>赠送{{item.presentedAmount / 100}}元</span>
             <span v-if="item.id === cardList.length" class="mark">最划算</span>
           </i-button>
         </div>
@@ -31,16 +31,17 @@
         <div class="recharge-info left">
           <p>
             <span class="f-b fs-18">到账</span>
-            <span class="f-b main-color ml-10 fs-18">￥{{(selectCard.price +  selectCard.gift) / 100}}</span>
+            <span class="f-b main-color ml-10 fs-18">￥{{(selectCard.rechargeAmount +  selectCard.presentedAmount) / 100}}</span>
           </p>
           <p>充值卡仅限支付推广费</p>
         </div>
-        <i-button class="right confirm-btn" @click="toPay">去支付{{selectCard.price / 100}}元</i-button>
+        <i-button class="right confirm-btn" :disabled="!hasRead" @click="toPay">去支付{{selectCard.rechargeAmount / 100}}元</i-button>
       </div>
     </template>
     <template v-if="step === 'pay'">
       <pay-model ref="payModelRef" :orderMoney="needRechargeMoney"
-                 :orderType="0"
+                 :orderType="3"
+                 :rechargeableCardConfigId="selectCard.id"
                  :isBalance="isBalance"
                  @confirmPayment="confirmPayment">
         <div slot="noBalance" class="title-tip">
@@ -80,30 +81,11 @@
     data() {
       return {
         step: 'select',
-        cardList:[
-          {
-            price: 50000,
-            gift: 10000,
-            id: 1
-          },
-          {
-            price: 80000,
-            gift: 30000,
-            id: 2
-          },
-          {
-            price: 100000,
-            gift: 50000,
-            id: 3
-          },
-        ],
-        selectCard: {
-          price: 100000,
-          gift: 50000,
-          id: 3
-        },
-        hasRead: false,
-        payMoney: null
+        cardList:[],
+        selectCard: {},
+        hasRead: true,
+        payMoney: null,
+        isShowAliPayTip: false
       }
     },
     computed: {
@@ -137,7 +119,7 @@
         return this.getUserBalance - this.payMoney >= 0
       },
 
-      /** 计算当用户账户余额不足以支付选购的会员版本价格的需要额外充值的金额（显示给用户看的文本）
+      /** 计算当用户账户余额不足以支付选购的充值卡价格时需要额外充值的金额（显示给用户看的文本）
        * @return {Number}
        */
       needPayMoneyText() {
@@ -154,19 +136,28 @@
 
     },
     created() {
+
     },
     mounted() {
 
     },
     methods: {
       change(value) {
-
+        if (!value) {
+          this.step = 'select';
+          this.cardList = [];
+          this.selectCard = {};
+          this.payMoney = null;
+          this.$emit('input', false);
+        } else {
+          this.getRechargeCardConfig();
+        }
       },
       selectOrderCard(card) {
         this.selectCard = card;
       },
       toPay() {
-        this.payMoney = this.selectCard.price;
+        this.payMoney = this.selectCard.rechargeAmount;
         this.step = 'pay';
       },
       confirmPayment() {
@@ -175,6 +166,37 @@
       needPayMoneyText() {
 
       },
+      getRechargeCardConfig() {
+        const _this = this;
+        api.getRechargeCardConfig().then(res => {
+          if (res.status) {
+            _this.cardList = res.data.filter(item => {
+              return item.showFront;
+            });
+            _this.selectCard = _this.cardList[_this.cardList.length - 1];
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      confirmPayment(pwd) {
+        const _this = this;
+        api.orderRechargeCard({
+          rechargeableCardConfigId: _this.selectCard.id,
+          platform: 'PC',
+          payPwd: pwd
+        }).then(res => {
+          if (res.status) {
+            _this.$store.dispatch('getUserInformation');
+            _this.step = 'select';
+            _this.$Message.success('恭喜您，支付成功！');
+            _this.selectCard = {};
+            _this.$emit('input', false);
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      }
     }
   }
 </script>

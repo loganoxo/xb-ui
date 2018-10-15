@@ -1357,6 +1357,43 @@ export default {
    */
   merchantRemark(params) {
     return axiosConfig.post('/api/merchant-remark.json', params)
-  }
+  },
+
+  /**
+   * 获取充值卡全部套餐
+   */
+  getRechargeCardConfig() {
+    return axiosConfig.get('/api/get-recharge-card-config.json')
+  },
+
+  /**
+   * 购买充值卡
+   */
+  orderRechargeCard(params) {
+    return axiosConfig.post('/api/recharge-card-order.json', params)
+  },
+
+  /**
+   * 获取充值卡充值明细
+   */
+  getRechargeCardRechargeDetail(params) {
+    return axiosConfig.get('/api/recharge-card-order-detail.json',params)
+  },
+
+  /**
+   * 获取充值卡收支明细
+   */
+  getRechargeCardRecordDetai(params) {
+    return axiosConfig.get('/api/get-recharge-card-record-detail.json',params)
+  },
+
+  /**
+   * 获取充值卡下一级收支明细
+   */
+  getRechargeCardRecordTradeDetail(params) {
+    return axiosConfig.get('/api/get-recharge-card-record-trade-detail.json',params)
+  },
+
+
 
 }

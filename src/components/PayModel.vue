@@ -2,22 +2,16 @@
   <div class="pay-model-con">
     <slot name="closeModel"/>
     <!--<checkbox v-if="redEnvelopeDeductionNumber > 0" class="mt-40" :value="redEnvelopesState" :disabled="disabledRedEnvelopes" @on-change="checkboxChange">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>-->
-    <radio-group v-model="payMethod" class="mt-40" vertical @on-change="checkboxChange">
+    <radio-group v-if="showPayMethod" v-model="payMethod" class="mt-40" vertical @on-change="checkboxChange">
       <radio label="noUseOffer">不使用优惠</radio>
       <radio label="redEnvelopes" v-if="redEnvelopeDeductionNumber > 0" :disabled="disabledRedEnvelopes">使用<span class="main-color">推广费减免红包</span>抵扣</radio>
       <radio label="rechargeCard">使用<span class="main-color">充值卡</span>支付</radio>
     </radio-group>
-    <template v-if="payMethod === ('noUseOffer' || 'redEnvelopes') && !isBalance">
+    <template v-if="!isBalance">
       <slot name="noBalance"/>
     </template>
-    <template v-if="payMethod === ('noUseOffer' || 'redEnvelopes') && isBalance">
+    <template v-if="isBalance">
       <slot name="isBalance"/>
-    </template>
-    <template v-if="payMethod === 'rechargeCard' && !isBalance">
-      <slot name="noRechargeBalance"></slot>
-    </template>
-    <template v-if="payMethod === 'rechargeCard' && isBalance">
-      <slot name="isRechargeBalance"></slot>
     </template>
     <div class="hasBalance mt-30" v-if="isBalance">
       <span class="input-pay-pwd">请输入支付密码：</span>
@@ -144,7 +138,7 @@
         type: Number,
         default: 0
       },
-      // 购买类型（0：正常充值， 1：购买会员充值，2：购买增值服务充值）
+      // 购买类型（0：正常充值， 1：购买会员充值，2：购买增值服务充值，3：充值并订购充值卡）
       orderType: {
         type: Number,
         default: 0
@@ -158,7 +152,17 @@
       rechargeButtonText: {
         type: String,
         default: '立即充值'
+      },
+      // 是否显示充值方式选框
+      showPayMethod: {
+        type: Boolean,
+        default: false
+      },
+      // 订购充值卡的id
+      rechargeableCardConfigId: {
+        default: null
       }
+
     },
     data() {
       return {
@@ -236,6 +240,7 @@
             timeLevel : _this.timeLevel,
             orderType: _this.orderType,
             vasFeeId: _this.vasFeeId,
+            rechargeableCardConfigId: _this.rechargeableCardConfigId
           }).then(res => {
             _this.payLoading = false;
             if (res.status) {

@@ -1058,7 +1058,7 @@
     </div>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
+      <pay-model ref="payModelRef" :showPayMethod="true" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
                  :isShowUpgradeVIP="true" :isBalance="isBalance" :offerMethod="offerMethod"
                  @change="offerMethod = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber"
                  :disabledRedEnvelopes="disabledRedEnvelopes">
@@ -1071,14 +1071,10 @@
         <div slot="isBalance" class="title-tip">
           <icon color="#FF2424" size="18px" type="md-alert"/>
           <span class="ml-5">您本次需要支付金额为 <span
-            class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。</span>
-        </div>
-        <div slot="noRechargeBalance" class="title-tip">
-          <span><icon color="#FF2424" size="18px" type="md-alert"/><span class="ml-10">您本次需要支付金额为72元。当前充值卡余额为：10元；还需支付 62元。</span></span>
-        </div>
-        <div slot="isRechargeBalance" class="title-tip">
-          <icon color="#FF2424" size="18px" type="md-alert"/>
-          <span class="ml-5">您本次需要支付金额为：72元</span>
+            class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。
+            <span v-if="offerMethod === 'rechargeCard' && isRechargeCardBalance">充值卡支付{{(allPromotionExpenses / 100).toFixed(2)}}元，余额支付{{((needPayMoneyAfterAsRedEnvelopes - allPromotionExpenses)/100).toFixed(2)}}元</span>
+            <span v-if="offerMethod === 'rechargeCard' && !isRechargeCardBalance">充值卡支付{{(getRechargeCardBalance / 100).toFixed(2)}}元，余额支付{{((needPayMoneyAfterAsRedEnvelopes - getRechargeCardBalance)/100).toFixed(2)}}元</span>
+          </span>
         </div>
       </pay-model>
     </div>
@@ -1912,6 +1908,15 @@
       },
 
       /**
+       * 计算充值卡余额是否足够支付推广费
+       * @return {boolean}
+       */
+      isRechargeCardBalance() {
+        return this.getRechargeCardBalance > this.allPromotionExpenses
+      },
+
+
+      /**
        * 计算余额是否足够支付需要补充的订单金额
        * @return {boolean}
        */
@@ -1942,9 +1947,6 @@
         if (!this.isBalance && !this.priceHasChange) {
           let money = this.orderMoney - this.getUserBalance;
           return money > 0 ? money : 0
-        } else if (!this.isCardBalanceReplenish && this.priceHasChange) {
-          let money = this.replenishMoney - this.getUserBalance;
-          return money > 0 ? money : 0
         } else {
           return 0
         }
@@ -1954,8 +1956,15 @@
        * 计算当用户账户余额足以支付活动所需金额时要支付的金额（包含是否启用红包金额，此金额为最终需要支付金额）
        * @return {number}
        */
+      // needPayMoneyAfterAsRedEnvelopes() {
+      //   return this.isBalance ? this.offerMethod === 'redEnvelopes' ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : this.needPayMoneyAfter : 0
+      // },
       needPayMoneyAfterAsRedEnvelopes() {
-        return this.isBalance ? this.offerMethod === 'redEnvelopes' ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : this.needPayMoneyAfter : 0
+        if (this.offerMethod === 'redEnvelopes') {
+          return this.isBalance ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : 0
+        } else {
+          return this.isBalance ? this.needPayMoneyAfter : 0
+        }
       },
 
       /**
