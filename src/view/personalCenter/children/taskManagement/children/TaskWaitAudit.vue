@@ -167,7 +167,7 @@
                 </td>
                 <td>
                   <p class="del-edit">
-                    <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId, allTask.id, allTask.applySuccessCount7Days)">通过</span>
+                    <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId, allTask.id, allTask.orderCount7Days, allTask.todayApplySuccessCountGreaterThan2)">通过</span>
                     <tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动">
                       <span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span>
                     </tooltip>
@@ -609,7 +609,7 @@
         this.pageIndex = 1;
         this.appliesWaitingAuditTask();
       },
-      checkShowkerApply(taskId, showkerId, taskApplyId, applySuccessCount7Days) {
+      checkShowkerApply(taskId, showkerId, taskApplyId, orderCount7Days,todayApplySuccessCountGreaterThan2) {
         const _this = this;
         _this.taskApplyId = taskApplyId;
         if (this.doNotAuditPeriod()) {
@@ -619,9 +619,12 @@
           _this.showkerApplyInfoModalText = '目前审批通过后，拿手可能会因为时间不足导致无法完成任务，建议22:30分至次日7点之间不要进行审批操作！';
           _this.showkerApplyInfoModal = true;
         } else {
-          if (applySuccessCount7Days >= _this.showkerApplySuccessCount7Limit * 1) {
+          if (orderCount7Days > 6) {
             _this.showkerApplyInfoModal = true;
             _this.showkerApplyInfoModalText = '该用户近七天下单数较为频繁，请谨慎选择！'
+          } else if (orderCount7Days <= 6 && todayApplySuccessCountGreaterThan2) {
+            _this.showkerApplyInfoModal = true;
+            _this.showkerApplyInfoModalText = '该用户今日中奖的次数已经超过2次，请谨慎选择！！'
           } else {
             api.merchantCheckShowkerApply({
               taskId: taskId,
