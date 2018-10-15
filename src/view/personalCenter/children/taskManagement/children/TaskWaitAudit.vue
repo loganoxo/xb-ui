@@ -630,7 +630,7 @@
           if (orderCount7Days > this.showkerOrderFillCount7Limit) {
             _this.showkerApplyInfoModal = true;
             _this.showkerApplyInfoModalText = '该用户近七天下单数较为频繁，请谨慎选择！'
-          } else if (orderCount7Days <= 6 && todayApplySuccessCountGreaterThan2) {
+          } else if (orderCount7Days <= this.showkerOrderFillCount7Limit && todayApplySuccessCountGreaterThan2) {
             _this.showkerApplyInfoModal = true;
             _this.showkerApplyInfoModalText = '该用户今日中奖的次数已经超过2次，请谨慎选择！！'
           } else {
