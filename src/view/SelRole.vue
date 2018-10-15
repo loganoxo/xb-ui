@@ -63,8 +63,8 @@
     </div>
     <div v-show="!showQQFrom" class="container">
       <div class="qq-login-box">
-        <img src="~assets/img/sel-role/sel_role_04.png" alt="">
-        <a href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.51bainana.com%2Fqq-login">QQ账号登录</a>
+        <!--<img src="~assets/img/sel-role/sel_role_04.png" alt="">-->
+        <!--<a href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.51bainana.com%2Fqq-login">QQ账号登录</a>-->
         <p>
           我已注册，现在就
           <router-link to="/login">登录</router-link>
