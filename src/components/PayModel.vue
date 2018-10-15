@@ -5,7 +5,7 @@
     <radio-group v-if="showPayMethod" v-model="payMethod" class="mt-40" vertical @on-change="checkboxChange">
       <radio label="noUseOffer">不使用优惠</radio>
       <radio label="redEnvelopes" v-if="redEnvelopeDeductionNumber > 0" :disabled="disabledRedEnvelopes">使用<span class="main-color">推广费减免红包</span>抵扣</radio>
-      <radio label="rechargeCard">使用<span class="main-color">充值卡</span>支付</radio>
+      <radio label="rechargeCard">使用<span class="main-color">充值卡</span>支付推广费 {{promotionExpenses / 100}} 元；当前充值卡余额为：{{(rechargeCardBalance / 100).toFixed(2)}}元</radio>
     </radio-group>
     <template v-if="!isBalance">
       <slot name="noBalance"/>
@@ -161,8 +161,17 @@
       // 订购充值卡的id
       rechargeableCardConfigId: {
         default: null
+      },
+      // 活动总推广费
+      promotionExpenses: {
+        type: Number,
+        default: 0
+      },
+      // 充值卡余额
+      rechargeCardBalance: {
+        type: Number,
+        default: 0
       }
-
     },
     data() {
       return {
@@ -223,7 +232,6 @@
         this.$router.push({path: '/user/vip-member/order'})
       },
       checkboxChange(value) {
-        console.log(value);
         this.$emit('change', value)
       },
       confirmRecharge() {

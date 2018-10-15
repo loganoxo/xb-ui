@@ -13,19 +13,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in 10">
-          <td>2018-10-10 00:00:00</td>
-          <td>1000</td>
-          <td class="light-green">+1500</td>
+        <tr v-for="(item,index) in detailList" :key="index">
+          <td>{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</td>
+          <td>{{(item.rechargeableCardRechargeAmount / 100)}}</td>
+          <td class="light-green">+{{(item.rechargeableCardPresentedAmountAfter + item.rechargeableCardRechargeAmountAfter) / 100}}</td>
         </tr>
       </tbody>
-      <tbody class="text-ct">
+      <tbody class="text-ct" v-if="detailList.length <= 0">
         <tr>
           <td colspan="3">暂无数据</td>
         </tr>
       </tbody>
     </table>
-    <div class="mt-10 clear">
+    <div class="mt-10 clear" v-if="detailList.length > 0">
       <page :total="totalElements" :current="pageIndex" :page-size="pageSize" class="right" @on-change="changePage"></page>
     </div>
   </div>
@@ -82,10 +82,12 @@
       }
     },
     computed: {
-
+      getRechargeCardBalance() {
+        return this.$store.getters.getRechargeCardBalance
+      }
     },
     created() {
-
+      this.getRechargeCardRechargeDetail();
     },
     mounted() {
 
@@ -101,11 +103,24 @@
         }
       },
       changePage(page) {
-
+        this.pageIndex = page;
+        this.getRechargeCardRechargeDetail();
       },
       getRechargeCardRechargeDetail() {
         const _this = this;
-
+        api.getRechargeCardRechargeDetail({
+          tradTimeStart: _this.tradTimeStart,
+          tradTimeEnd: _this.tradTimeEnd,
+          pageIndex: _this.pageIndex,
+          pageSize: _this.pageSize
+        }).then(res => {
+          if (res.status) {
+            _this.detailList = res.data.content;
+            this.totalElements = res.data.totalElements;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
       }
 
     }

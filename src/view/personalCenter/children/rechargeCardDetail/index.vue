@@ -4,7 +4,7 @@
       <img src="~assets/img/merchant-promotion/detail-on.png" alt="" class="purse-icon">
       <span class="fs-18 cl666 ml-10">充值明细</span>
     </div>
-    <div class="pt-10 pb-10">当前充值卡余额：<span class="light-green">10000.00</span> 元</div>
+    <div class="pt-10 pb-10">当前充值卡余额：<span class="light-green">{{(getRechargeCardBalance / 100).toFixed(2)}}</span> 元</div>
     <div class="tabs-area clear">
       <div class="tab" v-for="item in tabs" :key="item.id" :class="{active: selectTab.id === item.id}" @click="selectTab = item">{{item.text}}</div>
     </div>
@@ -46,7 +46,9 @@
       }
     },
     computed: {
-
+      getRechargeCardBalance() {
+        return this.$store.getters.getRechargeCardBalance
+      }
     },
     created() {
 

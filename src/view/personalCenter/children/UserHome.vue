@@ -44,7 +44,7 @@
           </div>
           <div class="pos-rel">
             <div class="recharge-card-poptip poptip">冲1000送500</div>
-            <p class="account-item-num">1500</p>
+            <p class="account-item-num">{{getRechargeCardBalance}}</p>
             <p class="account-item-desc">充值卡</p>
             <p class="account-item-operate blue"><span class="pr-5" @click="showRechargeCard = true">充值</span><span class="pl-5" @click="toRechargeCardDetail">明细</span></p>
           </div>
@@ -374,6 +374,9 @@
       },
       getFlowNumInfo() {
         return this.$store.state.flowNumberInfo
+      },
+      getRechargeCardBalance() {
+        return this.$store.getters.getRechargeCardBalance
       }
     },
     methods: {

@@ -106,5 +106,9 @@ export default {
         return item.id !== 600
       })
     }
+  },
+  // 获取充值卡余额
+  getRechargeCardBalance: state => {
+    return Object.keys(state.userInfo).length > 0 ? state.userInfo.extension.sellerAccount.rechargeableCardPresentedAmount + state.userInfo.extension.sellerAccount.rechargeableCardRechargeAmount : null
   }
 }

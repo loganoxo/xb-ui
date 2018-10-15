@@ -1061,7 +1061,7 @@
       <pay-model ref="payModelRef" :showPayMethod="true" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
                  :isShowUpgradeVIP="true" :isBalance="isBalance" :offerMethod="offerMethod"
                  @change="offerMethod = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber"
-                 :disabledRedEnvelopes="disabledRedEnvelopes">
+                 :disabledRedEnvelopes="disabledRedEnvelopes" :promotionExpenses="allPromotionExpenses" :rechargeCardBalance="getRechargeCardBalance">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="sizeColor3"><icon color="#FF2424" size="18px" type="md-alert"/><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
@@ -1748,7 +1748,7 @@
        * @return {number}
        */
       getRechargeCardBalance() {
-        return 10
+        return this.$store.getters.getRechargeCardBalance
       },
 
       /**
