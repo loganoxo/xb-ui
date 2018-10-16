@@ -235,14 +235,14 @@
     },
     methods: {
       toRegister() {
-        this.$router.push({path: '/register'});
+        this.$router.push({path: '/register/seller-register'});
       },
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
-      goSelRole() {
-        this.$router.push({path: '/sel-role'})
-      },
+      // goSelRole() {
+      //   this.$router.push({path: '/sel-role'})
+      // },
       pressEnterLoginNormal(event) {
         if (event.keyCode === 13) {
           this.handleSubmit('loginNormalCustom', this.setUserInfo)

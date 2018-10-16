@@ -679,6 +679,7 @@
       handleReset(name) {
         this.$refs[name].resetFields();
       },
+      // 验证邀请码（邀请码的校验在node端进行，返回布尔值）
       checkInvitationCode() {
         const _this = this;
         return new Promise((resolve, reject) => {
@@ -736,9 +737,9 @@
         self.formCustom.role = 1;
         let recommendCode = '';
         // self.btnState.registerSellerBtn = true;
-        if (getCookie('recommendCode')) {
-          recommendCode = getCookie('recommendCode');
-        }
+        // if (getCookie('recommendCode')) {
+        //   recommendCode = getCookie('recommendCode');
+        // }
         if (getSessionStorage('recommendCode')) {
           recommendCode = getSessionStorage('recommendCode');
         }

@@ -295,17 +295,17 @@ export default new Router({
             role: null,
           },
         },
-        {
-          path: 'buyer-register',
-          name: 'buyer',
-          meta: {
-            title: "用户注册",
-            logInAuthority: false,
-            topShow: false,
-            bottomShow: true,
-            role: null,
-          },
-        },
+        // {
+        //   path: 'buyer-register',
+        //   name: 'buyer',
+        //   meta: {
+        //     title: "用户注册",
+        //     logInAuthority: false,
+        //     topShow: false,
+        //     bottomShow: true,
+        //     role: null,
+        //   },
+        // },
       ]
     },
     {

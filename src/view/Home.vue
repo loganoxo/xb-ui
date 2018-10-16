@@ -504,8 +504,36 @@
             <!--</div>-->
           <!--</div>-->
         <!--</div>-->
-        <!--&lt;!&ndash;<div class="talent-left left"></div>&ndash;&gt;-->
-        <!--&lt;!&ndash;<div class="talent-right right"></div>&ndash;&gt;-->
+
+
+        <!--<div class="talent left">-->
+          <!--<div class="talent-title">评测达人</div>-->
+          <!--<div class="rank-list mt-30 text-ct">-->
+            <!--<div class="list-item clear mt-20 pb-20" v-for="(item,index) in showkerReportList" :key="index">-->
+              <!--<div class="inline-block vtc-top mr-10 cl-fff ranking" :class="[index <= 2 ? 'ranking-top-3' : 'ranking']">{{index + 1}}</div>-->
+              <!--<img :src="getUserHead(item.portrait)" alt="" class="border-radius-50 mr-10" width="48" height="48">-->
+              <!--<div class="inline-block text-lf">-->
+                <!--<p>{{item.nickname}}</p>-->
+                <!--<p><span class="main-color">{{item.reportCount}}</span>篇买家秀</p>-->
+                <!--<p>共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="talent right">-->
+          <!--<div class="talent-title">评测达人</div>-->
+          <!--<div class="rank-list mt-30 text-ct">-->
+            <!--<div class="list-item clear mt-20 pb-20" v-for="(item,index) in showkerReportList" :key="index">-->
+              <!--<div class="inline-block vtc-top mr-10 cl-fff ranking" :class="[index <= 2 ? 'ranking-top-3' : 'ranking']">{{index + 1}}</div>-->
+              <!--<img :src="getUserHead(item.portrait)" alt="" class="border-radius-50 mr-10" width="48" height="48">-->
+              <!--<div class="inline-block text-lf">-->
+                <!--<p>{{item.nickname}}</p>-->
+                <!--<p><span class="main-color">{{item.reportCount}}</span>篇买家秀</p>-->
+                <!--<p>共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
       <!--</div>-->
     </div>
 
@@ -1588,6 +1616,7 @@
         border-top: 4px solid #ffba41;
         position: relative;
         background: #fff;
+        /*width: 48%;*/
         .talent-title {
           width: 200px;
           height: 36px;
@@ -1628,6 +1657,7 @@
           flex-wrap: wrap;
           .list-item {
             width: 25%;
+            /*width: 50%;*/
             .ranking {
               width: 18px;
               height: 18px;
