@@ -317,12 +317,12 @@
                     <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice"-->
                           <!--class="left home-discount-price mt-5"-->
                           <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}">-->
-                      <!--{{homeCommodity.discountPrice/100}}试用-->
+                      <!--{{homeCommodity.discountPrice/100}}评测-->
                     <!--</span>-->
                     <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate"-->
                           <!--class="left home-discount-price mt-5"-->
                           <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}">-->
-                      <!--{{homeCommodity.discountRate/10}}折试用-->
+                      <!--{{homeCommodity.discountRate/10}}折评测-->
                     <!--</span>-->
                   <!--</em>-->
                 <!--</p>-->
@@ -465,7 +465,7 @@
                         <span>
                           <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountPrice"
                             class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}">
-                          {{homeHistory.discountPrice/100}}试用
+                          {{homeHistory.discountPrice/100}}评测
                           </span>
                           <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountRate" class="left home-discount-price mt-5"
                           :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}">
@@ -547,7 +547,7 @@
             <div class="mt-20">
               <img src="~assets/img/home/m-1.png" alt="">
             </div>
-            <p class="desc mt-25">活动成功上线后，平均20分钟就有1人申请试用。由<span class="main-color">亲自己决定什么时间通过、通过多少名额（通过后才能去淘宝下单）</span>，合理控制转化。
+            <p class="desc mt-25">活动成功上线后，平均20分钟就有1人申请评测。由<span class="main-color">亲自己决定什么时间通过、通过多少名额（通过后才能去淘宝下单）</span>，合理控制转化。
             </p>
           </li>
           <li class="left">
@@ -569,7 +569,7 @@
       </div>
       <div slot="footer" class="m-footer text-ct">
         <i-button type="default" class="later-btn" @click="showFirstVisitModel = false">先逛逛再说~</i-button>
-        <i-button class="release-btn" @click="goTaskCreateFast">马上免费发布活动（试用）</i-button>
+        <i-button class="release-btn" @click="goTaskCreateFast">马上免费发布活动（评测）</i-button>
       </div>
     </modal>
     <!-- 商家每天首次登录，显示微信加粉弹框 -->
@@ -670,7 +670,7 @@
               },
               {
                 url: '/user/help-center/faq',
-                text: '支持哪几个平台试用活动？',
+                text: '支持哪几个平台评测活动？',
                 page: 'common',
                 qusNum: '4'
               },
