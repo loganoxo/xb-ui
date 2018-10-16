@@ -11,7 +11,7 @@
       </div>
       <div class="inline-block step left clear">
         <div class="inline-block step-number left">2</div>
-        <div class="inline-block step-text left">活动上线后，商家可审核来申请试用的拿手旺旺号。</div>
+        <div class="inline-block step-text left">活动上线后，商家可审核来申请评测的拿手旺旺号。</div>
         <icon class="left mt-20" type="ios-arrow-forward" size="26" color="#ccc"/>
       </div>
       <div class="inline-block step left clear">
@@ -68,7 +68,7 @@
         </div>
         &lt;!&ndash;<div class="left activity-type-box mr-10" @click="toTaskFans">&ndash;&gt;
           &lt;!&ndash;<p>微信加粉</p>&ndash;&gt;
-          &lt;!&ndash;<p>尾货/试用商品/赠品</p>&ndash;&gt;
+          &lt;!&ndash;<p>尾货/评测商品/赠品</p>&ndash;&gt;
           &lt;!&ndash;<p>均可兑换高质量粉丝</p>&ndash;&gt;
         &lt;!&ndash;</div>&ndash;&gt;
       </div>
@@ -206,7 +206,7 @@
             <i-input v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"/>
             <span>元</span>
             <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><icon
-              color="#f9284f" type="md-alert"/>&nbsp;每份试用品的价值必须在1元以上</span>
+              color="#f9284f" type="md-alert"/>&nbsp;每份评测品的价值必须在1元以上</span>
             <!--<span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="md-alert"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>-->
             <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
           </div>
@@ -1239,7 +1239,7 @@
     <!--商家须知-->
     <modal v-model="merchantInformationModal.status" :closable="false" :mask-closable="false" :scrollable="true">
       <div slot="header" class="text-ct main-color fs-16 f-b">商家须知</div>
-      <p class="fs-14">白拿拿平台旨在为大家提供更优质的试用服务，为保证试用活动的顺利进行，也为了保证商家朋友的权益，以下条款请务必认真阅读并遵守：</p>
+      <p class="fs-14">白拿拿平台旨在为大家提供更优质的评测服务，为保证评测活动的顺利进行，也为了保证商家朋友的权益，以下条款请务必认真阅读并遵守：</p>
       <p class="mt-10 fs-14">1、实际发货的商品须与平台上发布活动所展示的商品一致；</p>
       <p class="mt-10 fs-14">2、请认真审核拿手提交的订单编号，确认无误之后，及时安排发货；</p>
       <p class="mt-10 fs-14">3、请确保平台上预留的电话和QQ等联系方式真实有效，可以联系上；</p>
@@ -2511,7 +2511,7 @@
           return;
         }
         if (_this.taskRelease.itemPrice < 1) {
-          _this.$Message.warning('亲，每份试用品的价值必须在1元以上！');
+          _this.$Message.warning('亲，每份评测品的价值必须在1元以上！');
           return;
         }
         if (_this.taskRelease.activityCategory === 'present_get') {
@@ -2537,7 +2537,7 @@
           return;
         }
         if ((_this.taskRelease.activityCategory === 'price_low' || _this.taskRelease.activityCategory === 'goods_clearance') && _this.taskRelease.discountType === 'discount_0') {
-          _this.$Message.warning('亲，请选择试用折扣！');
+          _this.$Message.warning('亲，请选择评测折扣！');
           return;
         }
         if (_this.taskRelease.remark && _this.taskRelease.remark.length > 300) {

@@ -31,7 +31,7 @@ const state = {
   commodityCategoriesList: [], //平台宝贝类目列表
   flowNumberInfo: {}, //流量数量相关信息
   needOrderVisitorFlow: false,  //补添流量时是否需要订购访客流量
-  platformData: {},  //平台首页展示数据（今日新增商品数，今日送出商品数，已入驻试用商家，昨日登录拿手数）
+  platformData: {},  //平台首页展示数据（今日新增商品数，今日送出商品数，已入驻评测商家，昨日登录拿手数）
 };
 
 export default new Vuex.Store({

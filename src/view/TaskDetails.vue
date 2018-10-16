@@ -12,7 +12,7 @@
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item v-if="commodityData.task.discountType === 'price_low'">
-              {{parseFloat(commodityData.task.discountPrice/100)}}试用
+              {{parseFloat(commodityData.task.discountPrice/100)}}评测
             </Breadcrumb-item>
           </Breadcrumb>
         </div>
@@ -39,7 +39,7 @@
               <span class="fs-18">{{commodityData.task.taskTypeDesc}}</span>
               <span v-if="commodityData.task.discountType === 'price_low'" class="fs-14"
                     style="color: #fff; padding: 2px 5px;"
-                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}试用</span>
+                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}评测</span>
             </p>
             <p class="fs-14">
               宝贝单价：<span class="fs-18" style="text-decoration: line-through;">{{(commodityData.task.itemPrice/100).toFixed(2)}}</span>
@@ -168,7 +168,7 @@
         <!--</div>-->
       <!--</div>-->
       <div class="container">
-        <div class="graphic-info">
+        <div class="graphic-info mt-10">
           <div class="graphic-info-sel">
             <a :class="[graphicInfoSelClass === graphicSel.isClass ? 'active' : '' ]"
                v-for="graphicSel in graphicInfoSels" :key="graphicSel.isClass" @click="graphicSelFunc(graphicSel)">
@@ -758,7 +758,7 @@
             self.$nextTick(() => {
               self.initJS();
               self.initCss();
-              self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【秀吧365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " ' + self.commodityData.task.taskName + ' ' + self.copyValue + '秀吧365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '></div>';
+              self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【秀吧365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " ' + self.commodityData.task.taskName + ' ' + self.copyValue + '秀吧365，万千商品每日更新，赶快和我一起来免费评测吧！" class="social-share" data-url=' + self.copyValue + '></div>';
             });
           } else {
             self.$Message.error(res.msg);

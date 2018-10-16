@@ -5,16 +5,16 @@
     <div class="page-desc radius6 line22 mb-20 border-ddd fs-16">
       <div class="pd-tb-20 bg-tp fs-16">
         <p class="text-ct">白拿拿商城是采用<span class="color-theme">先试后买的卖货平台,（绕开淘宝，直接卖货）</span></p>
-        <p class="text-ct">商家提供商品给买家试用，买家试用<span class="color-theme">满意即购买收下商品，不满意无损退货</span>的卖货方式。</p>
+        <p class="text-ct">商家提供商品给买家评测，买家评测<span class="color-theme">满意即购买收下商品，不满意无损退货</span>的卖货方式。</p>
       </div>
       <div class="pd-tb-20 pl-20 bg-content">
         <p class="orange fs-16 bold mb-10">商家发布商品须知：</p>
         <div class="pl-20">
-          <p>1、提供的商品<span class="color-theme">需支持买家14天免费试用</span>，试用期间<span class="color-theme">支持产品无损退货</span>;</p>
-          <p class="pl-5">（食品类通过<span class="color-theme">商品+小样</span>的形式试用，买家试吃小样后确定是否购买，食品类商品拆封后无产品问题不可退货）;</p>
-          <p>2、商城商品<span class="color-theme">试用后购买价格不得高于商品的淘宝售价</span>，否则商品无法通过审核上线卖货;</p>
-          <p>3、为激励买家尽快确认购买,<span class="color-theme">试用7天内购买价格<i><</i>试用7~14天购买价格</span>;</p>
-          <p>4、为吸引买家试用，设置的保证金不宜高于商品价格，建议<span class="color-theme">保证金设置成略高于商品成本+物流成本</span>。</p>
+          <p>1、提供的商品<span class="color-theme">需支持买家14天免费评测</span>，评测期间<span class="color-theme">支持产品无损退货</span>;</p>
+          <p class="pl-5">（食品类通过<span class="color-theme">商品+小样</span>的形式评测，买家试吃小样后确定是否购买，食品类商品拆封后无产品问题不可退货）;</p>
+          <p>2、商城商品<span class="color-theme">评测后购买价格不得高于商品的淘宝售价</span>，否则商品无法通过审核上线卖货;</p>
+          <p>3、为激励买家尽快确认购买,<span class="color-theme">评测7天内购买价格<i><</i>评测7~14天购买价格</span>;</p>
+          <p>4、为吸引买家评测，设置的保证金不宜高于商品价格，建议<span class="color-theme">保证金设置成略高于商品成本+物流成本</span>。</p>
         </div>
       </div>
     </div>
@@ -30,26 +30,26 @@
           <span class="pl-10">元</span>
           <span class="ml-10 describe">（淘宝售价作为商品审核的重点，白拿拿商城上的<span class="color-theme">商品价格不得高于宝贝在淘宝的售价</span>）</span>
         </FormItem>
-        <FormItem label="买家试用本商品的保证金：" prop="itemFirstPrice" :label-width="170">
-          <Input placeholder="请输入试用保证金" v-model.number="validate.itemFirstPrice" class="width-100" />
+        <FormItem label="买家评测本商品的保证金：" prop="itemFirstPrice" :label-width="170">
+          <Input placeholder="请输入评测保证金" v-model.number="validate.itemFirstPrice" class="width-100" />
           <span class="pl-10">元</span>
           <span class="ml-10 describe">（建议<span class="color-theme">略高于商品成本+物流成本</span>，若买家未退货且未缴尾款时，保证金用于<span class="color-theme">补偿商家</span>）</span>
         </FormItem>
-        <FormItem label="试用7天内购买的商品价格：" prop="weekPrice" class="pl-40" :label-width="175">
+        <FormItem label="评测7天内购买的商品价格：" prop="weekPrice" class="pl-40" :label-width="175">
           <Input class="width-100" placeholder="7天购买价格" v-model.number="validate.weekPrice" />
           <span class="pl-10">元</span>
           <span class="ml-20">买家确认购买商品补缴尾款：</span>
           <Input disabled placeholder="请输入尾款" v-model.model="weekPaymentNumber" class="width-100" />
           <span class="pl-10">元</span>
-          <span class="ml-10 color-theme">（尾款=试用7天商品价格-保证金）</span>
+          <span class="ml-10 color-theme">（尾款=评测7天商品价格-保证金）</span>
         </FormItem>
-        <FormItem label="试用7-14天内购买的商品价格：" prop="monthPrice" class="pl-40" :label-width="195">
+        <FormItem label="评测7-14天内购买的商品价格：" prop="monthPrice" class="pl-40" :label-width="195">
           <Input class="width-100" placeholder="7-14天购买价格" v-model.number="validate.monthPrice" />
           <span class="pl-10">元</span>
           <span class="ml-20">买家确认购买商品补缴尾款：</span>
           <Input disabled placeholder="请输入尾款" class="width-100" v-model.number="monthPaymentNumber" />
           <span class="pl-10">元</span>
-          <span class="ml-10 color-theme">（尾款=试用7~14天商品价格-保证金）</span>
+          <span class="ml-10 color-theme">（尾款=评测7~14天商品价格-保证金）</span>
         </FormItem>
         <FormItem label="是否包邮：" prop="pinkage" :label-width="90">
           <Radio v-model="validate.pinkage">商品包邮，无需修改运费</Radio>
@@ -312,7 +312,7 @@
       },
       submit() {
         if (this.priceNumber > this.weekPriceNumber || this.priceNumber > this.monthPriceNumber) {
-          this.$Message.warning('试用后购买价格不能小于保证金');
+          this.$Message.warning('评测后购买价格不能小于保证金');
           return false;
         }
         if (this.monthPriceNumber < this.weekPriceNumber) {

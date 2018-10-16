@@ -97,7 +97,7 @@ export default new Router({
       name: 'ShowkerDrainage',
       component: _import('ShowkerDrainage'),
       meta: {
-        title: "拿手白拿拿 - 海量优质商品 免费试用引流",
+        title: "拿手白拿拿 - 海量优质商品 免费评测引流",
         logInAuthority: true,
         topShow: false,
         bottomShow: true,
@@ -276,37 +276,37 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: _import('Register'),
-      meta: {
-        title: "用户注册",
-        logInAuthority: false,
-        topShow: false,
-        bottomShow: true,
-        role: null,
-      },
-      // children: [
-      //   {
-      //     path: 'seller-register',
-      //     name: 'seller',
-      //     meta: {
-      //       title: "用户注册",
-      //       logInAuthority: false,
-      //       topShow: false,
-      //       bottomShow: true,
-      //       role: null,
-      //     },
-      //   },
-      //   {
-      //     path: 'buyer-register',
-      //     name: 'buyer',
-      //     meta: {
-      //       title: "用户注册",
-      //       logInAuthority: false,
-      //       topShow: false,
-      //       bottomShow: true,
-      //       role: null,
-      //     },
-      //   },
-      // ]
+      // meta: {
+      //   title: "用户注册",
+      //   logInAuthority: false,
+      //   topShow: false,
+      //   bottomShow: true,
+      //   role: null,
+      // },
+      children: [
+        {
+          path: 'seller-register',
+          name: 'seller',
+          meta: {
+            title: "用户注册",
+            logInAuthority: false,
+            topShow: false,
+            bottomShow: true,
+            role: null,
+          },
+        },
+        {
+          path: 'buyer-register',
+          name: 'buyer',
+          meta: {
+            title: "用户注册",
+            logInAuthority: false,
+            topShow: false,
+            bottomShow: true,
+            role: null,
+          },
+        },
+      ]
     },
     {
       path: '/task-category',

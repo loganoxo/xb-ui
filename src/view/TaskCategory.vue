@@ -39,7 +39,7 @@
         <div v-show="!$route.query.searchKey">
           <div v-if="$store.state.TaskCategoryActive === 'price_low'" class="task-category-sel" >
             折扣类型：
-            <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive === discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
+            <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive === discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}评测</a>
           </div>
         </div>
         <div v-if="!$route.query.activityCategory || $route.query.categroyId || $route.query.categroy" class="task-category-sel">

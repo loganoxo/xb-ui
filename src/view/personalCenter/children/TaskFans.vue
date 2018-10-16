@@ -9,7 +9,7 @@
       <div class="answer">
         <p class="answer-title">1、废物利用</p>
         <p class="answer-content mt-5">
-          尾货/试用商品/赠品等商业价值有限，消耗一件商品就能够带来一个高质量、高匹配的安全粉丝。
+          尾货/评测商品/赠品等商业价值有限，消耗一件商品就能够带来一个高质量、高匹配的安全粉丝。
         </p>
       </div>
       <div class="answer mt-10">
@@ -80,7 +80,7 @@
       <h2 class="question pd-tb-20">如何兑换粉丝？</h2>
       <div>
         <div class="pl-20 border-dashed">
-          <p>通过将店铺的尾货/试用商品/赠品等变废为宝，换取意向、高匹配的淘宝买家粉丝，自建粉丝池，为安全、高效积攒销量做好准备。</p>
+          <p>通过将店铺的尾货/评测商品/赠品等变废为宝，换取意向、高匹配的淘宝买家粉丝，自建粉丝池，为安全、高效积攒销量做好准备。</p>
           <p class="requirement">商品要求及粉丝筛选条件：</p>
           <div class="require-container clear">
             <div class="require-item left text-center require-item-left">

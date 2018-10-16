@@ -21,7 +21,7 @@
         </div>
         <div class="left text-ct cl666 vrtext ml-20">
           <p>关注微信公众号</p>
-          <p>获取最新试用商品</p>
+          <p>获取最新评测商品</p>
         </div>
         <img src="~assets/img/common/vrcode.jpg" alt="" width="54" height="54" class="left vrcode ml-10">
          <!--<a v-if="searchRight.adUrl" :href="searchRight.adUrl" class="seller-guide left" target="_blank">-->

@@ -34,16 +34,16 @@
                 <p>hi，你还没登录哦~</p>
               </div>
               <div class="mt-20 default-login">
-                <router-link to="/register">免费注册</router-link>
+                <router-link to="/register/seller-register">免费注册</router-link>
                 <router-link to="/login">马上登录</router-link>
               </div>
-              <div class="text-ct mt-10">
-                <a
-                  href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.51bainana.com%2Fqq-login">
-                  <img style="vertical-align: -7px;" src="~assets/img/common/qq_logo.png" alt="">
-                  使用QQ登录白拿拿
-                </a>
-              </div>
+              <!--<div class="text-ct mt-10">-->
+                <!--<a-->
+                  <!--href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.51bainana.com%2Fqq-login">-->
+                  <!--<img style="vertical-align: -7px;" src="~assets/img/common/qq_logo.png" alt="">-->
+                  <!--使用QQ登录白拿拿-->
+                <!--</a>-->
+              <!--</div>-->
             </div>
             <div class="login-in-box" v-if="isLogin && getUserRole　=== 0">
               <div @click="cancelActivityCategory">
@@ -317,12 +317,12 @@
                     <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice"-->
                           <!--class="left home-discount-price mt-5"-->
                           <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}">-->
-                      <!--{{homeCommodity.discountPrice/100}}试用-->
+                      <!--{{homeCommodity.discountPrice/100}}评测-->
                     <!--</span>-->
                     <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate"-->
                           <!--class="left home-discount-price mt-5"-->
                           <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}">-->
-                      <!--{{homeCommodity.discountRate/10}}折试用-->
+                      <!--{{homeCommodity.discountRate/10}}折评测-->
                     <!--</span>-->
                   <!--</em>-->
                 <!--</p>-->
@@ -389,12 +389,12 @@
                     <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice"-->
                           <!--class="left home-discount-price mt-5"-->
                           <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}">-->
-                      <!--{{homeCommodity.discountPrice/100}}试用-->
+                      <!--{{homeCommodity.discountPrice/100}}评测-->
                     <!--</span>-->
                     <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate"-->
                           <!--class="left home-discount-price mt-5"-->
                           <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}">-->
-                      <!--{{homeCommodity.discountRate/10}}折试用-->
+                      <!--{{homeCommodity.discountRate/10}}折评测-->
                     <!--</span>-->
                     <!--<span v-if="homeCommodity.activityCategory === 'goods_clearance' && homeCommodity.discountRate "-->
                           <!--class="left home-discount-price mt-5"-->
@@ -465,11 +465,11 @@
                         <span>
                           <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountPrice"
                             class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}">
-                          {{homeHistory.discountPrice/100}}试用
+                          {{homeHistory.discountPrice/100}}评测
                           </span>
                           <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountRate" class="left home-discount-price mt-5"
                           :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}">
-                          {{homeHistory.discountRate/10}}折试用
+                          {{homeHistory.discountRate/10}}折评测
                           </span>
                         </span>
                       </p>
@@ -489,13 +489,24 @@
             </div>-->
       <!--历史活动结束-->
       <!--达人-->
-      <div class="talent-area clear">
-        <div class="talent">
-          <div class="talent-title">评测达人</div>
-        </div>
-        <!--<div class="talent-left left"></div>-->
-        <!--<div class="talent-right right"></div>-->
-      </div>
+      <!--<div class="talent-area clear">-->
+        <!--<div class="talent">-->
+          <!--<div class="talent-title">评测达人</div>-->
+          <!--<div class="rank-list mt-30 text-ct">-->
+            <!--<div class="list-item clear mt-20 pb-20" v-for="(item,index) in showkerReportList" :key="index">-->
+              <!--<div class="inline-block vtc-top mr-10 cl-fff ranking" :class="[index <= 2 ? 'ranking-top-3' : 'ranking']">{{index + 1}}</div>-->
+              <!--<img :src="getUserHead(item.portrait)" alt="" class="border-radius-50 mr-10" width="48" height="48">-->
+              <!--<div class="inline-block text-lf">-->
+                <!--<p>{{item.nickname}}</p>-->
+                <!--<p><span class="main-color">{{item.reportCount}}</span>篇买家秀</p>-->
+                <!--<p>共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<div class="talent-left left"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="talent-right right"></div>&ndash;&gt;-->
+      <!--</div>-->
     </div>
 
     <!--添加微信弹窗-->
@@ -547,7 +558,7 @@
             <div class="mt-20">
               <img src="~assets/img/home/m-1.png" alt="">
             </div>
-            <p class="desc mt-25">活动成功上线后，平均20分钟就有1人申请试用。由<span class="main-color">亲自己决定什么时间通过、通过多少名额（通过后才能去淘宝下单）</span>，合理控制转化。
+            <p class="desc mt-25">活动成功上线后，平均20分钟就有1人申请评测。由<span class="main-color">亲自己决定什么时间通过、通过多少名额（通过后才能去淘宝下单）</span>，合理控制转化。
             </p>
           </li>
           <li class="left">
@@ -569,7 +580,7 @@
       </div>
       <div slot="footer" class="m-footer text-ct">
         <i-button type="default" class="later-btn" @click="showFirstVisitModel = false">先逛逛再说~</i-button>
-        <i-button class="release-btn" @click="goTaskCreateFast">马上免费发布活动（试用）</i-button>
+        <i-button class="release-btn" @click="goTaskCreateFast">马上免费发布活动（评测）</i-button>
       </div>
     </modal>
     <!-- 商家每天首次登录，显示微信加粉弹框 -->
@@ -670,7 +681,7 @@
               },
               {
                 url: '/user/help-center/faq',
-                text: '支持哪几个平台试用活动？',
+                text: '支持哪几个平台评测活动？',
                 page: 'common',
                 qusNum: '4'
               },
@@ -776,6 +787,7 @@
         showTaskFansModal: false,
         allReportNum: 0,
         allShowerNum: 0,
+        showkerReportList: []
       }
     },
     beforeMount() {
@@ -807,11 +819,12 @@
       }
       self.getSearchPresentGetTask();
       self.getHomeTaskList();
-      self.getHomeTaskTopLeftList();
+      // self.getHomeTaskTopLeftList();
       self.personalTrialCount();
       // self.getHomeHistoryList();
       self.getBuyerShowList();
       self.getBuyerShowInformation();
+      self.getShowkerReportRank();
     },
     destroyed() {
       let self = this;
@@ -1123,6 +1136,16 @@
             self.allShowerNum = res.data.allShowerNum;
           } else {
             self.$Message.error(res.msg)
+          }
+        })
+      },
+      getShowkerReportRank() {
+        let _this = this;
+        api.getShowkerReportRank().then(res => {
+          if (res.status) {
+            _this.showkerReportList = res.data;
+          } else {
+            _this.$Message.error(res.msg)
           }
         })
       },
@@ -1564,6 +1587,7 @@
       .talent {
         border-top: 4px solid #ffba41;
         position: relative;
+        background: #fff;
         .talent-title {
           width: 200px;
           height: 36px;
@@ -1582,14 +1606,38 @@
             display: block;
             width: 0;
             height: 0;
-            border-bottom: 7px solid;
             position: absolute;
             top: 0;
-            border-left: 7px solid transparent;
-            border-bottom-color: #ffba41;
           }
           &::before {
+            border-bottom: 7px solid;
+            border-left: 7px solid transparent;
+            border-bottom-color: #ffba41;
             left: -7px;
+          }
+          &::after {
+            border-bottom: 7px solid;
+            border-right: 7px solid transparent;
+            border-bottom-color: #ffba41;
+            right: -7px;
+          }
+        }
+        .rank-list {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          .list-item {
+            width: 25%;
+            .ranking {
+              width: 18px;
+              height: 18px;
+              background: url("~assets/img/icon/buyers_top1.png") no-repeat center center;
+            }
+            .ranking-top-3 {
+              width: 18px;
+              height: 18px;
+              background: url("~assets/img/icon/buyers_top2.png") no-repeat center center;
+            }
           }
         }
       }
