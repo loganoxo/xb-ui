@@ -1,6 +1,6 @@
 <template>
   <div class="xiu-ba-pc">
-    <div class="fs-16 f-b">由于平台系统维护，目前暂时无法访问，由此带来的不便敬请谅解！</div>
+    <div class="fs-16 f-b">由于平台系统维护，目前暂时无法访问，预计最快晚上恢复，由此带来的不便敬请谅解！</div>
     <!--<top v-show="isTopShow"/>-->
     <!--<router-view></router-view>-->
     <!--&lt;!&ndash;网站底部信息&ndash;&gt;-->
