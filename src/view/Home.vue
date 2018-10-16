@@ -489,13 +489,13 @@
             </div>-->
       <!--历史活动结束-->
       <!--达人-->
-      <!--<div class="talent-area clear">-->
-        <!--<div class="talent">-->
-          <!--<div class="talent-title">评测达人</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;<div class="talent-left left"></div>&ndash;&gt;-->
-        <!--&lt;!&ndash;<div class="talent-right right"></div>&ndash;&gt;-->
-      <!--</div>-->
+      <div class="talent-area clear">
+        <div class="talent">
+          <div class="talent-title">评测达人</div>
+        </div>
+        <!--<div class="talent-left left"></div>-->
+        <!--<div class="talent-right right"></div>-->
+      </div>
     </div>
 
     <!--添加微信弹窗-->
