@@ -25,7 +25,7 @@ export default new Router({
       name: 'Home',
       component: _import('Home'),
       meta: {
-        title: "白拿拿 - 海量优质商品 免费试用",
+        title: "白拿拿 - 海量优质商品评测",
         logInAuthority: false,
         topShow: true,
         bottomShow: true,
