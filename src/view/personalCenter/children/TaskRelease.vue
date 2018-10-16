@@ -57,7 +57,7 @@
       </div>
     </div>
     <!--选择活动类型-->
-    <div class="activity-type mt-20" v-show="stepName === 'information'">
+   <!-- <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">请选择活动模版：</div>
       <div class="clear mt-10">
         <div class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}" @click="changeSelectActivity('free_get')">
@@ -66,13 +66,13 @@
         <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
           <p class="mt-22">模版B</p>
         </div>
-        <!--<div class="left activity-type-box mr-10" @click="toTaskFans">-->
-          <!--<p>微信加粉</p>-->
-          <!--<p>尾货/评测商品/赠品</p>-->
-          <!--<p>均可兑换高质量粉丝</p>-->
-        <!--</div>-->
+        &lt;!&ndash;<div class="left activity-type-box mr-10" @click="toTaskFans">&ndash;&gt;
+          &lt;!&ndash;<p>微信加粉</p>&ndash;&gt;
+          &lt;!&ndash;<p>尾货/评测商品/赠品</p>&ndash;&gt;
+          &lt;!&ndash;<p>均可兑换高质量粉丝</p>&ndash;&gt;
+        &lt;!&ndash;</div>&ndash;&gt;
       </div>
-    </div>
+    </div>-->
     <div class="activity-con mt-20">
       <!--填写活动详情-->
       <div class="activity-info" v-show="stepName === 'information'">
@@ -1425,7 +1425,7 @@
           orderQuantity: null,
           presentPrice: null,
           discountType: 'discount_0',
-          activityCategory: 'free_get',
+          activityCategory: 'present_get',
           pinkage: "true",
           donotPostPhoto: "true",
           paymentMethod: "all",
@@ -3139,7 +3139,7 @@
                 _this.taskRelease[key] = res.data[key]
               }
             });
-
+            _this.taskRelease.activityCategory = 'present_get';
             // 复制活动时活动份数为taskCount + returnCount
             _this.taskRelease.taskCount = res.data.taskCount + res.data.returnCount * 1;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;

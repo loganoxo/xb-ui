@@ -34,16 +34,16 @@
                 <p>hi，你还没登录哦~</p>
               </div>
               <div class="mt-20 default-login">
-                <router-link to="/register">免费注册</router-link>
+                <router-link to="/register/seller-register">免费注册</router-link>
                 <router-link to="/login">马上登录</router-link>
               </div>
-              <div class="text-ct mt-10">
-                <a
-                  href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.51bainana.com%2Fqq-login">
-                  <img style="vertical-align: -7px;" src="~assets/img/common/qq_logo.png" alt="">
-                  使用QQ登录白拿拿
-                </a>
-              </div>
+              <!--<div class="text-ct mt-10">-->
+                <!--<a-->
+                  <!--href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.51bainana.com%2Fqq-login">-->
+                  <!--<img style="vertical-align: -7px;" src="~assets/img/common/qq_logo.png" alt="">-->
+                  <!--使用QQ登录白拿拿-->
+                <!--</a>-->
+              <!--</div>-->
             </div>
             <div class="login-in-box" v-if="isLogin && getUserRole　=== 0">
               <div @click="cancelActivityCategory">
@@ -492,9 +492,48 @@
       <!--<div class="talent-area clear">-->
         <!--<div class="talent">-->
           <!--<div class="talent-title">评测达人</div>-->
+          <!--<div class="rank-list mt-30 text-ct">-->
+            <!--<div class="list-item clear mt-20 pb-20" v-for="(item,index) in showkerReportList" :key="index">-->
+              <!--<div class="inline-block vtc-top mr-10 cl-fff ranking" :class="[index <= 2 ? 'ranking-top-3' : 'ranking']">{{index + 1}}</div>-->
+              <!--<img :src="getUserHead(item.portrait)" alt="" class="border-radius-50 mr-10" width="48" height="48">-->
+              <!--<div class="inline-block text-lf">-->
+                <!--<p>{{item.nickname}}</p>-->
+                <!--<p><span class="main-color">{{item.reportCount}}</span>篇买家秀</p>-->
+                <!--<p>共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
         <!--</div>-->
-        <!--&lt;!&ndash;<div class="talent-left left"></div>&ndash;&gt;-->
-        <!--&lt;!&ndash;<div class="talent-right right"></div>&ndash;&gt;-->
+
+
+        <!--<div class="talent left">-->
+          <!--<div class="talent-title">评测达人</div>-->
+          <!--<div class="rank-list mt-30 text-ct">-->
+            <!--<div class="list-item clear mt-20 pb-20" v-for="(item,index) in showkerReportList" :key="index">-->
+              <!--<div class="inline-block vtc-top mr-10 cl-fff ranking" :class="[index <= 2 ? 'ranking-top-3' : 'ranking']">{{index + 1}}</div>-->
+              <!--<img :src="getUserHead(item.portrait)" alt="" class="border-radius-50 mr-10" width="48" height="48">-->
+              <!--<div class="inline-block text-lf">-->
+                <!--<p>{{item.nickname}}</p>-->
+                <!--<p><span class="main-color">{{item.reportCount}}</span>篇买家秀</p>-->
+                <!--<p>共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="talent right">-->
+          <!--<div class="talent-title">评测达人</div>-->
+          <!--<div class="rank-list mt-30 text-ct">-->
+            <!--<div class="list-item clear mt-20 pb-20" v-for="(item,index) in showkerReportList" :key="index">-->
+              <!--<div class="inline-block vtc-top mr-10 cl-fff ranking" :class="[index <= 2 ? 'ranking-top-3' : 'ranking']">{{index + 1}}</div>-->
+              <!--<img :src="getUserHead(item.portrait)" alt="" class="border-radius-50 mr-10" width="48" height="48">-->
+              <!--<div class="inline-block text-lf">-->
+                <!--<p>{{item.nickname}}</p>-->
+                <!--<p><span class="main-color">{{item.reportCount}}</span>篇买家秀</p>-->
+                <!--<p>共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
       <!--</div>-->
     </div>
 
@@ -776,6 +815,7 @@
         showTaskFansModal: false,
         allReportNum: 0,
         allShowerNum: 0,
+        showkerReportList: []
       }
     },
     beforeMount() {
@@ -807,11 +847,12 @@
       }
       self.getSearchPresentGetTask();
       self.getHomeTaskList();
-      self.getHomeTaskTopLeftList();
+      // self.getHomeTaskTopLeftList();
       self.personalTrialCount();
       // self.getHomeHistoryList();
       self.getBuyerShowList();
       self.getBuyerShowInformation();
+      self.getShowkerReportRank();
     },
     destroyed() {
       let self = this;
@@ -1123,6 +1164,16 @@
             self.allShowerNum = res.data.allShowerNum;
           } else {
             self.$Message.error(res.msg)
+          }
+        })
+      },
+      getShowkerReportRank() {
+        let _this = this;
+        api.getShowkerReportRank().then(res => {
+          if (res.status) {
+            _this.showkerReportList = res.data;
+          } else {
+            _this.$Message.error(res.msg)
           }
         })
       },
@@ -1564,6 +1615,8 @@
       .talent {
         border-top: 4px solid #ffba41;
         position: relative;
+        background: #fff;
+        /*width: 48%;*/
         .talent-title {
           width: 200px;
           height: 36px;
@@ -1582,14 +1635,39 @@
             display: block;
             width: 0;
             height: 0;
-            border-bottom: 7px solid;
             position: absolute;
             top: 0;
-            border-left: 7px solid transparent;
-            border-bottom-color: #ffba41;
           }
           &::before {
+            border-bottom: 7px solid;
+            border-left: 7px solid transparent;
+            border-bottom-color: #ffba41;
             left: -7px;
+          }
+          &::after {
+            border-bottom: 7px solid;
+            border-right: 7px solid transparent;
+            border-bottom-color: #ffba41;
+            right: -7px;
+          }
+        }
+        .rank-list {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          .list-item {
+            width: 25%;
+            /*width: 50%;*/
+            .ranking {
+              width: 18px;
+              height: 18px;
+              background: url("~assets/img/icon/buyers_top1.png") no-repeat center center;
+            }
+            .ranking-top-3 {
+              width: 18px;
+              height: 18px;
+              background: url("~assets/img/icon/buyers_top2.png") no-repeat center center;
+            }
           }
         }
       }

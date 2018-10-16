@@ -487,15 +487,11 @@
         let qudao = getCookie('from_qudao');
         let condition1 = qudao && qudao === ('MJBS' || 'CPM' || 'BRQ' || 'BDD');
         let condition2 = this.isDSF === 'acceptDisciple';
-        let condition3 = this.selLogin.seller;
-        if (condition3) {
-          if (condition1 || condition2) {
-            return false;
-          } else {
-            return true;
-          }
-        } else {
+        // let condition3 = this.selLogin.seller;
+        if (condition1 || condition2) {
           return false;
+        } else {
+          return true;
         }
       }
     },
@@ -626,10 +622,10 @@
     },
     created() {
       this.getRegVrcode();
-      if (this.$route.name === 'seller') {
-        this.selLogin.buyer = false;
-        this.selLogin.seller = true;
-      }
+      // if (this.$route.name === 'seller') {
+      //   this.selLogin.buyer = false;
+      //   this.selLogin.seller = true;
+      // }
       // 在由销售代表链接进入该页面时，将链接中的标识存储为sessionStorage,保持在跳转其他页面再回来注册是标识还是有效的
       if (!getSessionStorage('saleInvite') && this.saleInvite) {
         setSessionStorage('saleInvite',this.saleInvite);
@@ -683,6 +679,7 @@
       handleReset(name) {
         this.$refs[name].resetFields();
       },
+      // 验证邀请码（邀请码的校验在node端进行，返回布尔值）
       checkInvitationCode() {
         const _this = this;
         return new Promise((resolve, reject) => {
@@ -740,9 +737,9 @@
         self.formCustom.role = 1;
         let recommendCode = '';
         // self.btnState.registerSellerBtn = true;
-        if (getCookie('recommendCode')) {
-          recommendCode = getCookie('recommendCode');
-        }
+        // if (getCookie('recommendCode')) {
+        //   recommendCode = getCookie('recommendCode');
+        // }
         if (getSessionStorage('recommendCode')) {
           recommendCode = getSessionStorage('recommendCode');
         }

@@ -168,7 +168,7 @@
         <!--</div>-->
       <!--</div>-->
       <div class="container">
-        <div class="graphic-info">
+        <div class="graphic-info mt-10">
           <div class="graphic-info-sel">
             <a :class="[graphicInfoSelClass === graphicSel.isClass ? 'active' : '' ]"
                v-for="graphicSel in graphicInfoSels" :key="graphicSel.isClass" @click="graphicSelFunc(graphicSel)">
