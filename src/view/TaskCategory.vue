@@ -111,9 +111,9 @@
                   <em class="price-list left">
                     <span class="cl666 block text-decoration-through">￥{{searchTask.itemPrice }}</span>
                   </em>
-                  <em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="searchTask.perVasFee && searchTask.createTime > uplineTime">
+                  <!--<em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="searchTask.perVasFee && searchTask.createTime > uplineTime">
                     奖励{{computeVasReturnFee(searchTask.perVasFee,searchTask.systemVasFeeCommissionPercent)}}元
-                  </em>
+                  </em>-->
                 </p>
                 <p>
                   <em class="price-list">

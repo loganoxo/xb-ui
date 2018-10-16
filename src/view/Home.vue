@@ -34,7 +34,7 @@
                 <p>hi，你还没登录哦~</p>
               </div>
               <div class="mt-20 default-login">
-                <router-link to="/sel-role">免费注册</router-link>
+                <router-link to="/register">免费注册</router-link>
                 <router-link to="/login">马上登录</router-link>
               </div>
               <div class="text-ct mt-10">
@@ -153,8 +153,11 @@
               </div>
             </div>
             <div class="notice-box">
-              <p>
-                <a v-show="!(getUserRole === 0 && notice.title === '商家问题')" v-for="notice in noticeList"
+              <p v-show="!isLogin">
+                <a class="no-login-title">常见问题</a>
+              </p>
+              <p v-show="isLogin">
+                <a v-for="notice in noticeList"
                    :class="[noticeActive === notice.active ? 'active' : '']"
                    @click="changeNoticeTab(notice)">{{notice.title}}</a>
               </p>
@@ -170,21 +173,35 @@
         </div>
       </div>
       <div class="container clear bg-fff platform-info">
-        <div class="width-pct-25 left platform-info-con">
-          <p>已入驻评测商家</p>
-          <p class="main-color mt-10 f-b fs-14">46425家</p>
-        </div>
-        <div class="width-pct-25 left platform-info-con">
-          <p>今日新增商品数</p>
-          <p class="main-color mt-10 f-b fs-14">{{platformData.newCommodity || 0}}份</p>
-        </div>
-        <div class="width-pct-25 left platform-info-con">
-          <p>昨日登录拿手数</p>
-          <p class="main-color mt-10 f-b fs-14">{{platformData.onlineShowker || 0}}人</p>
-        </div>
-        <div class="width-pct-25 left platform-info-con">
-          <p>今日送出商品数</p>
-          <p class="main-color mt-10 f-b fs-14">{{platformData.outCommodity || 0}}份</p>
+        <div class="data-information clear">
+          <div class="content left clear">
+            <img class="left" src="~assets/img/buyer-show/des_01.png" alt="">
+            <div class="left  ml-15">
+              <p class="number">{{allShowerNum*5}}位</p>
+              <p class="dsc">每日新用户入驻</p>
+            </div>
+          </div>
+          <div class="content left clear">
+            <img class="left" src="~assets/img/buyer-show/des_02.png" alt="">
+            <div class="left  ml-15">
+              <p class="number">{{allReportNum*5}}篇</p>
+              <p class="dsc">买家秀已发表</p>
+            </div>
+          </div>
+          <div class="content left clear">
+            <img class="left" src="~assets/img/buyer-show/des_03.png" alt="">
+            <div class="left  ml-15">
+              <p class="number">100%</p>
+              <p class="dsc">真实原创</p>
+            </div>
+          </div>
+          <div class="content left clear">
+            <img class="left" src="~assets/img/buyer-show/des_04.png" alt="">
+            <div class="left  ml-15">
+              <p class="number">85%以上</p>
+              <p class="dsc">高质量内容</p>
+            </div>
+          </div>
         </div>
       </div>
       <div class="container buyer-xiu clear">
@@ -230,99 +247,99 @@
             </li>
           </ul>
         </div>
-        <div class="right-ctt right ml-5">
-          <ul :class="[leftTopSlider ? 'slider-top-active-right' : 'slider-top-default-right']"
-              @mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">
-            <li v-for="taskTopLeft in taskTopLeftList">
-              <router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}"
-                           :title="taskTopLeft.task.taskName" class="block">
-                <div class="left img-box">
-                  <img :src="taskTopLeft.task.taskMainImage | imageSrc('!thum54')" alt="活动主图" width="54" height="54" class="border-radius-5">
-                </div>
-                <div class="left text-box ml-10">
-                  <p>拿手 {{taskTopLeft.other.nickname}} 免费领取了</p>
-                  <p>
-                    价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝
-                  </p>
-                  <!--<span class="cl999">{{getReceiveTime(taskTopLeft.createTime)}}</span>
-                  <span class="cl999"
-                        v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">分钟前</span>
-                  <span class="cl999"
-                        v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">小时前</span>
-                  <span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">天前</span>-->
-                </div>
-              </router-link>
-            </li>
-          </ul>
-        </div>
+        <!--<div class="right-ctt right ml-5">-->
+          <!--<ul :class="[leftTopSlider ? 'slider-top-active-right' : 'slider-top-default-right']"-->
+              <!--@mouseover="clearLeftTopSliderFunc()" @mouseleave="leftTopSliderFunc()">-->
+            <!--<li v-for="taskTopLeft in taskTopLeftList">-->
+              <!--<router-link :to="{path:'/task-details', query:{q: encryptionId(taskTopLeft.task.id)}}"-->
+                           <!--:title="taskTopLeft.task.taskName" class="block">-->
+                <!--<div class="left img-box">-->
+                  <!--<img :src="taskTopLeft.task.taskMainImage | imageSrc('!thum54')" alt="活动主图" width="54" height="54" class="border-radius-5">-->
+                <!--</div>-->
+                <!--<div class="left text-box ml-10">-->
+                  <!--<p>拿手 {{taskTopLeft.other.nickname}} 免费领取了</p>-->
+                  <!--<p>-->
+                    <!--价值<span class="text ml-5">￥{{taskTopLeft.task.itemPrice / 100}}</span> 的宝贝-->
+                  <!--</p>-->
+                  <!--&lt;!&ndash;<span class="cl999">{{getReceiveTime(taskTopLeft.createTime)}}</span>-->
+                  <!--<span class="cl999"-->
+                        <!--v-if="(new Date() -taskTopLeft.createTime)/1000/60 < 60 || (new Date() -taskTopLeft.createTime)/1000 < 60">分钟前</span>-->
+                  <!--<span class="cl999"-->
+                        <!--v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 < 1 && (new Date() -taskTopLeft.createTime)/1000/60 >= 60">小时前</span>-->
+                  <!--<span class="cl999" v-if="(new Date() -taskTopLeft.createTime)/1000/60/60/24 >= 1">天前</span>&ndash;&gt;-->
+                <!--</div>-->
+              <!--</router-link>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</div>-->
       </div>
       <div class="container mt-5">
         <!--免费领开始-->
-        <div class="home-commodity-half mr-10">
-          <div class="home-commodity-title">
-            <p>
-              <img src="/static/img/icon/free_get_heart.png" alt="">
-              <span class="fs-18 f-b clf99563">好货精选</span>
-              <span class="fs-12 cl666">{{`新增商品${parseInt(platformData.newCommodity / 4) || 0}件`}}</span>
-              <router-link to="/task-category?activityCategory=free_get" class="cl666 right mr-20">更多></router-link>
-            </p>
-          </div>
-          <div class="home-commodity-ctt">
-            <router-link class="home-commodity-details"
-                         target="_blank"
-                         v-for="homeCommodity in homeCommodityList"
-                         :key="homeCommodity.id"
-                         :to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">
-              <div class="home-commodity-img pos-rel">
-                <img class="block" :src="homeCommodity.taskMainImage | imageSrc('!thum400')" alt=""/>
-                <span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>
-                <!--<img src="~assets/img/common/hot-top-subscript.png" class="hot-top-icon">-->
-              </div>
-              <div class="home-commodity-text">
-                <p class="cl000">{{homeCommodity.taskName}}</p>
-                <p class="price">
-                  <em>
-                    <span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>
-                  </em>
-                  <!--<em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
-                  <!--<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">-->
-                  <!--奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元-->
-                  <!--</span>-->
-                </p>
-                <p class="discount-price">
-                  <em>
-                    <span class="f-b" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">
-                      ￥{{(Math.floor((homeCommodity.discountRate/100) * homeCommodity.itemPrice)/100).toFixed(2)}}
-                    </span>
-                    <span class="f-b" v-if="!homeCommodity.discountPrice && !homeCommodity.discountRate">￥0</span>
-                  </em>
-                  <em class="price-icon mt-10">
-                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice"
-                          class="left home-discount-price mt-5"
-                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}">
-                      {{homeCommodity.discountPrice/100}}评测
-                    </span>
-                    <span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate"
-                          class="left home-discount-price mt-5"
-                          :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}">
-                      {{homeCommodity.discountRate/10}}折评测
-                    </span>
-                  </em>
-                </p>
-                <p class="home-commodity-apply">限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span>
-                  份，剩余
-                  <span
-                    class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span>
-                  份
-                <p class="home-commodity-take">
-                  <router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}"
-                               class="ivu-btn ivu-btn-long">免费领取
-                  </router-link>
-                </p>
-              </div>
-            </router-link>
-          </div>
-        </div>
+        <!--<div class="home-commodity-half mr-10">-->
+          <!--<div class="home-commodity-title">-->
+            <!--<p>-->
+              <!--<img src="/static/img/icon/free_get_heart.png" alt="">-->
+              <!--<span class="fs-18 f-b clf99563">好货精选</span>-->
+              <!--<span class="fs-12 cl666">{{`新增商品${parseInt(platformData.newCommodity / 4) || 0}件`}}</span>-->
+              <!--<router-link to="/task-category?activityCategory=free_get" class="cl666 right mr-20">更多></router-link>-->
+            <!--</p>-->
+          <!--</div>-->
+          <!--<div class="home-commodity-ctt">-->
+            <!--<router-link class="home-commodity-details"-->
+                         <!--target="_blank"-->
+                         <!--v-for="homeCommodity in homeCommodityList"-->
+                         <!--:key="homeCommodity.id"-->
+                         <!--:to="{ 'path': '/task-details','query': {'q': encryptionId(homeCommodity.id)}}">-->
+              <!--<div class="home-commodity-img pos-rel">-->
+                <!--<img class="block" :src="homeCommodity.taskMainImage | imageSrc('!thum400')" alt=""/>-->
+                <!--<span class="applied"> {{homeCommodity.showkerApplyTotalCount || 0}} 人已申请</span>-->
+                <!--&lt;!&ndash;<img src="~assets/img/common/hot-top-subscript.png" class="hot-top-icon">&ndash;&gt;-->
+              <!--</div>-->
+              <!--<div class="home-commodity-text">-->
+                <!--<p class="cl000">{{homeCommodity.taskName}}</p>-->
+                <!--<p class="price">-->
+                  <!--<em>-->
+                    <!--<span class="cl666 text-decoration-through">￥{{homeCommodity.itemPrice / 100}}</span>-->
+                  <!--</em>-->
+                  <!--&lt;!&ndash;<em class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span class="vas-fee-return ml-10 pl-5 pr-5" v-if="(homeCommodity.perVasFee || homeCommodity.promotionExpensesPaid && (uplineTime < homeCommodity.createTime))">&ndash;&gt;-->
+                  <!--&lt;!&ndash;奖励{{computeVasReturnFee(homeCommodity.perVasFee,homeCommodity.systemVasFeeCommissionPercent,homeCommodity.activityCategory,homeCommodity.promotionExpensesPaid,homeCommodity.taskCount,homeCommodity.createTime)}}元&ndash;&gt;-->
+                  <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                <!--</p>-->
+                <!--<p class="discount-price">-->
+                  <!--<em>-->
+                    <!--<span class="f-b" v-if="!homeCommodity.discountPrice && homeCommodity.discountRate">-->
+                      <!--￥{{(Math.floor((homeCommodity.discountRate/100) * homeCommodity.itemPrice)/100).toFixed(2)}}-->
+                    <!--</span>-->
+                    <!--<span class="f-b" v-if="!homeCommodity.discountPrice && !homeCommodity.discountRate">￥0</span>-->
+                  <!--</em>-->
+                  <!--<em class="price-icon mt-10">-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountPrice"-->
+                          <!--class="left home-discount-price mt-5"-->
+                          <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountPrice/100)].backgroundColor}">-->
+                      <!--{{homeCommodity.discountPrice/100}}试用-->
+                    <!--</span>-->
+                    <!--<span v-if="homeCommodity.activityCategory === 'price_low' && homeCommodity.discountRate"-->
+                          <!--class="left home-discount-price mt-5"-->
+                          <!--:style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeCommodity.discountRate/10) + '折'].backgroundColor}">-->
+                      <!--{{homeCommodity.discountRate/10}}折试用-->
+                    <!--</span>-->
+                  <!--</em>-->
+                <!--</p>-->
+                <!--<p class="home-commodity-apply">限量 <span class="main-color"> {{homeCommodity.taskCount || 0 }} </span>-->
+                  <!--份，剩余-->
+                  <!--<span-->
+                    <!--class="main-color"> {{homeCommodity.taskCount - homeCommodity.showkerApplySuccessCount || 0}} </span>-->
+                  <!--份-->
+                <!--<p class="home-commodity-take">-->
+                  <!--<router-link :to="{ 'path': '/task-details','query': {'q':encryptionId(homeCommodity.id)}}"-->
+                               <!--class="ivu-btn ivu-btn-long">免费领取-->
+                  <!--</router-link>-->
+                <!--</p>-->
+              <!--</div>-->
+            <!--</router-link>-->
+          <!--</div>-->
+        <!--</div>-->
         <!--免费领结束-->
 
         <!--体验专区开始-->
@@ -330,7 +347,7 @@
           <div class="home-commodity-title">
             <p>
               <img src="/static/img/icon/present_get_heart.png" alt="">
-              <span class="fs-18 f-b cl57C78D">人气评测</span>
+              <span class="fs-18 f-b cl57C78D">人气活动</span>
               <span class="fs-12 cl666">{{`新增商品${parseInt(platformData.newCommodity / 4 * 3) || 0}件`}}</span>
               <router-link to="/task-category?activityCategory=present_get" class="cl666 right mr-20">更多></router-link>
             </p>
@@ -448,7 +465,7 @@
                         <span>
                           <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountPrice"
                             class="left home-discount-price mt-5" :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountPrice/100)].backgroundColor}">
-                          {{homeHistory.discountPrice/100}}评测
+                          {{homeHistory.discountPrice/100}}试用
                           </span>
                           <span v-if="homeHistory.activityCategory === 'price_low' && homeHistory.discountRate" class="left home-discount-price mt-5"
                           :style="{backgroundColor: $store.state.discountPriceType[parseFloat(homeHistory.discountRate/10) + '折'].backgroundColor}">
@@ -471,7 +488,16 @@
               </div>
             </div>-->
       <!--历史活动结束-->
+      <!--达人-->
+      <!--<div class="talent-area clear">-->
+        <!--<div class="talent">-->
+          <!--<div class="talent-title">评测达人</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<div class="talent-left left"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="talent-right right"></div>&ndash;&gt;-->
+      <!--</div>-->
     </div>
+
     <!--添加微信弹窗-->
     <div class="confirm-recharge-model" v-show="$store.state.wechartShow">
       <div class="confirm-recharge-con">
@@ -521,7 +547,7 @@
             <div class="mt-20">
               <img src="~assets/img/home/m-1.png" alt="">
             </div>
-            <p class="desc mt-25">活动成功上线后，平均20分钟就有1人申请评测。由<span class="main-color">亲自己决定什么时间通过、通过多少名额（通过后才能去淘宝下单）</span>，合理控制转化。
+            <p class="desc mt-25">活动成功上线后，平均20分钟就有1人申请试用。由<span class="main-color">亲自己决定什么时间通过、通过多少名额（通过后才能去淘宝下单）</span>，合理控制转化。
             </p>
           </li>
           <li class="left">
@@ -543,7 +569,7 @@
       </div>
       <div slot="footer" class="m-footer text-ct">
         <i-button type="default" class="later-btn" @click="showFirstVisitModel = false">先逛逛再说~</i-button>
-        <i-button class="release-btn" @click="goTaskCreateFast">马上免费发布活动（评测）</i-button>
+        <i-button class="release-btn" @click="goTaskCreateFast">马上免费发布活动（试用）</i-button>
       </div>
     </modal>
     <!-- 商家每天首次登录，显示微信加粉弹框 -->
@@ -644,7 +670,7 @@
               },
               {
                 url: '/user/help-center/faq',
-                text: '支持哪几个平台评测活动？',
+                text: '支持哪几个平台试用活动？',
                 page: 'common',
                 qusNum: '4'
               },
@@ -747,7 +773,9 @@
         },
         presentGet: [],
         showFirstVisitModel: false,
-        showTaskFansModal: false
+        showTaskFansModal: false,
+        allReportNum: 0,
+        allShowerNum: 0,
       }
     },
     beforeMount() {
@@ -783,6 +811,7 @@
       self.personalTrialCount();
       // self.getHomeHistoryList();
       self.getBuyerShowList();
+      self.getBuyerShowInformation();
     },
     destroyed() {
       let self = this;
@@ -1084,7 +1113,19 @@
             setStorage('loginInformation2', JSON.stringify(loginStatus));
           }
         }
-      }
+      },
+      getBuyerShowInformation() {
+        let self = this;
+        api.getBuyerShowInfo().then(res => {
+          if (res.status) {
+            self.getSuperBuyerShowList = res.data.showkerList;
+            self.allReportNum = res.data.allReportNum;
+            self.allShowerNum = res.data.allShowerNum;
+          } else {
+            self.$Message.error(res.msg)
+          }
+        })
+      },
     },
     watch: {
       getUserInfoPhone() {
@@ -1139,7 +1180,7 @@
       .left-ctt {
         padding: 0 10px;
         background-color: #fff;
-        width: 900px;
+        /*width: 900px;*/
         height: 500px;
         overflow: hidden;
         .title {
@@ -1153,7 +1194,7 @@
           width: 10000px;
           li {
             padding: 0 20px 0 0;
-            width: 220px;
+            width: 240px;
             margin-bottom: 52px;
             .top-heart {
               position: absolute;
@@ -1164,6 +1205,7 @@
               border-radius: 3px;
               color: #FF0000;
               padding: 0 3px;
+              text-align: center;
               img {
                 margin-top: 3px;
               }
@@ -1355,6 +1397,11 @@
               border-top: 1px solid #ddd;
               border-bottom: none;
             }
+            a.no-login-title {
+              border-bottom: 1px solid #ddd;
+              text-align: left;
+              padding-left: 22px;
+            }
           }
           .notice-text {
             padding: 8px 0 0 20px;
@@ -1435,8 +1482,8 @@
     .home-commodity-half {
       background-color: #fff;
       border: 1px solid #E8E8E8;
-      width: 595px;
-      float: left;
+      /*width: 595px;*/
+      /*float: left;*/
       margin-bottom: 10px;
       .home-commodity-title {
         height: 60px;
@@ -1507,6 +1554,49 @@
           }
         }
       }
+    }
+    .talent-area {
+      width: 1200px;
+      margin: 10px auto;
+      background: #F1F1F1;
+      min-height: 400px;
+      padding: 20px 10px;
+      .talent {
+        border-top: 4px solid #ffba41;
+        position: relative;
+        .talent-title {
+          width: 200px;
+          height: 36px;
+          line-height: 36px;
+          background: #ffba41;
+          text-align: center;
+          color: #fff;
+          font-weight: bold;
+          font-size: 20px;
+          position: absolute;
+          left: 50%;
+          margin-left: -100px;
+          top: -10px;
+          &::before,&::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-bottom: 7px solid;
+            position: absolute;
+            top: 0;
+            border-left: 7px solid transparent;
+            border-bottom-color: #ffba41;
+          }
+          &::before {
+            left: -7px;
+          }
+        }
+      }
+      /*.talent-left,*/
+      /*.talent-right {*/
+
+      /*}*/
     }
   }
 
@@ -1581,7 +1671,7 @@
   }
 
   .slider-top-active-left {
-    margin-left: -220px;
+    margin-left: -240px;
     animation: sliderTopLeft 1s;
   }
 
@@ -1594,7 +1684,7 @@
       margin-left: 0;
     }
     100% {
-      margin-left: -220px;
+      margin-left: -240px;
     }
   }
 
@@ -1649,10 +1739,26 @@
     }
   }
 
-  .platform-info {
-    margin-top: 20px;
-    text-align: center;
-    padding: 10px 0;
+  .data-information {
+    height: 135px;
+    background-color: #fff;
+    margin-top: 10px;
+    .content {
+      width: 300px;
+      height: 135px;
+      padding: 23px 0px 0px 28px;
+      > div {
+        margin-top: 18px;
+        .number {
+          font-size: 18px;
+        }
+        .dsc {
+          font-size: 16px;
+          color: #666;
+          margin-top: 5px;
+        }
+      }
+    }
   }
 
   .platform-info-con:not(:last-child) {
