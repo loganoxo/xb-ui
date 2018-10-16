@@ -235,7 +235,7 @@
       <div class="text-ct">
         <i-button v-if="hasBalance" type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即购买</i-button>
         <i-button v-else type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即充值</i-button>
-        <i-button v-if="hasTrialQualification" class="pl-40 pr-40 mt-20 fs-14 ml-20" @click="openTheTrial">开通一天试用</i-button>
+        <i-button v-if="hasTrialQualification" class="pl-40 pr-40 mt-20 fs-14 ml-20" @click="openTheTrial">开通一天评测</i-button>
       </div>
       <div slot="footer">
         <div class="text-lf text-indent f-b"><span class="main-color">火眼金睛</span>是平台增值服务功能，激活该功能后可查看平台拿手旺旺号的私密数据，如被商家拉黑的次数及原因，完成活动后收到的商家评价和打标，旺旺号姓别、年龄、地址、购物标签等（功能陆续开发添加中...），使用火眼金睛让你对拿手审核一百个放心！</div>
@@ -310,7 +310,7 @@
       <div class="text-ct" slot="footer">
         <i-button v-show="unSuitableTime" class="pl-40 pr-40 mr-10" type="error" size="large" @click="showkerApplyInfoModal = false">我知道了</i-button>
         <i-button class="pl-40 pr-40 ml-10 mr-10" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(taskApplyId)">仍然通过</i-button>
-        <i-button v-show="!unSuitableTime" class="pl-40 pr-40 ml-10" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToReject(taskApplyId)">拒绝试用</i-button>
+        <i-button v-show="!unSuitableTime" class="pl-40 pr-40 ml-10" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToReject(taskApplyId)">拒绝评测</i-button>
       </div>
     </modal>
     <!--普通会员使用火眼金睛功能提示升级会员弹框-->
@@ -640,7 +640,7 @@
             }).then(res => {
               if (res.status) {
                 _this.showkerApplyInfoModal = true;
-                _this.showkerApplyInfoModalText = `该用户在&nbsp;<span class="main-color">${res.data.daysAgo > 0 ? res.data.daysAgo + '天前' : '24小时'}</span>&nbsp;获得您该店铺的试用资格，${res.data.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}，是否仍然审批通过？`;
+                _this.showkerApplyInfoModalText = `该用户在&nbsp;<span class="main-color">${res.data.daysAgo > 0 ? res.data.daysAgo + '天前' : '24小时'}</span>&nbsp;获得您该店铺的评测资格，${res.data.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}，是否仍然审批通过？`;
               } else {
                 _this.taskWaitToPass(taskApplyId)
               }
@@ -916,7 +916,7 @@
           if (res.status) {
             _this.getValueAddedServiceStatus();
             _this.getEyeTrialQualification();
-            _this.$Message.success('开通试用成功!');
+            _this.$Message.success('开通评测成功!');
             _this.orderEyesModel = false;
           } else {
             _this.$Message.error(res.msg)

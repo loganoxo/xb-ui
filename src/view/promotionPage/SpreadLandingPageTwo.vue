@@ -20,7 +20,7 @@
       <img src="~assets/img/landing-page/promotion-05.png" alt="推广页面">
       <div class="btn-02" @click="goExperience">
         <span class="fs-18 f-b ml-4">马上免费发布活动</span>
-        <span>（试用）</span>
+        <span>（评测）</span>
       </div>
     </div>
     <login-to-register-modal v-model="loginToRegisterModal"/>

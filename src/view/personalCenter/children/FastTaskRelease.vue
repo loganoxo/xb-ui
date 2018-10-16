@@ -11,7 +11,7 @@
       </div>
       <div class="inline-block step left clear">
         <div class="inline-block step-number left">2</div>
-        <div class="inline-block step-text left">活动上线后，商家可审核来申请试用的拿手旺旺号。</div>
+        <div class="inline-block step-text left">活动上线后，商家可审核来申请评测的拿手旺旺号。</div>
         <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
       </div>
       <div class="inline-block step left clear">
@@ -50,7 +50,7 @@
         </div>
         <!--<div class="left activity-type-box mr-10" @click="toTaskFans">-->
           <!--<p>微信加粉</p>-->
-          <!--<p>尾货/试用商品/赠品</p>-->
+          <!--<p>尾货/评测商品/赠品</p>-->
           <!--<p>均可兑换高质量粉丝</p>-->
         <!--</div>-->
       </div>
@@ -76,7 +76,7 @@
           <i-input v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"/>
           <span>元</span>
           <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><icon
-            color="#f9284f" type="information-circled"/>&nbsp;每份试用品的价值必须在1元以上</span>
+            color="#f9284f" type="information-circled"/>&nbsp;每份评测品的价值必须在1元以上</span>
           <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
         </div>
         <div v-show="taskRelease.activityCategory === 'present_get'" class="order-quantity  ml-20 mt-20 mb-20">
@@ -998,7 +998,7 @@
           return;
         }
         if (_this.taskRelease.itemPrice < 1) {
-          _this.$Message.warning('亲，每份试用品的价值必须在1元以上！');
+          _this.$Message.warning('亲，每份评测品的价值必须在1元以上！');
           return;
         }
         if (_this.taskRelease.activityCategory === 'present_get') {

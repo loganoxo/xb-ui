@@ -57,7 +57,7 @@
               <!--<img src="/static/img/icon/giveaway.gif" alt="" >-->
             <!--</i>-->
             <tooltip :content="`新增商品${parseInt(platformData.newCommodity / 4 * 3) || 0}件`" placement="bottom">
-              人气试用
+              人气评测
             </tooltip>
           </a>
           <a :class="[activityCategory === 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">

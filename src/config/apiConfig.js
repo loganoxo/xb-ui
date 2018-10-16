@@ -577,14 +577,14 @@ export default {
   },
 
   /**
-   * 根据拿手任务ID获取试用报告
+   * 根据拿手任务ID获取评测报告
    */
   showkerTaskReport(params) {
     return axiosConfig.post("/api/showker-task-report.json", params)
   },
 
   /**
-   * 根据试用报告ID获取试用报告
+   * 根据评测报告ID获取评测报告
    */
   getTrialReport(params) {
     return axiosConfig.post("/api/trial-report.json", params)
@@ -1067,14 +1067,14 @@ export default {
   },
 
   /**
-   * 获取用户是否有火眼金睛功能试用资格（每个用户仅有一次试用机会）
+   * 获取用户是否有火眼金睛功能评测资格（每个用户仅有一次评测机会）
    */
   eyeTrialQualification(params) {
     return axiosConfig.get('/api/eye-trial-qualification.json', params)
   },
 
   /**
-   * 购买火眼金睛功能一天试用资格
+   * 购买火眼金睛功能一天评测资格
    */
   buyEyeTrialOneDay(params) {
     return axiosConfig.post('/api/buy-eye-trial-one-day.json', params)

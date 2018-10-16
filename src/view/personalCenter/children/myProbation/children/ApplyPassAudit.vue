@@ -177,7 +177,7 @@
       </div>
       <div class="mt-10 pt-10 pb-10 pl-10 bgF1F1F1">
         <p class="f-b">1.禁止秒拍</p>
-        <p class="mt-5 cl666">请确保足够时间的浏览后再下单哦<span class="main-color">（至少3-5分钟）</span>，请按要求操作，否则将失去试用资格，若造成商家<span
+        <p class="mt-5 cl666">请确保足够时间的浏览后再下单哦<span class="main-color">（至少3-5分钟）</span>，请按要求操作，否则将失去评测资格，若造成商家<span
           class="main-color">投诉</span>，平台有权<span class="main-color">冻结</span>您的拿手账号！</p>
         <p class="mt-10 f-b">2. 核对订单</p>
         <p class="mt-5 cl666">请正确填写订单号与实付金额，以免影响返款！若您发现淘宝该宝贝的实付金额高于白拿拿平台显示的商品金额，请勿下单，请结束任务！</p>
@@ -340,13 +340,13 @@
           <radio label="3">还阔以</radio>
           <radio label="1">质量太差了</radio>
         </radio-group>
-        <i-input v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 12}" placeholder="请填写在试用过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"/>
+        <i-input v-model="trialReportText" type="textarea" :autosize="{minRows: 5,maxRows: 12}" placeholder="请填写在评测过程中，对于宝贝的真实使用体会及感受，可以和淘宝上的宝贝评价一致"/>
       </div>
       <div class="experience-img mt-22">
         <div class="mb-10">
           <p><span class="des-text">3.买家秀图片</span><span class="cl666">（白拿拿平台要求）</span></p>
           <p class="cl666">
-            请上传宝贝试用和体验的相关图片，不是淘宝好评的截图。图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M,该组图片将会在白拿拿平台展示哦，多多晒图，更有利于商家选中你哦</p>
+            请上传宝贝评测和体验的相关图片，不是淘宝好评的截图。图片支持jpg、jpeg、png、gif、bmp格式，大小不超过10M,该组图片将会在白拿拿平台展示哦，多多晒图，更有利于商家选中你哦</p>
         </div>
         <upload
           :default-file-list="defaultImageList"
@@ -547,7 +547,7 @@
         <icon type="information-circled"/>
         <span>结束确认</span>
       </p>
-      <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台试用体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
+      <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台评测体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
       <p>
         <radio-group v-model="endReason">
           <radio label="流程太繁琐了" class="mt-20 mr-40"/>
