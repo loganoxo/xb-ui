@@ -39,7 +39,7 @@
           <router-link to="/login">登录白拿拿</router-link>
         </span>
         <span class="user-name">
-          <router-link to="/sel-role">免费注册</router-link>
+          <router-link to="/register">免费注册</router-link>
         </span>
       </p>
       <p class="right">

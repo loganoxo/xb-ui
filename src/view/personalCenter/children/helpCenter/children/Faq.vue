@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-20">
+    <div v-if="isLogin" class="mt-20">
       <button-group shape="circle">
         <i-button :ref="faqSel.ref" v-for="(faqSel,index) in faqSelList" :type="faqSel.type" :key="index" @click="selQuestion(faqSel,index)">{{faqSel.text}}</i-button>
       </button-group>
@@ -26,13 +26,13 @@
             在登录页面，点击[找回密码]，然后按照页面的提示信息输入手机号进行密码重置。
             </p>
           </Panel>
-          <Panel name="4" id="q4">
+          <Panel v-if="isLogin" name="4" id="q4">
             4、支持哪几个平台试用活动？
             <p slot="content">
             目前暂时支持淘宝网和手淘，后续会陆续增加其他平台，敬请关注。
           </p>
           </Panel>
-          <Panel name="5" id="q5">
+          <Panel v-if="isLogin" name="5" id="q5">
             5、一个账户可以绑定几个旺旺号？ 旺旺号要求是什么？
             <div slot="content">
               <p>一个账户可以绑定淘宝一个旺旺号，旺旺号要求：</p>
@@ -42,38 +42,38 @@
               <p>4）历史订单中差评比例低于1%（建议绑定平时购物最多的旺旺号）</p>
             </div>
           </Panel>
-          <Panel name="6" id="q6">
+          <Panel v-if="isLogin" name="6" id="q6">
             6、旺旺号绑定成功了还可以修改或者更换吗？
             <div slot="content">
               <p>绑定成功后可以修改和解绑，但修改或重新绑定后都需要重新审核。</p>
             </div>
           </Panel>
-          <Panel name="7" id="q7">
+          <Panel v-if="isLogin" name="7" id="q7">
             7、申请绑定的旺旺号没通过平台审核怎么办？
             <div slot="content">
               <p>请先核实您绑定的淘宝帐号是否符合要求，核实后，请重新绑定。</p>
             </div>
           </Panel>
           <Panel name="8" id="q8">
-            8、什么是实名认证？为什么要进行实名认证？
+            {{isLogin ? 8 : 4}}、什么是实名认证？为什么要进行实名认证？
             <div slot="content">
               <p>实名认证是对用户资料真实性进行的一种验证审核。经过实名认证的用户可以申请账户提现，这是为了保障亲的账户资金安全。</p>
             </div>
           </Panel>
           <Panel name="9" id="q9">
-            9、如何进行实名认证？
+            {{isLogin ? 9 : 5}}、如何进行实名认证？
             <div slot="content">
             <p>登录后进入个人中心，选择个人设置下的实名认证，按要求填写表单内容提交即可，后台会在24小时内完成审核。</p>
           </div>
           </Panel>
           <Panel name="10" id="q10">
-            10、充值多久后到账？
+            {{isLogin ? 10 : 6}}、充值多久后到账？
             <div slot="content">
               <p>充值成功后，如果账户显示的余额不变，请您不要惊慌，我们的系统是有缓冲时间的，您只需要耐心稍等即可。</p>
             </div>
           </Panel>
           <Panel name="11" id="q11" >
-            <span>11、提现需要手续费吗？</span>
+            <span>{{isLogin ? 11 : 7}}、提现需要手续费吗？</span>
             <div slot="content">
               <p>提现时，平台
                 <span v-if="$store.state.userInfo.role == 1">收取0.1%手续费</span>
@@ -83,7 +83,7 @@
             </div>
           </Panel>
           <Panel name="12" id="q12">
-            <span >12、申请的提现什么时候处理？提现多久后到账？</span>
+            <span >{{isLogin ? 12 : 8}}、申请的提现什么时候处理？提现多久后到账？</span>
             <div slot="content">
               <p>
                 所有当日提交的提现申请，统一次日中午进行返款。成功提现的订单即表示已经打款成功，具体到账时间以每个银行受理时间为准。如遇到周末或者节假日，则统一顺延。
@@ -270,7 +270,11 @@
       })
     },
     created() {},
-    computed: {},
+    computed: {
+      isLogin() {
+        return this.$store.state.login
+      },
+    },
     methods: {
       selQuestion(faqSel,index){
         let self = this;

@@ -16,18 +16,18 @@
         <div class="register-ctt-top-line"></div>
       </div>
       <div class="register-form-box">
-        <div class="register-form-sel">
-            <span class="left" :class="[selLogin.buyer ? 'buyActive' : '']" @click="selLoginFunc(0)">
-              <img v-show="selLogin.buyer" src="~assets/img/register/register_01.png" alt="">
-              <img v-show="!selLogin.buyer" src="~assets/img/register/register_03.png" alt="">
-              拿手注册
-            </span>
-          <span class="left" :class="[selLogin.seller ? 'sellerActive' : '']" @click="selLoginFunc(1)">
-              <img v-show="selLogin.seller" src="~assets/img/register/register_04.png" alt="">
-              <img v-show="!selLogin.seller" src="~assets/img/register/register_02.png" alt="">
-              商家注册
-            </span>
-        </div>
+        <!--<div class="register-form-sel">-->
+            <!--<span class="left" :class="[selLogin.buyer ? 'buyActive' : '']" @click="selLoginFunc(0)">-->
+              <!--<img v-show="selLogin.buyer" src="~assets/img/register/register_01.png" alt="">-->
+              <!--<img v-show="!selLogin.buyer" src="~assets/img/register/register_03.png" alt="">-->
+              <!--拿手注册-->
+            <!--</span>-->
+          <!--<span class="left" :class="[selLogin.seller ? 'sellerActive' : '']" @click="selLoginFunc(1)">-->
+              <!--<img v-show="selLogin.seller" src="~assets/img/register/register_04.png" alt="">-->
+              <!--<img v-show="!selLogin.seller" src="~assets/img/register/register_02.png" alt="">-->
+              <!--商家注册-->
+            <!--</span>-->
+        <!--</div>-->
         <div class="mt-80 form-box">
           <i-form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="400">
             <form-item v-if="needInvitationCode" label="邀请码" prop="invitationCode" required>
@@ -62,12 +62,16 @@
               <checkbox v-model="formCustom.agreeStrip">我已仔细阅读并同意接受</checkbox>
               <a class="fs-12" @click="agreementShow = true">《用户使用协议》</a>
             </form-item>
-            <form-item v-show="selLogin.buyer">
-              <i-button :class="[btnState.registerBuyerBtn ? '' : 'register-buyer-btn']" @click="handleSubmit('formCustom',registerBuyer)" :disabled="btnState.registerBuyerBtn">立即注册</i-button>
-              <i-button class="ml-8" type="primary" ghost @click="handleReset('formCustom')">重置</i-button>
-            </form-item>
-            <form-item v-show="selLogin.seller">
-              <i-button :class="[btnState.registerSellerBtn ? '' : 'register-seller-btn']" @click="handleSubmit('formCustom',registerSeller)">立即注册</i-button>
+            <!--<form-item v-show="selLogin.buyer">-->
+              <!--<i-button :class="[btnState.registerBuyerBtn ? '' : 'register-buyer-btn']" @click="handleSubmit('formCustom',registerBuyer)" :disabled="btnState.registerBuyerBtn">立即注册</i-button>-->
+              <!--<i-button class="ml-8" type="primary" ghost @click="handleReset('formCustom')">重置</i-button>-->
+            <!--</form-item>-->
+            <!--<form-item v-show="selLogin.seller">-->
+              <!--<i-button :class="[btnState.registerSellerBtn ? '' : 'register-seller-btn']" @click="handleSubmit('formCustom',registerSeller)">立即注册</i-button>-->
+              <!--<i-button class="ml-8" type="primary" ghost @click="handleReset('formCustom')">重置</i-button>-->
+            <!--</form-item>-->
+            <form-item>
+              <i-button class="register-seller-btn" @click="handleSubmit('formCustom',registerSeller)">立即注册</i-button>
               <i-button class="ml-8" type="primary" ghost @click="handleReset('formCustom')">重置</i-button>
             </form-item>
           </i-form>
@@ -574,10 +578,10 @@
         formRes: {
           phoneRes: false,
         },
-        btnState: {
-          registerBuyerBtn: false,
-          registerSellerBtn: false,
-        },
+        // btnState: {
+        //   registerBuyerBtn: false,
+        //   registerSellerBtn: false,
+        // },
         formCustom: {
           invitationCode: null,
           phone: null,
@@ -647,26 +651,26 @@
       getRegVrcode() {
         this.regImgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
-      selLoginFunc(num) {
-        if (num === 0) {
-          if (this.fromPage && this.fromPage === 'spreadLandingPage') {
-            this.selLogin.seller = true;
-            this.selLogin.buyer = false;
-          } else if (this.isDSF && this.isDSF === 'acceptDisciple') {
-            this.selLogin.seller = true;
-            this.selLogin.buyer = false;
-          } else if (this.saleInvite) {
-            this.selLogin.seller = true;
-            this.selLogin.buyer = false;
-          } else {
-            this.selLogin.buyer = true;
-            this.selLogin.seller = false
-          }
-        } else {
-          this.selLogin.seller = true;
-          this.selLogin.buyer = false;
-        }
-      },
+      // selLoginFunc(num) {
+      //   if (num === 0) {
+      //     if (this.fromPage && this.fromPage === 'spreadLandingPage') {
+      //       this.selLogin.seller = true;
+      //       this.selLogin.buyer = false;
+      //     } else if (this.isDSF && this.isDSF === 'acceptDisciple') {
+      //       this.selLogin.seller = true;
+      //       this.selLogin.buyer = false;
+      //     } else if (this.saleInvite) {
+      //       this.selLogin.seller = true;
+      //       this.selLogin.buyer = false;
+      //     } else {
+      //       this.selLogin.buyer = true;
+      //       this.selLogin.seller = false
+      //     }
+      //   } else {
+      //     this.selLogin.seller = true;
+      //     this.selLogin.buyer = false;
+      //   }
+      // },
       handleSubmit(name, callback) {
         let res = false;
         this.$refs[name].validate((valid) => {
@@ -694,48 +698,48 @@
           })
         });
       },
-      registerBuyer() {
-        const self = this;
-        self.formCustom.role = 0;
-        let recommendCode = '';
-        self.btnState.registerBuyerBtn = true;
-        if (getCookie('recommendCode')) {
-          recommendCode = getCookie('recommendCode');
-        }
-        api.register({
-          phone: self.formCustom.phone,
-          pwd: self.formCustom.pwd,
-          repwd: self.formCustom.repwd,
-          nickName: '',
-          smsCode: self.formCustom.smsCode,
-          validateCode: self.formCustom.validateCode,
-          role: self.formCustom.role,
-          qqNumber: self.formCustom.qqNumber,
-          purpose: 'reg',
-          recommendCode: recommendCode,
-          platForm: 'PC',
-        }).then((res) => {
-          if (res.status) {
-            self.$Message.success({
-              content: "注册成功",
-              duration: 1,
-              onClose: function () {
-                delCookie('recommendCode');
-                self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
-              }
-            });
-          } else {
-            self.$Message.error(res.msg);
-            self.getRegVrcode();
-          }
-          self.btnState.registerBuyerBtn = false;
-        })
-      },
+      // registerBuyer() {
+      //   const self = this;
+      //   self.formCustom.role = 0;
+      //   let recommendCode = '';
+      //   self.btnState.registerBuyerBtn = true;
+      //   if (getCookie('recommendCode')) {
+      //     recommendCode = getCookie('recommendCode');
+      //   }
+      //   api.register({
+      //     phone: self.formCustom.phone,
+      //     pwd: self.formCustom.pwd,
+      //     repwd: self.formCustom.repwd,
+      //     nickName: '',
+      //     smsCode: self.formCustom.smsCode,
+      //     validateCode: self.formCustom.validateCode,
+      //     role: self.formCustom.role,
+      //     qqNumber: self.formCustom.qqNumber,
+      //     purpose: 'reg',
+      //     recommendCode: recommendCode,
+      //     platForm: 'PC',
+      //   }).then((res) => {
+      //     if (res.status) {
+      //       self.$Message.success({
+      //         content: "注册成功",
+      //         duration: 1,
+      //         onClose: function () {
+      //           delCookie('recommendCode');
+      //           self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
+      //         }
+      //       });
+      //     } else {
+      //       self.$Message.error(res.msg);
+      //       self.getRegVrcode();
+      //     }
+      //     self.btnState.registerBuyerBtn = false;
+      //   })
+      // },
       async registerSeller() {
         const self = this;
         self.formCustom.role = 1;
         let recommendCode = '';
-        self.btnState.registerSellerBtn = true;
+        // self.btnState.registerSellerBtn = true;
         if (getCookie('recommendCode')) {
           recommendCode = getCookie('recommendCode');
         }
@@ -782,7 +786,7 @@
             self.$Message.error(res.msg);
             self.getRegVrcode();
           }
-          self.btnState.registerSellerBtn = false;
+          // self.btnState.registerSellerBtn = false;
         })
       },
       setUserInfo(phone, pwd) {
@@ -878,7 +882,7 @@
   .register-form-box {
     width: 1000px;
     margin: 40px auto auto auto;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     .form-box {
       padding-bottom: 30px;
       .register-seller-btn {

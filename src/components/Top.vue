@@ -19,9 +19,14 @@
             </div>
           </div>
         </div>
-         <a v-if="searchRight.adUrl" :href="searchRight.adUrl" class="seller-guide left" target="_blank">
-           <img :src="searchRight.adImg | imageSrc('!orgi75')" alt="广告图片">
-         </a>
+        <div class="left text-ct cl666 vrtext ml-20">
+          <p>关注微信公众号</p>
+          <p>获取最新试用商品</p>
+        </div>
+        <img src="~assets/img/common/vrcode.jpg" alt="" width="54" height="54" class="left vrcode ml-10">
+         <!--<a v-if="searchRight.adUrl" :href="searchRight.adUrl" class="seller-guide left" target="_blank">-->
+           <!--<img :src="searchRight.adImg | imageSrc('!orgi75')" alt="广告图片">-->
+         <!--</a>-->
       </div>
     </div>
     <div class="home-nav">
@@ -47,17 +52,17 @@
         </div>
         <div class="home-nav-list clear">
           <a :class="[activityCategory === 'home' ? 'active' : '']" @click="selTaskCategoryHome">首页</a>
-          <a :class="[activityCategory === 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >
-            <tooltip :content="`新增商品${parseInt(platformData.newCommodity / 4) || 0}件`" placement="bottom">
-              好货精选
-            </tooltip>
-          </a>
+          <!--<a :class="[activityCategory === 'free_get' ? 'active' : '']" @click="selTaskCategoryFunc('free_get')" >-->
+            <!--<tooltip :content="`新增商品${parseInt(platformData.newCommodity / 4) || 0}件`" placement="bottom">-->
+              <!--好货精选-->
+            <!--</tooltip>-->
+          <!--</a>-->
           <a :class="[activityCategory === 'present_get' ? 'active' : '']" @click="selTaskCategoryFunc('present_get')" >
             <!--<i style="position: absolute; top: -16px; left: 13px;">-->
               <!--<img src="/static/img/icon/giveaway.gif" alt="" >-->
             <!--</i>-->
             <tooltip :content="`新增商品${parseInt(platformData.newCommodity / 4 * 3) || 0}件`" placement="bottom">
-              人气试用
+              人气活动
             </tooltip>
           </a>
           <a :class="[activityCategory === 'buyer-show' ? 'active' : '']" @click="linkToBuyerShow('buyer-show')">
@@ -355,6 +360,12 @@
           width: 100%;
         }
       }
+    }
+    .vrtext {
+      padding-top: 62px;
+    }
+    .vrcode {
+      margin-top: 52px;
     }
   }
   .seller-enter{

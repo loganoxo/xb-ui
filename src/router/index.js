@@ -276,30 +276,37 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: _import('Register'),
-      children: [
-        {
-          path: 'seller-register',
-          name: 'seller',
-          meta: {
-            title: "用户注册",
-            logInAuthority: false,
-            topShow: false,
-            bottomShow: true,
-            role: null,
-          },
-        },
-        {
-          path: 'buyer-register',
-          name: 'buyer',
-          meta: {
-            title: "用户注册",
-            logInAuthority: false,
-            topShow: false,
-            bottomShow: true,
-            role: null,
-          },
-        },
-      ]
+      meta: {
+        title: "用户注册",
+        logInAuthority: false,
+        topShow: false,
+        bottomShow: true,
+        role: null,
+      },
+      // children: [
+      //   {
+      //     path: 'seller-register',
+      //     name: 'seller',
+      //     meta: {
+      //       title: "用户注册",
+      //       logInAuthority: false,
+      //       topShow: false,
+      //       bottomShow: true,
+      //       role: null,
+      //     },
+      //   },
+      //   {
+      //     path: 'buyer-register',
+      //     name: 'buyer',
+      //     meta: {
+      //       title: "用户注册",
+      //       logInAuthority: false,
+      //       topShow: false,
+      //       bottomShow: true,
+      //       role: null,
+      //     },
+      //   },
+      // ]
     },
     {
       path: '/task-category',

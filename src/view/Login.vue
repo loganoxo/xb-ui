@@ -88,7 +88,7 @@
                   <!--<img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">-->
                   <!--QQ账号登录-->
                 <!--</a>-->
-                <iButton class="right mt-6 ml-5" size="small" type="primary" @click="goSelRole">注册</iButton>
+                <iButton class="right mt-6 ml-5" size="small" type="primary" @click="toRegister">注册</iButton>
                 <span class="right">没有账号，点击</span>
               </p>
             </div>
@@ -234,6 +234,9 @@
       }
     },
     methods: {
+      toRegister() {
+        this.$router.push({path: '/register'});
+      },
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
