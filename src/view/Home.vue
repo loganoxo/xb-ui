@@ -488,12 +488,16 @@
               </div>
             </div>-->
       <!--历史活动结束-->
+      <!--达人-->
+      <!--<div class="talent-area clear">-->
+        <!--<div class="talent">-->
+          <!--<div class="talent-title">评测达人</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<div class="talent-left left"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="talent-right right"></div>&ndash;&gt;-->
+      <!--</div>-->
     </div>
-    <!--达人-->
-    <div class="talent-area clear">
-      <div class="talent-left left"></div>
-      <div class="talent-right right"></div>
-    </div>
+
     <!--添加微信弹窗-->
     <div class="confirm-recharge-model" v-show="$store.state.wechartShow">
       <div class="confirm-recharge-con">
@@ -1147,15 +1151,6 @@
     background-color: rgba(55, 55, 55, .6);
   }
 
-  .talent-area {
-    background: #F1F1F1;
-    min-height: 400px;
-    .talent-left,
-    .talent-right {
-
-    }
-  }
-
   .confirm-recharge-con {
     position: absolute;
     top: 20%;
@@ -1559,6 +1554,49 @@
           }
         }
       }
+    }
+    .talent-area {
+      width: 1200px;
+      margin: 10px auto;
+      background: #F1F1F1;
+      min-height: 400px;
+      padding: 20px 10px;
+      .talent {
+        border-top: 4px solid #ffba41;
+        position: relative;
+        .talent-title {
+          width: 200px;
+          height: 36px;
+          line-height: 36px;
+          background: #ffba41;
+          text-align: center;
+          color: #fff;
+          font-weight: bold;
+          font-size: 20px;
+          position: absolute;
+          left: 50%;
+          margin-left: -100px;
+          top: -10px;
+          &::before,&::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-bottom: 7px solid;
+            position: absolute;
+            top: 0;
+            border-left: 7px solid transparent;
+            border-bottom-color: #ffba41;
+          }
+          &::before {
+            left: -7px;
+          }
+        }
+      }
+      /*.talent-left,*/
+      /*.talent-right {*/
+
+      /*}*/
     }
   }
 
