@@ -2054,7 +2054,8 @@
        * @return {number}
        */
       oneValueAddedCost() {
-        return this.vasMainItemCost + this.vasSimilarItemCost
+        // return this.vasMainItemCost + this.vasSimilarItemCost
+        return 0
       },
 
       /**
