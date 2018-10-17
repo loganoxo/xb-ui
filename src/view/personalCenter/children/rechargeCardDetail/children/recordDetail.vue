@@ -20,7 +20,7 @@
         <td>支付活动推广费-充值卡</td>
         <td>PS142251552825454548451854515</td>
         <td class="light-green">+150</td>
-        <td class="cursor-p blue">查看</td>
+        <td class="cursor-p blue" @click="getReturnDetail">查看</td>
       </tr>
       </tbody>
       <tbody class="text-ct">
@@ -33,7 +33,7 @@
       <page :total="recordPage.totalElements" :current="recordPage.pageIndex" :page-size="recordPage.pageSize" @on-change="changeRecordPage" class="right"></page>
     </div>
     <!--查看返还到充值卡的推广费明细-->
-    <modal v-model="showRetrunDetailModal" width="800">
+    <modal v-model="showReturnDetailModal" width="800">
       <div slot="header">活动编号：<span style="color: red;">1515151515151555151,&nbsp;</span>共返还推广费：<span
         style="color: red;">{{(10000 / 100).toFixed(2)}}</span>&nbsp;元
       </div>
@@ -133,7 +133,7 @@
           totalElements: 0,
         },
         returnDetailList: [],
-        showRetrunDetailModal: true
+        showReturnDetailModal: false
       }
     },
     computed: {
@@ -177,6 +177,25 @@
           }
           _this.loading = false;
         })
+      },
+      getReturnDetail(tradeType,taskNum) {
+        const _this = this;
+        api.getRechargeCardRecordTradeDetail({
+          tradeType: tradeType,
+          taskNum: taskNum,
+          pageIndex: _this.returnPage.pageIndex,
+          pageSize: _this.returnPage.pageSize
+        }).then(res => {
+          if (res.status) {
+            console.log(res.data);
+            _this.showReturnDetailModal = true;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      getRechargeCardRecordTradeDetail(tradeType,taskNum) {
+
       }
 
 
