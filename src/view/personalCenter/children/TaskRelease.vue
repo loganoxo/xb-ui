@@ -2534,6 +2534,11 @@
             _this.$Message.warning('亲，拍下数量不能为空！');
             return;
           }
+          if (_this.taskRelease.sku === 'customizeSku') {
+            if (!_this.sku.colorSku || !_this.sku.sizeSku) {
+              _this.$Message.warning('亲，请输入拍下规格信息！')
+            }
+          }
           if (!_this.taskRelease.presentPrice) {
             _this.$Message.warning('亲，赠品价格不能为空！');
             return;
@@ -3156,6 +3161,7 @@
             });
             _this.taskRelease.activityCategory = 'present_get';
             // 复制活动时活动份数为taskCount + returnCount
+            // 如果拍下规格为自定义的时候
             _this.taskRelease.taskCount = res.data.taskCount + res.data.returnCount * 1;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
