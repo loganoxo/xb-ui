@@ -3126,7 +3126,7 @@
           taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
-            _this.getTaskVasSelectInfo(_this.editTaskId);
+            // _this.getTaskVasSelectInfo(_this.editTaskId);
             _this.mainDefaultList = [];
             _this.pcDefaultList = [];
             _this.appDefaultList = [];
@@ -3211,6 +3211,9 @@
             if (res.data.donotPostPhoto && activityCategory === 'free_get') {
               _this.taskRelease.donotPostPhoto = 'false';
             }
+
+            // 重置所有增值服务为空
+
 
             if (res.data.refuseOldShowkerFor30Days) {
               _this.trialCondition = 'refuseOldShowkerFor30Days'
