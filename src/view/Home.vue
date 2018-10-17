@@ -810,6 +810,25 @@
           discountTypes: '',
           zoneFilters: ['coin_earn'],
         },
+        // 人气活动数据去活动列表数据（按人气排）
+        PopularityActivityParams: {
+          pageIndex: 1,
+          pageSize: 10,
+          taskName: '',
+          taskTypes: [],
+          itemCatalogs: [],
+          sortField: 'showkerApplyTotalCount',
+          sortOrder: 'desc',
+          ifAccess: false,
+          activityCategories: ["present_get"],
+          discountTypes: [],
+          countLeft0ToEnd: true,
+          itemCatalogFilters: [],
+          zoneFilters: ['coin_earn'],
+          onlyAvailableCertainlyHit: false,
+          donotShowSpeedUp: true,
+          justShowNormalOrder: true
+        },
         presentGet: [],
         showFirstVisitModel: false,
         showTaskFansModal: false,
@@ -845,7 +864,7 @@
       } else {
         self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
       }
-      self.getSearchPresentGetTask();
+      // self.getSearchPresentGetTask();
       self.getHomeTaskList();
       // self.getHomeTaskTopLeftList();
       self.personalTrialCount();
@@ -853,6 +872,7 @@
       self.getBuyerShowList();
       self.getBuyerShowInformation();
       self.getShowkerReportRank();
+      self.getPopularityActivityList();
     },
     destroyed() {
       let self = this;
@@ -1177,6 +1197,33 @@
           }
         })
       },
+      getPopularityActivityList() {
+        const _this = this;
+        api.getSearchTask({
+          pageIndex: _this.PopularityActivityParams.pageIndex,
+          pageSize: _this.PopularityActivityParams.pageSize,
+          taskName: _this.PopularityActivityParams.taskName,
+          taskTypes: JSON.stringify(_this.PopularityActivityParams.taskTypes),
+          itemCatalogs: JSON.stringify(_this.PopularityActivityParams.itemCatalogs),
+          sortField: _this.PopularityActivityParams.sortField,
+          sortOrder: _this.PopularityActivityParams.sortOrder,
+          showkerId: '',
+          ifAccess: _this.PopularityActivityParams.ifAccess.length > 0,
+          discountTypes: _this.PopularityActivityParams.discountTypes ? JSON.stringify(_this.PopularityActivityParams.discountTypes) : '',
+          activityCategories: _this.PopularityActivityParams.activityCategories ? JSON.stringify(_this.PopularityActivityParams.activityCategories) : '',
+          countLeft0ToEnd: _this.PopularityActivityParams.countLeft0ToEnd,
+          zoneFilters: _this.PopularityActivityParams.zoneFilters ? JSON.stringify(_this.PopularityActivityParams.zoneFilters) : '',
+          onlyAvailableCertainlyHit: _this.PopularityActivityParams.onlyAvailableCertainlyHit,
+          donotShowSpeedUp: _this.PopularityActivityParams.donotShowSpeedUp,
+          justShowNormalOrder: true
+        }).then(res => {
+          if (res.status) {
+            _this.presentGet = res.data.content;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      }
     },
     watch: {
       getUserInfoPhone() {
