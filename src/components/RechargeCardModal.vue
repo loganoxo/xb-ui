@@ -160,12 +160,6 @@
         this.payMoney = this.selectCard.rechargeAmount;
         this.step = 'pay';
       },
-      confirmPayment() {
-
-      },
-      needPayMoneyText() {
-
-      },
       getRechargeCardConfig() {
         const _this = this;
         api.getRechargeCardConfig().then(res => {

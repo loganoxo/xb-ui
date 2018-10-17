@@ -1061,7 +1061,7 @@
       <pay-model ref="payModelRef" :showPayMethod="true" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
                  :isShowUpgradeVIP="true" :isBalance="isBalance" :offerMethod="offerMethod"
                  @change="offerMethod = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber"
-                 :disabledRedEnvelopes="disabledRedEnvelopes" :promotionExpenses="allPromotionExpenses" :rechargeCardBalance="getRechargeCardBalance">
+                 :disabledRedEnvelopes="disabledRedEnvelopes" :promotionExpenses="allPromotionExpenses">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="sizeColor3"><icon color="#FF2424" size="18px" type="md-alert"/><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
@@ -1069,8 +1069,8 @@
           <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
-          <icon color="#FF2424" size="18px" type="md-alert"/>
-          <span class="ml-5">您本次需要支付金额为 <span
+          <icon color="#FF2424" type="md-alert"/>
+          <span class="vtc-mid">您本次需要支付金额为 <span
             class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。
             <span v-if="offerMethod === 'rechargeCard' && isRechargeCardBalance">充值卡支付{{(allPromotionExpenses / 100).toFixed(2)}}元，余额支付{{((needPayMoneyAfterAsRedEnvelopes - allPromotionExpenses)/100).toFixed(2)}}元</span>
             <span v-if="offerMethod === 'rechargeCard' && !isRechargeCardBalance">充值卡支付{{(getRechargeCardBalance / 100).toFixed(2)}}元，余额支付{{((needPayMoneyAfterAsRedEnvelopes - getRechargeCardBalance)/100).toFixed(2)}}元</span>
@@ -1914,7 +1914,6 @@
       isRechargeCardBalance() {
         return this.getRechargeCardBalance > this.allPromotionExpenses
       },
-
 
       /**
        * 计算余额是否足够支付需要补充的订单金额
