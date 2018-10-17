@@ -116,14 +116,14 @@
           <span class="main-color f-b">建议勾选！</span>
           <span class="sizeColor2">（若审核通过的拿手当日未加入购物车，在次日仍可继续下单购买，活动剩余名额也自动转为当日单）</span>
         </div>
-        <div class="trial-condition ml-20 mt-20">
-          <span class="ml-8">申请条件：</span>
-          <radio-group v-model="trialCondition">
-            <radio label="all">不限制</radio>
-            <radio label="refuseOldShowkerFor15Days" class="ml-20">拒绝15天内本店下过单的拿手再次申请</radio>
-            <radio label="refuseOldShowkerFor30Days" class="ml-20">拒绝30天内本店下过单的拿手再次申请</radio><br/>
-            <radio label="refuseOldShowkerForMerchant15Days" class="ml-45">拒绝15天内本账号下过单的拿手再次申请</radio>
-            <radio label="refuseOldShowkerForMerchant30Days" class="ml-10">拒绝30天内本账号下过单的拿手再次申请</radio>
+        <div class="trial-condition ml-20 mt-20 clear">
+          <span class="ml-8 left">申请条件：</span>
+          <radio-group v-model="trialCondition" class="left">
+            <radio label="all" class="">不限制</radio>
+            <radio label="refuseOldShowkerFor15Days" class="ml-10">拒绝15天内本店下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerFor30Days" class="ml-10">拒绝30天内本店下过单的拿手再次申请</radio><br/>
+            <radio label="refuseOldShowkerForMerchant15Days" class="mt-10">拒绝15天内本账号下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerForMerchant30Days" class="ml-10 mt-10">拒绝30天内本账号下过单的拿手再次申请</radio>
             <!--<radio label="refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
         </div>
@@ -316,67 +316,72 @@
             <radio label="no_credit_pay"><span>禁止使信用卡付款</span></radio>
           </radio-group>
         </div>
-        <div v-show="taskRelease.activityCategory === 'present_get'" class="donotPostPhoto ml-20 mt-20 clear">
-          <span class="left required">晒图要求：</span>
-          <radio-group v-model="taskRelease.donotPostPhoto">
-            <radio label="true">
-              <span>请勿晒图</span>
-            </radio>
-            <radio label="false">
-              <span>无所谓</span>
-            </radio>
-          </radio-group>
-        </div>
+        <!--<div v-show="taskRelease.activityCategory === 'present_get'" class="donotPostPhoto ml-20 mt-20 clear">-->
+          <!--<span class="left required">晒图要求：</span>-->
+          <!--<radio-group v-model="taskRelease.donotPostPhoto">-->
+            <!--<radio label="true">-->
+              <!--<span>请勿晒图</span>-->
+            <!--</radio>-->
+            <!--<radio label="false">-->
+              <!--<span>无所谓</span>-->
+            <!--</radio>-->
+          <!--</radio-group>-->
+        <!--</div>-->
         <div class="evaluation-requirements mt-20 clear">
-          <span class="left ml-20 mt-5 required">评价期望：</span>
-          <div class="left">
-            <radio-group v-model="taskRelease.itemReviewRequired" :vertical="true" @on-change="changeSelectEvaluation">
-              <radio label="review_by_showker_self">
-                <span>无需求（拿手自主发挥评价更客观。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-              </radio>
-              <radio label="offer_review_summary"><span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-              </radio>
-              <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10 width-500" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"/>
-              <radio label="assign_review_detail">
-                <span>参考范本（拿手有可能直接拷贝该范本，为防止评价重复，建议每个名额提供一种范本。）</span>
-              </radio>
-            </radio-group>
-            <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
-              最多为每份名额提供一份内容，可以不添加（不添加表示无要求），系统会对已添加内容进行唯一分配，保证内容不重复。</p>
-            <div class="afford-evaluation-list mt-10" v-show="taskRelease.itemReviewRequired === 'assign_review_detail'">
-              <p class="clear" v-for="(item, index) in itemReviewList" :key="item.index">
-                <span class="vtc-sup left mt-20">{{`评价${index + 1}`}}：</span>
-                <i-input v-model="item.reviewContent" class="mb-10 width-400 mt-8 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
-                <upload class="inline-block left ml-10"
-                        :default-file-list="defaultItemReviewImages[index]"
-                        :item-index="index"
-                        :on-remove="removeEvaluateImage"
-                        :on-success="evaluateImageSuccess"
-                        :format="['jpg','jpeg','png','gif','bmp']"
-                        :max-size="1024"
-                        :uploadLength="5"
-                        name="task"
-                        :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize"
-                        type="drag">
-                  <div class="camera">
-                    <icon type="ios-camera" size="20"/>
-                  </div>
-                </upload>
-                <i-button :disabled="itemReviewList.length === 1" class="ml-10 mt-15 left" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
-              </p>
-              <i-button :disabled="itemReviewList.length === taskRelease.taskCount || !taskRelease.taskCount" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
-              <span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；近期免费，收费待定。</span>
-            </div>
-          </div>
+          <!--<span class="left ml-20 mt-5 required">评价期望：</span>-->
+          <span class="left ml-28 mt-2">评价相关：</span>
+          <!--<div class="left">-->
+            <!--<radio-group v-model="taskRelease.itemReviewRequired" :vertical="true" @on-change="changeSelectEvaluation">-->
+              <!--<radio label="review_by_showker_self">-->
+                <!--<span>无需求（拿手自主发挥评价更客观。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>-->
+              <!--</radio>-->
+              <!--<radio label="offer_review_summary"><span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>-->
+              <!--</radio>-->
+              <!--<i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10 width-500" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"/>-->
+              <!--<radio label="assign_review_detail">-->
+                <!--<span>参考范本（拿手有可能直接拷贝该范本，为防止评价重复，建议每个名额提供一种范本。）</span>-->
+              <!--</radio>-->
+            <!--</radio-group>-->
+            <!--<p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">-->
+              <!--最多为每份名额提供一份内容，可以不添加（不添加表示无要求），系统会对已添加内容进行唯一分配，保证内容不重复。</p>-->
+            <!--<div class="afford-evaluation-list mt-10" v-show="taskRelease.itemReviewRequired === 'assign_review_detail'">-->
+              <!--<p class="clear" v-for="(item, index) in itemReviewList" :key="item.index">-->
+                <!--<span class="vtc-sup left mt-20">{{`评价${index + 1}`}}：</span>-->
+                <!--<i-input v-model="item.reviewContent" class="mb-10 width-400 mt-8 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>-->
+                <!--<upload class="inline-block left ml-10"-->
+                        <!--:default-file-list="defaultItemReviewImages[index]"-->
+                        <!--:item-index="index"-->
+                        <!--:on-remove="removeEvaluateImage"-->
+                        <!--:on-success="evaluateImageSuccess"-->
+                        <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+                        <!--:max-size="1024"-->
+                        <!--:uploadLength="5"-->
+                        <!--name="task"-->
+                        <!--:on-format-error="handleFormatError"-->
+                        <!--:on-exceeded-size="handleMaxSize"-->
+                        <!--type="drag">-->
+                  <!--<div class="camera">-->
+                    <!--<icon type="ios-camera" size="20"/>-->
+                  <!--</div>-->
+                <!--</upload>-->
+                <!--<i-button :disabled="itemReviewList.length === 1" class="ml-10 mt-15 left" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>-->
+              <!--</p>-->
+              <!--<i-button :disabled="itemReviewList.length === taskRelease.taskCount || !taskRelease.taskCount" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>-->
+              <!--<span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；近期免费，收费待定。</span>-->
+            <!--</div>-->
+          <!--</div>-->
+          <span class="main-color left">本平台要求拿手根据实际收货情况对商品做出客观真实评价，如果有疑问请联系平台客服！ <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="common-service qq-service text-ct">点击咨询</a></span>
         </div>
-        <div class="task-remark ml-28 mt-15 clear">
-          <span class="left">下单要求：</span>
+        <div class="task-remark ml-52 mt-15 clear">
+          <!--<span class="left">下单要求：</span>-->
+          <span class="left">备注：</span>
           <div class="left">
-            <i-input class="task-remark-input" type="textarea" :maxlength="30" v-model="taskRelease.remark"/>
-            <p class="lht20 mt-10 cl999">1、限制（30字），如果您有指定下单规格，请在下单要求中填写。</p>
-            <p class="lht20 cl999">2、请勿在未勾选增值服务的情况要求拿手执行，若拿手未执行，不算违规。</p>
-            <p class="lht20 cl999">3、如果对拿手有特别的要求，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！</p>
+            <!--<i-input class="task-remark-input" type="textarea" :maxlength="30" v-model="taskRelease.remark"/>-->
+            <i-input class="task-remark-input" type="textarea" v-model="taskRelease.remark"/>
+            <!--<p class="lht20 mt-10 cl999">1、限制（30字），如果您有指定下单规格，请在下单要求中填写。</p>-->
+            <!--<p class="lht20 cl999">2、请勿在未勾选增值服务的情况要求拿手执行，若拿手未执行，不算违规。</p>-->
+            <!--<p class="lht20 cl999">3、如果对拿手有特别的要求，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！</p>-->
+            <p class="cl999 mt-10">如果与拿手需要沟通，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！</p>
           </div>
         </div>
         <div class="product-introduction ml-10 mt-20">
@@ -2540,10 +2545,10 @@
           _this.$Message.warning('亲，请选择评测折扣！');
           return;
         }
-        if (_this.taskRelease.remark && _this.taskRelease.remark.length > 300) {
+       /* if (_this.taskRelease.remark && _this.taskRelease.remark.length > 300) {
           _this.$Message.warning('亲，下单要求说明不能超过300个字！');
           return;
-        }
+        }*/
         if (_this.taskRelease.itemReviewRequired === 'offer_review_summary' && !_this.taskRelease.itemReviewSummary) {
           _this.$Message.warning('亲，请填写你对评价的大概要求！');
           return;
@@ -3149,6 +3154,9 @@
 
             // 活动免审状态
             _this.doNotAudit.doNotAuditStatus = res.data.withoutAudit ? res.data.withoutAudit : false;
+
+            // 评价期望全部重置为：无需求
+            _this.taskRelease.itemReviewRequired = 'review_by_showker_self';
 
             // 是否是首发活动标识
             _this.isFastPublish = res.data.fastPublish ? res.data.fastPublish : false;
@@ -4607,6 +4615,25 @@
 
     .text-orange {
       color: #fd6b22;
+    }
+
+    .common-service {
+      display: inline-block;
+      width: 86px;
+      height: 24px;
+      background-color: #E5E5E5;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background-repeat: no-repeat;
+      background-position: 4px 2px;
+      padding-left: 25px;
+      text-align: left;
+      font-size: 14px;
+      color: #000;
+      margin-top: 10px;
+      &.qq-service {
+        background-image: url("~assets/img/common/qq-icon.png");
+      }
     }
   }
 
