@@ -1354,7 +1354,7 @@
             }
           }
         },
-        showPayModel: true,
+        showPayModel: false,
         stepName: 'information',
         taskLoading: false,
         storeCheckFailCount: 0,
@@ -1712,19 +1712,10 @@
         vm.getStoreBindInfoList()
       })
     },*/
-/*
-    mounted() {
-      const _this = this;
-      const imgHandlerPresentGet = async function (image) {
-        _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
-        if (image) {
-          let fileInput = document.getElementById('presentGet');
-          fileInput.click()
-        }
-      };
-      _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
+
+    beforeRouteLeave(to, from, next) {
+      next()
     },
-*/
     created() {
       this.getItemCatalog();
       this.getTaskVasList();

@@ -1384,7 +1384,7 @@ export default {
   /**
    * 获取充值卡收支明细
    */
-  getRechargeCardRecordDetai(params) {
+  getRechargeCardRecordDetail(params) {
     return axiosConfig.get('/api/get-recharge-card-record-detail.json',params)
   },
 
@@ -1393,9 +1393,6 @@ export default {
    */
   getRechargeCardRecordTradeDetail(params) {
     return axiosConfig.get('/api/get-recharge-card-record-trade-detail.json',params)
-  },
-
-
   },
 
   /**
