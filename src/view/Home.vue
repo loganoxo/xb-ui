@@ -489,21 +489,21 @@
             </div>-->
       <!--历史活动结束-->
       <!--达人-->
-      <!--<div class="talent-area clear">-->
-        <!--<div class="talent">-->
-          <!--<div class="talent-title">评测达人</div>-->
-          <!--<div class="rank-list mt-30 text-ct">-->
-            <!--<div class="list-item clear mt-20 pb-20" v-for="(item,index) in showkerReportList" :key="index">-->
-              <!--<div class="inline-block vtc-top mr-10 cl-fff ranking" :class="[index <= 2 ? 'ranking-top-3' : 'ranking']">{{index + 1}}</div>-->
-              <!--<img :src="getUserHead(item.portrait)" alt="" class="border-radius-50 mr-10" width="48" height="48">-->
-              <!--<div class="inline-block text-lf">-->
-                <!--<p>{{item.nickname}}</p>-->
-                <!--<p><span class="main-color">{{item.reportCount}}</span>篇买家秀</p>-->
-                <!--<p>共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
+      <div class="talent-area clear">
+        <div class="talent">
+          <div class="talent-title">评测达人</div>
+          <div class="rank-list mt-30 text-ct">
+            <div class="list-item clear mt-20 pb-20" v-for="(item,index) in showkerReportList" :key="index">
+              <div class="inline-block vtc-top mr-10 cl-fff ranking" :class="[index <= 2 ? 'ranking-top-3' : 'ranking']">{{index + 1}}</div>
+              <img :src="getUserHead(item.portrait)" alt="" class="border-radius-50 mr-10" width="48" height="48">
+              <div class="inline-block text-lf">
+                <p>{{item.nickname}}</p>
+                <p><span class="main-color">{{item.reportCount}}</span>篇买家秀</p>
+                <p>共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
         <!--<div class="talent left">-->
@@ -534,7 +534,7 @@
             <!--</div>-->
           <!--</div>-->
         <!--</div>-->
-      <!--</div>-->
+      </div>
     </div>
 
     <!--添加微信弹窗-->
@@ -810,6 +810,25 @@
           discountTypes: '',
           zoneFilters: ['coin_earn'],
         },
+        // 人气活动数据去活动列表数据（按人气排）
+        PopularityActivityParams: {
+          pageIndex: 1,
+          pageSize: 12,
+          taskName: '',
+          taskTypes: [],
+          itemCatalogs: [],
+          sortField: 'showkerApplyTotalCount',
+          sortOrder: 'desc',
+          ifAccess: false,
+          activityCategories: ["present_get"],
+          discountTypes: [],
+          countLeft0ToEnd: true,
+          itemCatalogFilters: [],
+          zoneFilters: ['coin_earn'],
+          onlyAvailableCertainlyHit: false,
+          donotShowSpeedUp: true,
+          justShowNormalOrder: true
+        },
         presentGet: [],
         showFirstVisitModel: false,
         showTaskFansModal: false,
@@ -845,7 +864,7 @@
       } else {
         self.getAvailableBoardByAdTypeList('seller_pc_home_page_slide_show');
       }
-      self.getSearchPresentGetTask();
+      // self.getSearchPresentGetTask();
       self.getHomeTaskList();
       // self.getHomeTaskTopLeftList();
       self.personalTrialCount();
@@ -853,6 +872,7 @@
       self.getBuyerShowList();
       self.getBuyerShowInformation();
       self.getShowkerReportRank();
+      self.getPopularityActivityList();
     },
     destroyed() {
       let self = this;
@@ -1177,6 +1197,33 @@
           }
         })
       },
+      getPopularityActivityList() {
+        const _this = this;
+        api.getSearchTask({
+          pageIndex: _this.PopularityActivityParams.pageIndex,
+          pageSize: _this.PopularityActivityParams.pageSize,
+          taskName: _this.PopularityActivityParams.taskName,
+          taskTypes: JSON.stringify(_this.PopularityActivityParams.taskTypes),
+          itemCatalogs: JSON.stringify(_this.PopularityActivityParams.itemCatalogs),
+          sortField: _this.PopularityActivityParams.sortField,
+          sortOrder: _this.PopularityActivityParams.sortOrder,
+          showkerId: '',
+          ifAccess: _this.PopularityActivityParams.ifAccess.length > 0,
+          discountTypes: _this.PopularityActivityParams.discountTypes ? JSON.stringify(_this.PopularityActivityParams.discountTypes) : '',
+          activityCategories: _this.PopularityActivityParams.activityCategories ? JSON.stringify(_this.PopularityActivityParams.activityCategories) : '',
+          countLeft0ToEnd: _this.PopularityActivityParams.countLeft0ToEnd,
+          zoneFilters: _this.PopularityActivityParams.zoneFilters ? JSON.stringify(_this.PopularityActivityParams.zoneFilters) : '',
+          onlyAvailableCertainlyHit: _this.PopularityActivityParams.onlyAvailableCertainlyHit,
+          donotShowSpeedUp: _this.PopularityActivityParams.donotShowSpeedUp,
+          justShowNormalOrder: true
+        }).then(res => {
+          if (res.status) {
+            _this.presentGet = res.data.content;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      }
     },
     watch: {
       getUserInfoPhone() {
