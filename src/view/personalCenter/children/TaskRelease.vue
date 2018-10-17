@@ -217,6 +217,16 @@
             <span>份</span>
             <span class="sizeColor2 ml-4">（每单需要拍下的件数）</span>
           </div>
+          <div class="order-sku ml-20">
+            <span class="required">拍下规格：</span>
+            <radio-group v-model="taskRelease.sku">
+              <radio label="randomSku">任意规格</radio>
+              <radio label="customizeSku">
+                <i-input v-model="sku.colorSku" placeholder="填写颜色类型" style="width:120px;"></i-input>
+                <i-input v-model="sku.sizeSku" placeholder="填写尺码大小" style="width:120px;"></i-input>
+              </radio>
+            </radio-group>
+          </div>
           <div class="baby-pinkage ml-20 mt-20">
             <span class="required left">是否包邮：</span>
             <radio-group v-model="taskRelease.pinkage">
@@ -1442,6 +1452,11 @@
           popularFlow: null,
           popularFlowConfig: null,
           withoutAudit: false,
+          sku: 'randomSku'
+        },
+        sku: {
+          randomSku: null,
+          customizeSku: null
         },
         trialCondition: 'all',
         taskCountInputPlaceholder: '请输入活动时长',
