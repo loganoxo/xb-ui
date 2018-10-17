@@ -5,7 +5,7 @@
           什么是微信加粉？
         </h1>
         <div class="task-describe border">
-          商家用<span class="color-theme bold">货品（尾货、赠品、试用商品等）/现金</span>来吸引白拿拿上的淘宝买家添加商家微信号，成为商家粉丝的一种新的任务类型。
+          商家用<span class="color-theme bold">货品（尾货、赠品、评测商品等）/现金</span>来吸引白拿拿上的淘宝买家添加商家微信号，成为商家粉丝的一种新的任务类型。
         </div>
       </div>
       <div class="fans-header">

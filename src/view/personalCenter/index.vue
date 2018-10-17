@@ -26,16 +26,16 @@
           <span class="task-management-nav icon-size"></span>
           <router-link to="/user/task-management/wait">任务管理</router-link>
         </li>
-        <li :class="{isSelect:isSelect === 'releaseGood'}" class="pos-rel">
-          <span class="icon-size release-good"></span>
-          <img src="~assets/img/icon/new.png" alt="" class="new-task">
-          <router-link to="/user/release-good">发布商品</router-link>
-        </li>
-        <li :class="{isSelect:isSelect === 'goodManagement'}" class="pos-rel">
-          <span class="icon-size good-management"></span>
-          <img src="~assets/img/icon/new.png" alt="" class="new-task">
-          <router-link to="/user/good-management">商品管理</router-link>
-        </li>
+        <!--<li :class="{isSelect:isSelect === 'releaseGood'}" class="pos-rel">-->
+          <!--<span class="icon-size release-good"></span>-->
+          <!--<img src="~assets/img/icon/new.png" alt="" class="new-task">-->
+          <!--<router-link to="/user/release-good">发布商品</router-link>-->
+        <!--</li>-->
+        <!--<li :class="{isSelect:isSelect === 'goodManagement'}" class="pos-rel">-->
+          <!--<span class="icon-size good-management"></span>-->
+          <!--<img src="~assets/img/icon/new.png" alt="" class="new-task">-->
+          <!--<router-link to="/user/good-management">商品管理</router-link>-->
+        <!--</li>-->
         <!--<li :class="{isSelect:isSelect ==='TaskFans'}" class="pos-rel">-->
           <!--<span class="task-fans icon-size"></span>-->
           <!--<img src="~assets/img/icon/new.png" alt="" class="new-task">-->
@@ -69,10 +69,15 @@
            <img src="/static/img/icon/hot.gif" alt="" style="position: absolute;right: 18px;top: -6px;">
            <router-link to="/user/recommend">邀请有礼</router-link>
          </li>-->
-        <li class="pos-rel">
+        <!--<li class="pos-rel">-->
+          <!--<span class="service-clause icon-size"></span>-->
+          <!--<img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">-->
+          <!--<a @click="openClauseModel">服务条款</a>-->
+        <!--</li>-->
+        <li class="pos-rel" :class="{isSelect: isSelect === 'ServiceClause'}">
           <span class="service-clause icon-size"></span>
           <img src="/static/img/icon/importance.gif" alt="" style="position: absolute;right: 22px;top: -12px;">
-          <a @click="openClauseModel">服务条款</a>
+          <router-link to="/user/service-clause">扣分明细条款</router-link>
         </li>
         <li :class="{isSelect:isSelect === 'MyAppeal'}" class="pos-rel">
           <span class="icon-size my-appeal-nav"></span>

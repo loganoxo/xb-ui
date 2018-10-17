@@ -1,7 +1,7 @@
 <template>
   <div class="detail-and-log">
     <div class="detail-and-log-title pl-10 clear">
-      <span class="left">试用活动管理</span>
+      <span class="left">评测活动管理</span>
       <span class="right"><router-link to="/user/activity-management/list">返回上一页</router-link></span>
     </div>
     <div class="detail-and-log-list mt-20">

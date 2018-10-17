@@ -1,16 +1,20 @@
 <template>
   <div class="pay-model-con">
     <slot name="closeModel"/>
-    <checkbox v-if="redEnvelopeDeductionNumber > 0" class="mt-40" :value="redEnvelopesState" :disabled="disabledRedEnvelopes" @on-change="checkboxChange">使用<span class="main-color">推广费减免红包</span>抵扣 {{(redEnvelopeDeductionNumber / 100).toFixed(2)}} 元</checkbox>
+    <radio-group v-if="showPayMethod" v-model="payMethod" class="mt-40" vertical @on-change="checkboxChange">
+      <radio label="noUseOffer">不使用优惠</radio>
+      <radio label="redEnvelopes" v-if="redEnvelopeDeductionNumber > 0" :disabled="disabledRedEnvelopes">使用<span class="main-color">推广费减免红包</span>抵扣{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}元</radio>
+      <radio label="rechargeCard">使用<span class="main-color">充值卡</span>支付推广费 {{promotionExpensesToUseCard / 100}} 元；当前充值卡余额为：{{(rechargeCardBalance / 100).toFixed(2)}}元</radio>
+    </radio-group>
     <template v-if="!isBalance">
       <slot name="noBalance"/>
     </template>
-    <template v-else>
+    <template v-if="isBalance">
       <slot name="isBalance"/>
     </template>
     <div class="hasBalance mt-30" v-if="isBalance">
       <span class="input-pay-pwd">请输入支付密码：</span>
-      <i-input v-model="payPassword" type="password" style="width: 200px" @on-keypress="pressEnterLoginNormal"/>
+      <i-input v-model="payPassword" type="password" class="width-200" @on-keypress="pressEnterLoginNormal"/>
       <span class="ml-10" v-if="isPwdAmend"><router-link
         :to="{path:'/user/money-management/account-management',query:{type:'findPwd'}}">忘记支付密码？</router-link></span>
       <p class="mt-20 default-pwd" v-else>初始密码为：888888，为了您的账号安全，建议您
@@ -38,7 +42,6 @@
         <span>免手续费充值</span>
         <span>点击这里</span>
       </i-button>
-      <!--<i-button v-if="getMemberVersionLevel === 100 && !isBalance && isShowUpgradeVIP" class="svip-upgrade" @click="upgradeSvip">升级VIP免除手续费</i-button>-->
     </div>
 
     <div class="confirm-recharge-model" v-if="confirmRechargeModel">
@@ -113,10 +116,10 @@
         type: Boolean,
         required: true
       },
-      // 红包启用状态
-      redEnvelopesState: {
-        type: Boolean,
-        default: true
+      // 选择的优惠方式（是否开启优惠，是否开启红包抵扣，是否使用充值卡，单选）
+      offerMethod: {
+        type: String,
+        default: 'noUseOffer'
       },
       // 红包按钮禁用状态
       disabledRedEnvelopes: {
@@ -128,7 +131,7 @@
         type: Number,
         default: 0
       },
-      // 购买类型（0：正常充值， 1：购买会员充值，2：购买增值服务充值）
+      // 购买类型（0：正常充值， 1：购买会员充值，2：购买增值服务充值，3：充值并订购充值卡）
       orderType: {
         type: Number,
         default: 0
@@ -142,7 +145,21 @@
       rechargeButtonText: {
         type: String,
         default: '立即充值'
-      }
+      },
+      // 是否显示充值方式选框
+      showPayMethod: {
+        type: Boolean,
+        default: false
+      },
+      // 订购充值卡的id
+      rechargeableCardConfigId: {
+        default: null
+      },
+      // 活动总推广费
+      promotionExpenses: {
+        type: Number,
+        default: 0
+      },
     },
     data() {
       return {
@@ -153,28 +170,30 @@
         payPopWindowWX: false,
         payLoading: false,
         showFreePayModel: false,
+        payMethod: this.offerMethod
       }
     },
     computed: {
+
       /** 获取用户支付密码修改状态
        * @return {boolean}
        */
       isPwdAmend() {
-        return this.$store.getters.getIsEditPwdAlready
+        return this.$store.getters.getIsEditPwdAlready;
       },
 
       /** 获取用户会员版本
        * @return {Number}
        */
       getMemberVersionLevel() {
-        return this.$store.getters.getMemberLevel
+        return this.$store.getters.getMemberLevel;
       },
 
       /** 获取用户会员状态
        * @return {Number}
        */
       isMember() {
-        return this.$store.getters.isMemberOk
+        return this.$store.getters.isMemberOk;
       },
 
       /** 计算用户最终需要充值的金额（包含支付宝充值手续费: 需要收取千分之六的充值手续费）
@@ -182,10 +201,25 @@
        */
       lastPayMoney() {
         if (this.orderType === 0) {
-          return Math.ceil(Math.ceil(this.orderMoney) / 0.994)
+          return Math.ceil(Math.ceil(this.orderMoney) / 0.994);
         } else {
-          return Math.ceil(this.orderMoney)
+          return Math.ceil(this.orderMoney);
         }
+      },
+
+      /**
+       * 获取充值卡余额
+       * @return {number}
+       */
+      rechargeCardBalance() {
+        return this.$store.getters.getRechargeCardBalance;
+      },
+
+      /** 计算使用充值卡支付推广费金额
+       * @return {Number}
+       */
+      promotionExpensesToUseCard() {
+        return  this.rechargeCardBalance > this.promotionExpenses ? this.rechargeCardBalance : this.promotionExpenses - this.rechargeCardBalance;
       }
     },
     methods: {
@@ -218,6 +252,7 @@
             timeLevel : _this.timeLevel,
             orderType: _this.orderType,
             vasFeeId: _this.vasFeeId,
+            rechargeableCardConfigId: _this.rechargeableCardConfigId
           }).then(res => {
             _this.payLoading = false;
             if (res.status) {

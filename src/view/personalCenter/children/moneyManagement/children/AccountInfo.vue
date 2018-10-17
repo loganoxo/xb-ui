@@ -36,7 +36,7 @@
           </div>
           <div>绑定手机：{{userList.phone}}</div>
           <div>注册时间：{{userList.createTime | dateFormat('YYYY-MM-DD hh:mm:ss')}}</div>
-          <p v-if="Object.keys(userList.extension).length > 0">上次登录时间：{{userList.extension.lastLoginTimePc | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
+          <p v-if="Object.keys(userList).length > 0">上次登录时间：{{userList.extension.lastLoginTimePc | dateFormat('YYYY-MM-DD hh:mm:ss')}}</p>
         </div>
     </div>
     <div class="trading-record ">
@@ -66,7 +66,7 @@
           </td>
           <td>
             <p>{{getTradType(item.accountChangeType)}}</p>
-            <p v-if="item.accountChangeType !== 1 && item.accountChangeType !== 2 && item.accountChangeType !== 3 && item.accountChangeType !== 4 && item.accountChangeType !== 11">活动编号：{{item.taskSerialNum}}</p>
+            <p v-if="item.accountChangeType !== 1 && item.accountChangeType !== 2 && item.accountChangeType !== 3 && item.accountChangeType !== 4 && item.accountChangeType !== 11 && item.accountChangeType !== 13">活动编号：{{item.taskSerialNum}}</p>
           </td>
           <td :class="{tdColor:item.amountChange<0 , tdColorGreen:item.amountChange>0}">
             {{typeChang(item.amountChange / 100) || 0}}

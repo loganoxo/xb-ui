@@ -8,7 +8,8 @@
           <span class="f-b fs-12 cl666">（未按要求的截图可选择重新提交）</span>
         </div>
         <div class="f-b fs-14 main-color mt-10">
-          未按要求操作的截图可向客服<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=3505605204" target="_blank" class="blue">大白（QQ：3505605204）</a>反馈，核实后我们将在结算时退还对应截图的费用！
+          <!--未按要求操作的截图可向客服<a href="http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=3505605204" target="_blank" class="blue">大白（QQ：3505605204）</a>反馈，核实后我们将在结算时退还对应截图的费用！-->
+          未按要求操作的截图可向客服<a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="blue">庄周（QQ：800019404）</a>反馈，核实后我们将在结算时退还对应截图的费用！
         </div>
         <div class="screen-shots-area">
           <!--主宝贝截图-->

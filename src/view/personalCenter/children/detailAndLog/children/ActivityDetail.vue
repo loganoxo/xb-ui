@@ -120,7 +120,9 @@
           <radio-group v-model="trialCondition">
             <radio label="all" disabled>不限制</radio>
             <radio label="refuseOldShowkerFor15Days" disabled>拒绝15天内参加过本店铺的拿手再次申请</radio>
-            <radio label="refuseOldShowkerFor30Days" disabled>拒绝30天内参加过本店铺的拿手再次申请</radio>
+            <radio label="refuseOldShowkerFor30Days" disabled>拒绝30天内参加过本店铺的拿手再次申请</radio><br/>
+            <radio label="refuseOldShowkerForMerchant15Days">拒绝15天内本账号下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerForMerchant30Days">拒绝30天内本账号下过单的拿手再次申请</radio>
             <!--<radio label="refuseOldShowker" disabled>拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
         </div>
@@ -155,7 +157,7 @@
           <p class="mt-6 pl-68 sizeColor" v-show="needBrowseAnswer">请在手机详情页面中挑选一段文案，输入文本框内的文案最长不能超过8个字（建议3-8字）拿手将提供本文案所在位置截图</p>
         </div>
         <div class="task-speed-up ml-20 mt-20">
-          <span class="ml-4">一键加速：</span>
+          <span class="ml-4">审批托管：</span>
           <checkbox v-model="taskRelease.speedUp" :disabled="true">需要</checkbox>
           <span class="sizeColor2"><span v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'" class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
@@ -791,7 +793,7 @@
       <h3>费用说明：</h3>
       <div class="description-fees-con mt-10">
         <p>活动担保金 = 份数 × 单品活动担保金 = <span>{{oneBondMarginText}}</span> 元</p>
-        <!--<p class="mt-6">单品推广费 = 单品试用担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
+        <!--<p class="mt-6">单品推广费 = 单品评测担保金 × 费率 =<span>{{onePromotionExpensesBeforeText}}</span> 元<span>{{onePromotionExpensesTipText}}</span></p>-->
         <p class="mt-6">总推广费 = 单品推广费用 × 份数 = <span>{{(onePromotionExpensesAfter / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}} = <span>{{(allPromotionExpenses / 100).toFixed(2)}}</span></span> 元 <span class="main-color" v-if="fastPublish">（您是首次放单，享受首单推广减免）</span></p>
         <p v-if="!fastPublish" class="mt-6">总增值费 = 单品增值费 × 份数 =  <span>{{((oneValueAddedCost + showkerConditionAllPrice) / 100).toFixed(2)}}</span> × <span>{{taskRelease.taskCount}}</span> = {{(allValueAddedCost / 100).toFixed(2)}} 元</p>
         <p class="mt-6">总费用 = 活动担保金 + 总推广费 + 总增值费用 = <span>{{(orderMoney / 100).toFixed(2)}}</span> 元</p>
@@ -1163,7 +1165,7 @@
       },
 
       /**
-       * 计算商家需要存入的担保金（当用户勾选折扣试用的时候：宝贝单价 - 对应的折扣价格）
+       * 计算商家需要存入的担保金（当用户勾选折扣评测的时候：宝贝单价 - 对应的折扣价格）
        * @return {number}
        */
       newItemPrice() {
@@ -1570,6 +1572,10 @@
               _this.trialCondition = 'refuseOldShowkerFor15Days'
             } else if (res.data.refuseOldShowkerFor30Days) {
               _this.trialCondition = 'refuseOldShowkerFor30Days'
+            }  else if (res.data.refuseOldShowkerForMerchant30Days) {
+              _this.trialCondition = 'refuseOldShowkerForMerchant30Days'
+            } else if (res.data.refuseOldShowkerForMerchant15Days) {
+              _this.trialCondition = 'refuseOldShowkerForMerchant15Days'
             } else {
               _this.trialCondition = 'all'
             }

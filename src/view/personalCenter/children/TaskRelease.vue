@@ -11,7 +11,7 @@
       </div>
       <div class="inline-block step left clear">
         <div class="inline-block step-number left">2</div>
-        <div class="inline-block step-text left">活动上线后，商家可审核来申请试用的拿手旺旺号。</div>
+        <div class="inline-block step-text left">活动上线后，商家可审核来申请评测的拿手旺旺号。</div>
         <icon class="left mt-20" type="ios-arrow-forward" size="26" color="#ccc"/>
       </div>
       <div class="inline-block step left clear">
@@ -57,7 +57,7 @@
       </div>
     </div>
     <!--选择活动类型-->
-    <div class="activity-type mt-20" v-show="stepName === 'information'">
+   <!-- <div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">请选择活动模版：</div>
       <div class="clear mt-10">
         <div class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}" @click="changeSelectActivity('free_get')">
@@ -66,13 +66,13 @@
         <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
           <p class="mt-22">模版B</p>
         </div>
-        <!--<div class="left activity-type-box mr-10" @click="toTaskFans">-->
-          <!--<p>微信加粉</p>-->
-          <!--<p>尾货/试用商品/赠品</p>-->
-          <!--<p>均可兑换高质量粉丝</p>-->
-        <!--</div>-->
+        &lt;!&ndash;<div class="left activity-type-box mr-10" @click="toTaskFans">&ndash;&gt;
+          &lt;!&ndash;<p>微信加粉</p>&ndash;&gt;
+          &lt;!&ndash;<p>尾货/评测商品/赠品</p>&ndash;&gt;
+          &lt;!&ndash;<p>均可兑换高质量粉丝</p>&ndash;&gt;
+        &lt;!&ndash;</div>&ndash;&gt;
       </div>
-    </div>
+    </div>-->
     <div class="activity-con mt-20">
       <!--填写活动详情-->
       <div class="activity-info" v-show="stepName === 'information'">
@@ -116,12 +116,14 @@
           <span class="main-color f-b">建议勾选！</span>
           <span class="sizeColor2">（若审核通过的拿手当日未加入购物车，在次日仍可继续下单购买，活动剩余名额也自动转为当日单）</span>
         </div>
-        <div class="trial-condition ml-20 mt-20">
-          <span class="ml-8">申请条件：</span>
-          <radio-group v-model="trialCondition">
-            <radio label="all">不限制</radio>
-            <radio label="refuseOldShowkerFor15Days">拒绝15天内本店下过单的拿手再次申请</radio>
-            <radio label="refuseOldShowkerFor30Days">拒绝30天内本店下过单的拿手再次申请</radio>
+        <div class="trial-condition ml-20 mt-20 clear">
+          <span class="ml-8 left">申请条件：</span>
+          <radio-group v-model="trialCondition" class="left">
+            <radio label="all" class="">不限制</radio>
+            <radio label="refuseOldShowkerFor15Days" class="ml-10">拒绝15天内本店下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerFor30Days" class="ml-10">拒绝30天内本店下过单的拿手再次申请</radio><br/>
+            <radio label="refuseOldShowkerForMerchant15Days" class="mt-10">拒绝15天内本账号下过单的拿手再次申请</radio>
+            <radio label="refuseOldShowkerForMerchant30Days" class="ml-10 mt-10">拒绝30天内本账号下过单的拿手再次申请</radio>
             <!--<radio label="refuseOldShowker">拒绝已参加过本店活动的拿手再次申请</radio>-->
           </radio-group>
         </div>
@@ -179,7 +181,7 @@
           </div>
         </div>
         <div class="task-speed-up ml-20 mt-20">
-          <span class="ml-8">一键加速：</span>
+          <span class="ml-8">审批托管：</span>
           <checkbox v-model="taskRelease.speedUp">需要</checkbox>
           <span class="sizeColor2"><span
             v-show="taskRelease.orderType === 'day_now' || taskRelease.orderType === 'day_reserve'"
@@ -204,7 +206,7 @@
             <i-input v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"/>
             <span>元</span>
             <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><icon
-              color="#f9284f" type="md-alert"/>&nbsp;每份试用品的价值必须在1元以上</span>
+              color="#f9284f" type="md-alert"/>&nbsp;每份评测品的价值必须在1元以上</span>
             <!--<span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="md-alert"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>-->
             <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
           </div>
@@ -314,67 +316,72 @@
             <radio label="no_credit_pay"><span>禁止使信用卡付款</span></radio>
           </radio-group>
         </div>
-        <div v-show="taskRelease.activityCategory === 'present_get'" class="donotPostPhoto ml-20 mt-20 clear">
-          <span class="left required">晒图要求：</span>
-          <radio-group v-model="taskRelease.donotPostPhoto">
-            <radio label="true">
-              <span>请勿晒图</span>
-            </radio>
-            <radio label="false">
-              <span>无所谓</span>
-            </radio>
-          </radio-group>
+        <!--<div v-show="taskRelease.activityCategory === 'present_get'" class="donotPostPhoto ml-20 mt-20 clear">-->
+          <!--<span class="left required">晒图要求：</span>-->
+          <!--<radio-group v-model="taskRelease.donotPostPhoto">-->
+            <!--<radio label="true">-->
+              <!--<span>请勿晒图</span>-->
+            <!--</radio>-->
+            <!--<radio label="false">-->
+              <!--<span>无所谓</span>-->
+            <!--</radio>-->
+          <!--</radio-group>-->
+        <!--</div>-->
+        <div class="evaluation-requirements clear">
+          <!--<span class="left ml-20 mt-5 required">评价期望：</span>-->
+          <span class="ml-28">评价相关：</span>
+          <!--<div class="left">-->
+            <!--<radio-group v-model="taskRelease.itemReviewRequired" :vertical="true" @on-change="changeSelectEvaluation">-->
+              <!--<radio label="review_by_showker_self">-->
+                <!--<span>无需求（拿手自主发挥评价更客观。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>-->
+              <!--</radio>-->
+              <!--<radio label="offer_review_summary"><span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>-->
+              <!--</radio>-->
+              <!--<i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10 width-500" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"/>-->
+              <!--<radio label="assign_review_detail">-->
+                <!--<span>参考范本（拿手有可能直接拷贝该范本，为防止评价重复，建议每个名额提供一种范本。）</span>-->
+              <!--</radio>-->
+            <!--</radio-group>-->
+            <!--<p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">-->
+              <!--最多为每份名额提供一份内容，可以不添加（不添加表示无要求），系统会对已添加内容进行唯一分配，保证内容不重复。</p>-->
+            <!--<div class="afford-evaluation-list mt-10" v-show="taskRelease.itemReviewRequired === 'assign_review_detail'">-->
+              <!--<p class="clear" v-for="(item, index) in itemReviewList" :key="item.index">-->
+                <!--<span class="vtc-sup left mt-20">{{`评价${index + 1}`}}：</span>-->
+                <!--<i-input v-model="item.reviewContent" class="mb-10 width-400 mt-8 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>-->
+                <!--<upload class="inline-block left ml-10"-->
+                        <!--:default-file-list="defaultItemReviewImages[index]"-->
+                        <!--:item-index="index"-->
+                        <!--:on-remove="removeEvaluateImage"-->
+                        <!--:on-success="evaluateImageSuccess"-->
+                        <!--:format="['jpg','jpeg','png','gif','bmp']"-->
+                        <!--:max-size="1024"-->
+                        <!--:uploadLength="5"-->
+                        <!--name="task"-->
+                        <!--:on-format-error="handleFormatError"-->
+                        <!--:on-exceeded-size="handleMaxSize"-->
+                        <!--type="drag">-->
+                  <!--<div class="camera">-->
+                    <!--<icon type="ios-camera" size="20"/>-->
+                  <!--</div>-->
+                <!--</upload>-->
+                <!--<i-button :disabled="itemReviewList.length === 1" class="ml-10 mt-15 left" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>-->
+              <!--</p>-->
+              <!--<i-button :disabled="itemReviewList.length === taskRelease.taskCount || !taskRelease.taskCount" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>-->
+              <!--<span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；近期免费，收费待定。</span>-->
+            <!--</div>-->
+          <!--</div>-->
+          <span class="main-color">本平台要求拿手根据实际收货情况对商品做出客观真实评价，如果有疑问请联系平台客服！ <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="common-service qq-service text-ct">点击咨询</a></span>
         </div>
-        <div class="evaluation-requirements mt-20 clear">
-          <span class="left ml-20 mt-5 required">评价期望：</span>
+        <div class="task-remark ml-52 mt-15 clear">
+          <!--<span class="left">下单要求：</span>-->
+          <span class="left">备注：</span>
           <div class="left">
-            <radio-group v-model="taskRelease.itemReviewRequired" :vertical="true" @on-change="changeSelectEvaluation">
-              <radio label="review_by_showker_self">
-                <span>无需求（拿手自主发挥评价更客观。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-              </radio>
-              <radio label="offer_review_summary"><span>有个大概要求（可以写下评价的大概要求，因每个人理解不一样，可能评价结果会与期望有偏差。<span class="main-color">选择此项不可因主观喜好对评价结果有异议。</span>）</span>
-              </radio>
-              <i-input v-if="taskRelease.itemReviewRequired === 'offer_review_summary'" v-model="taskRelease.itemReviewSummary" class="mb-10 width-500" type="textarea" :autosize="{minRows: 1,maxRows: 3}" placeholder="请输入你的评价要求，如：需晒图/勿晒图、希望出现的关键词等~"/>
-              <radio label="assign_review_detail">
-                <span>参考范本（拿手有可能直接拷贝该范本，为防止评价重复，建议每个名额提供一种范本。）</span>
-              </radio>
-            </radio-group>
-            <p v-show="taskRelease.itemReviewRequired === 'assign_review_detail'" class="main-color ml-20">
-              最多为每份名额提供一份内容，可以不添加（不添加表示无要求），系统会对已添加内容进行唯一分配，保证内容不重复。</p>
-            <div class="afford-evaluation-list mt-10" v-show="taskRelease.itemReviewRequired === 'assign_review_detail'">
-              <p class="clear" v-for="(item, index) in itemReviewList" :key="item.index">
-                <span class="vtc-sup left mt-20">{{`评价${index + 1}`}}：</span>
-                <i-input v-model="item.reviewContent" class="mb-10 width-400 mt-8 left" type="textarea" :autosize="{minRows: 2,maxRows: 2}" placeholder="请输入你的评价内容"/>
-                <upload class="inline-block left ml-10"
-                        :default-file-list="defaultItemReviewImages[index]"
-                        :item-index="index"
-                        :on-remove="removeEvaluateImage"
-                        :on-success="evaluateImageSuccess"
-                        :format="['jpg','jpeg','png','gif','bmp']"
-                        :max-size="1024"
-                        :uploadLength="5"
-                        name="task"
-                        :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize"
-                        type="drag">
-                  <div class="camera">
-                    <icon type="ios-camera" size="20"/>
-                  </div>
-                </upload>
-                <i-button :disabled="itemReviewList.length === 1" class="ml-10 mt-15 left" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
-              </p>
-              <i-button :disabled="itemReviewList.length === taskRelease.taskCount || !taskRelease.taskCount" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
-              <span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；近期免费，收费待定。</span>
-            </div>
-          </div>
-        </div>
-        <div class="task-remark ml-28 mt-15 clear">
-          <span class="left">下单要求：</span>
-          <div class="left">
-            <i-input class="task-remark-input" type="textarea" :autosize="{minRows: 6,  maxRows: 12}"
-                     placeholder="1、下单要求中明确说明希望拿手拍下的SKU（否则拿手可能会找不到宝贝）
-2、请勿在未勾选增值服务的情况要求拿手执行，若拿手未执行，不算违规。
-3、如果对拿手有特别的要求，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！" v-model="taskRelease.remark"/>
+            <!--<i-input class="task-remark-input" type="textarea" :maxlength="30" v-model="taskRelease.remark"/>-->
+            <i-input class="task-remark-input" type="textarea" v-model="taskRelease.remark"/>
+            <!--<p class="lht20 mt-10 cl999">1、限制（30字），如果您有指定下单规格，请在下单要求中填写。</p>-->
+            <!--<p class="lht20 cl999">2、请勿在未勾选增值服务的情况要求拿手执行，若拿手未执行，不算违规。</p>-->
+            <!--<p class="lht20 cl999">3、如果对拿手有特别的要求，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！</p>-->
+            <p class="cl999 mt-10">如果与拿手需要沟通，此处填写拿手可以看到，但平台只负责传达，无法强制拿手按要求执行！</p>
           </div>
         </div>
         <div class="product-introduction ml-10 mt-20">
@@ -683,7 +690,7 @@
           </div>
         </template>
         <!--增值服务设置-->
-        <template>
+ <!--       <template>
           <div class="activity-info-title mt-20">增值服务设置</div>
           <div class="value-added-services mt-20">
             <p class="main-color"><img src="~assets/img/common/vip.png" alt="vipLogo"/>&nbsp;增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
@@ -732,7 +739,7 @@
             </i-button>
             <div class="value-added-charge mt-15">单品增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元</div>
           </div>
-        </template>
+        </template>-->
         <!--拿手审批条件设置-->
         <template>
           <div class="activity-info-title">拿手审批条件限制</div>
@@ -1011,13 +1018,13 @@
         <div class="pay-info mt-28" v-if="isBalanceReplenish && priceHasChange">
           <p>该任务已付总费用&nbsp;<strong>{{(paidDeposit / 100).toFixed(2)}}</strong>&nbsp;元（包含红包抵扣&nbsp;{{(redEnvelopeDeductionPaid / 100).toFixed(2)}}&nbsp;元）。</p>
           <p class="mt-10">本次修改需要支付超出部分的金额为：<strong class="main-color">{{((needPayMoneyAfterAsRedEnvelopes > 0 ? needPayMoneyAfterAsRedEnvelopes : 0) / 100).toFixed(2)}}</strong>
-            &nbsp;元<span v-if="redEnvelopesState">（包含红包抵扣&nbsp;{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}&nbsp;元）</span>。</p>
+            &nbsp;元<span v-if="offerMethod === 'redEnvelopes'">（包含红包抵扣&nbsp;{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}&nbsp;元）</span>。</p>
           <p class="mt-10">您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元。</p>
         </div>
         <div class="pay-info mt-28" v-if="!isBalanceReplenish && priceHasChange">
           <p>该任务已付总费用&nbsp;<strong>{{((paidDeposit / 100)).toFixed(2)}}</strong>&nbsp;元（包含红包抵扣&nbsp;{{(redEnvelopeDeductionPaid / 100).toFixed(2)}}&nbsp;元）。</p>
           <p>本次修改需要支付超出部分的金额为：<strong class="main-color">{{((needPayMoneyBeforeAsRedEnvelopes > 0 ? needPayMoneyBeforeAsRedEnvelopes : 0) / 100).toFixed(2)}}</strong>
-            &nbsp;元<span v-if="redEnvelopesState">（包含红包抵扣&nbsp;{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}&nbsp;元）</span></p>
+            &nbsp;元<span v-if="offerMethod === 'redEnvelopes'">（包含红包抵扣&nbsp;{{(redEnvelopeDeductionNumber / 100).toFixed(2)}}&nbsp;元）</span></p>
           <p>您账号的当前余额为：<strong>{{(getUserBalance / 100).toFixed(2)}}</strong>&nbsp;元,还需充值：<span class="second-color">{{((needPayMoneyBeforeAsRedEnvelopes > 0 ? needPayMoneyBeforeAsRedEnvelopes : 0) / 100).toFixed(2)}}</span>&nbsp;元。</p>
         </div>
         <div class="description-fees-footer">
@@ -1056,10 +1063,10 @@
     </div>
     <!--活动担保金支付弹框-->
     <div class="pay-model" v-if="showPayModel">
-      <pay-model ref="payModelRef" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
-                 :isShowUpgradeVIP="true" :isBalance="isBalance" :redEnvelopesState="redEnvelopesState"
-                 @change="redEnvelopesState = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber"
-                 :disabledRedEnvelopes="disabledRedEnvelopes">
+      <pay-model ref="payModelRef" :showPayMethod="true" :orderMoney="needPayMoneyBeforeAsRedEnvelopes" @confirmPayment="confirmPayment"
+                 :isShowUpgradeVIP="true" :isBalance="isBalance" :offerMethod="offerMethod"
+                 @change="offerMethod = arguments[0]" :redEnvelopeDeductionNumber="redEnvelopeDeductionNumber"
+                 :disabledRedEnvelopes="disabledRedEnvelopes" :promotionExpenses="allPromotionExpenses">
         <i slot="closeModel" class="close-recharge" @click="closeRecharge">&times;</i>
         <div slot="noBalance" class="title-tip">
           <span class="sizeColor3"><icon color="#FF2424" size="18px" type="md-alert"/><span class="ml-10">亲，您的余额不足，请充值。</span></span>还需充值<strong
@@ -1067,9 +1074,12 @@
           <span @click="isShowAliPayTip = true">【<span class="blue cursor-p">支付宝手续费</span>】</span>
         </div>
         <div slot="isBalance" class="title-tip">
-          <icon color="#FF2424" size="18px" type="md-alert"/>
-          <span class="ml-5">您本次需要支付金额为 <span
-            class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。</span>
+          <icon color="#FF2424" type="md-alert"/>
+          <span class="vtc-mid">您本次需要支付金额为 <span
+            class="sizeColor3">{{(needPayMoneyAfterAsRedEnvelopes / 100).toFixed(2)}}</span> 元。
+            <span v-if="offerMethod === 'rechargeCard' && isRechargeCardBalance">充值卡支付{{(allPromotionExpenses / 100).toFixed(2)}}元，余额支付{{((needPayMoneyAfterAsRedEnvelopes - allPromotionExpenses)/100).toFixed(2)}}元</span>
+            <span v-if="offerMethod === 'rechargeCard' && !isRechargeCardBalance">充值卡支付{{(getRechargeCardBalance / 100).toFixed(2)}}元，余额支付{{((needPayMoneyAfterAsRedEnvelopes - getRechargeCardBalance)/100).toFixed(2)}}元</span>
+          </span>
         </div>
       </pay-model>
     </div>
@@ -1237,7 +1247,7 @@
     <!--商家须知-->
     <modal v-model="merchantInformationModal.status" :closable="false" :mask-closable="false" :scrollable="true">
       <div slot="header" class="text-ct main-color fs-16 f-b">商家须知</div>
-      <p class="fs-14">白拿拿平台旨在为大家提供更优质的试用服务，为保证试用活动的顺利进行，也为了保证商家朋友的权益，以下条款请务必认真阅读并遵守：</p>
+      <p class="fs-14">白拿拿平台旨在为大家提供更优质的评测服务，为保证评测活动的顺利进行，也为了保证商家朋友的权益，以下条款请务必认真阅读并遵守：</p>
       <p class="mt-10 fs-14">1、实际发货的商品须与平台上发布活动所展示的商品一致；</p>
       <p class="mt-10 fs-14">2、请认真审核拿手提交的订单编号，确认无误之后，及时安排发货；</p>
       <p class="mt-10 fs-14">3、请确保平台上预留的电话和QQ等联系方式真实有效，可以联系上；</p>
@@ -1324,14 +1334,24 @@
         editorOption: {
           placeholder: "有吸引力的产品介绍，将吸引更多的拿手来申请活动哦！请在这里编辑您的商品简介（商品简介中至少包含一张图片，可以直接复制淘宝的宝贝详情到这里），但请注意，不要在该简介中，放置任何外链，比如店铺或者商品链接，以免申请的拿手绕过相应的下单条件，造成损失！",
           modules: {
-            toolbar: [
-              ['bold', 'italic', 'underline', 'strike'],
-              [{'list': 'ordered'}, {'list': 'bullet'}],
-              [{'header': [1, 2, 3, 4, 5, 6, false]}],
-              [{'color': []}, {'background': []}],
-              [{'align': []}],
-              ['image']
-            ]
+            toolbar: {
+              container: [
+                ['bold', 'italic', 'underline', 'strike'],
+                [{'list': 'ordered'}, {'list': 'bullet'}],
+                [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                [{'color': []}, {'background': []}],
+                [{'align': []}],
+                ['image']
+              ],
+              handlers: {
+                image: function (image) {
+                  if (image) {
+                    let fileInput = document.getElementById('presentGet');
+                    fileInput.click();
+                  }
+                }
+              }
+            }
           }
         },
         showPayModel: false,
@@ -1397,6 +1417,8 @@
           refuseOldShowker: false,
           refuseOldShowkerFor30Days: false,
           refuseOldShowkerFor15Days: false,
+          refuseOldShowkerForMerchant30Days: false,
+          refuseOldShowkerForMerchant15Days: false,
           needBrowseCollectAddCart: false,
           speedUp: false,
           itemIssue: [],
@@ -1411,9 +1433,9 @@
           orderQuantity: null,
           presentPrice: null,
           discountType: 'discount_0',
-          activityCategory: 'free_get',
+          activityCategory: 'present_get',
           pinkage: "true",
-          donotPostPhoto: "true",
+          donotPostPhoto: "false",
           paymentMethod: "all",
           remark: null,
           itemDescription: null,
@@ -1473,7 +1495,8 @@
         originalVasMainItem: [],
         upgradeMembershipModal: false,
         createFastTaskStatus: false,
-        redEnvelopesState: true,
+        // redEnvelopesState: true,
+        offerMethod: 'noUseOffer',
         disabledRedEnvelopes: false,
         redEnvelopeDeductionPaid: 0,
         redEnvelopeDeductionNumber: 0,
@@ -1689,16 +1712,9 @@
         vm.getStoreBindInfoList()
       })
     },*/
-    mounted() {
-      const _this = this;
-      const imgHandlerPresentGet = async function (image) {
-        _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
-        if (image) {
-          let fileInput = document.getElementById('presentGet');
-          fileInput.click()
-        }
-      };
-      _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
+
+    beforeRouteLeave(to, from, next) {
+      next()
     },
     created() {
       this.getItemCatalog();
@@ -1733,6 +1749,14 @@
        */
       getUserBalance() {
         return this.$store.getters.getUserBalance
+      },
+
+      /**
+       * 获取充值卡余额
+       * @return {number}
+       */
+      getRechargeCardBalance() {
+        return this.$store.getters.getRechargeCardBalance
       },
 
       /**
@@ -1868,15 +1892,35 @@
       },
 
       /**
+       * 计算支付方式是走余额还是走充值卡
+       * @return {string}
+       */
+      payMethod() {
+        if (this.offerMethod === 'noUseOffer' || this.offerMethod === 'redEnvelopes') {
+          return 'balancePay';
+        } else if (this.offerMethod === 'rechargeCard') {
+          return 'rechargeCardPay';
+        }
+      },
+
+      /**
        * 计算余额是否足够支付订单金额
        * @return {boolean}
        */
       isBalance() {
         if (this.priceHasChange) {
-          return this.redEnvelopesState ? this.replenishMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.replenishMoney <= this.getUserBalance
+          return this.offerMethod === 'redEnvelopes' ? this.replenishMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.replenishMoney <= this.getUserBalance
         } else {
-          return this.redEnvelopesState ? this.orderMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.orderMoney <= this.getUserBalance
+          return this.offerMethod === 'redEnvelopes' ? this.orderMoney - this.redEnvelopeDeductionNumber <= this.getUserBalance : this.orderMoney <= this.getUserBalance
         }
+      },
+
+      /**
+       * 计算充值卡余额是否足够支付推广费
+       * @return {boolean}
+       */
+      isRechargeCardBalance() {
+        return this.getRechargeCardBalance > this.allPromotionExpenses
       },
 
       /**
@@ -1901,6 +1945,7 @@
         }
       },
 
+
       /**
        * 计算当用户账户余额不足以支付活动所需金额要额外充值的金额
        * @return {number}
@@ -1908,9 +1953,6 @@
       needPayMoneyBefore() {
         if (!this.isBalance && !this.priceHasChange) {
           let money = this.orderMoney - this.getUserBalance;
-          return money > 0 ? money : 0
-        } else if (!this.isBalanceReplenish && this.priceHasChange) {
-          let money = this.replenishMoney - this.getUserBalance;
           return money > 0 ? money : 0
         } else {
           return 0
@@ -1921,8 +1963,15 @@
        * 计算当用户账户余额足以支付活动所需金额时要支付的金额（包含是否启用红包金额，此金额为最终需要支付金额）
        * @return {number}
        */
+      // needPayMoneyAfterAsRedEnvelopes() {
+      //   return this.isBalance ? this.offerMethod === 'redEnvelopes' ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : this.needPayMoneyAfter : 0
+      // },
       needPayMoneyAfterAsRedEnvelopes() {
-        return this.isBalance ? this.redEnvelopesState ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : this.needPayMoneyAfter : 0
+        if (this.offerMethod === 'redEnvelopes') {
+          return this.isBalance ? this.needPayMoneyAfter - this.redEnvelopeDeductionNumber : 0
+        } else {
+          return this.isBalance ? this.needPayMoneyAfter : 0
+        }
       },
 
       /**
@@ -1930,7 +1979,7 @@
        * @return {number}
        */
       needPayMoneyBeforeAsRedEnvelopes() {
-        return !this.isBalance ? this.redEnvelopesState ? this.needPayMoneyBefore - this.redEnvelopeDeductionNumber : this.needPayMoneyBefore : 0
+        return !this.isBalance ? this.offerMethod === 'redEnvelopes' ? this.needPayMoneyBefore - this.redEnvelopeDeductionNumber : this.needPayMoneyBefore : 0
       },
 
       /** 计算充值界面上的金额文本显示
@@ -2495,7 +2544,7 @@
           return;
         }
         if (_this.taskRelease.itemPrice < 1) {
-          _this.$Message.warning('亲，每份试用品的价值必须在1元以上！');
+          _this.$Message.warning('亲，每份评测品的价值必须在1元以上！');
           return;
         }
         if (_this.taskRelease.activityCategory === 'present_get') {
@@ -2521,13 +2570,13 @@
           return;
         }
         if ((_this.taskRelease.activityCategory === 'price_low' || _this.taskRelease.activityCategory === 'goods_clearance') && _this.taskRelease.discountType === 'discount_0') {
-          _this.$Message.warning('亲，请选择试用折扣！');
+          _this.$Message.warning('亲，请选择评测折扣！');
           return;
         }
-        if (_this.taskRelease.remark && _this.taskRelease.remark.length > 300) {
+       /* if (_this.taskRelease.remark && _this.taskRelease.remark.length > 300) {
           _this.$Message.warning('亲，下单要求说明不能超过300个字！');
           return;
-        }
+        }*/
         if (_this.taskRelease.itemReviewRequired === 'offer_review_summary' && !_this.taskRelease.itemReviewSummary) {
           _this.$Message.warning('亲，请填写你对评价的大概要求！');
           return;
@@ -2804,12 +2853,20 @@
           case 'refuseOldShowkerFor15Days' :
             _this.taskRelease.refuseOldShowkerFor15Days = true;
             break;
+          case 'refuseOldShowkerForMerchant15Days' :
+            _this.taskRelease.refuseOldShowkerForMerchant15Days = true;
+            break;
+          case 'refuseOldShowkerForMerchant30Days' :
+            _this.taskRelease.refuseOldShowkerForMerchant30Days = true;
+            break;
           case 'refuseOldShowker' :
             _this.taskRelease.refuseOldShowker = true;
             break;
           case 'all' :
             _this.taskRelease.refuseOldShowkerFor30Days = false;
             _this.taskRelease.refuseOldShowkerFor15Days = false;
+            _this.taskRelease.refuseOldShowkerForMerchant15Days = false;
+            _this.taskRelease.refuseOldShowkerForMerchant30Days = false;
             _this.taskRelease.refuseOldShowker = false;
             break;
         }
@@ -2854,17 +2911,19 @@
             _this.isSelectStoreUrl = !(detectionStoreInfo.data.sellerId.toString() === _this.selectStoreInfo.sellerId && detectionStoreInfo.data.shopId.toString() === _this.selectStoreInfo.shopId);
             return !_this.isSelectStoreUrl;
           } else {
-            _this.storeCheckFailCount++;
-            if (_this.storeCheckFailCount > 1) {
-              // 当爬虫重试后还是失败的话 则默认校验通过
-              return true;
-            } else {
-              _this.checkStoreInfo();
-            }
+            // _this.storeCheckFailCount++;
+            // if (_this.storeCheckFailCount > 1) {
+            //   // 当爬虫重试后还是失败的话 则默认校验通过
+            //   return true;
+            // } else {
+            //   _this.checkStoreInfo();
+            // }
+            return true
           }
         } else {
           _this.$Message.error(detectionStoreInfo.msg);
           _this.taskLoading = false;
+          return true
         }
       },
       // 发布活动
@@ -3104,7 +3163,7 @@
               _this.taskRelease.taskId = res.data.id;
             }
             if ((_this.taskStatus === 'waiting_modify' || _this.taskStatus === 'waiting_pay') && _this.paidDeposit > 0 && type !== 'copy') {
-              _this.redEnvelopesState = res.data.redEnvelopeDeductionPaid > 0;
+              _this.offerMethod = res.data.redEnvelopeDeductionPaid > 0 ? 'redEnvelopes' : 'noUseOffer';
               _this.disabledRedEnvelopes = true;
             }
             _this.mainDefaultList.push({src: res.data.taskMainImage});
@@ -3113,7 +3172,7 @@
                 _this.taskRelease[key] = res.data[key]
               }
             });
-
+            _this.taskRelease.activityCategory = 'present_get';
             // 复制活动时活动份数为taskCount + returnCount
             _this.taskRelease.taskCount = res.data.taskCount + res.data.returnCount * 1;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
@@ -3123,6 +3182,12 @@
 
             // 活动免审状态
             _this.doNotAudit.doNotAuditStatus = res.data.withoutAudit ? res.data.withoutAudit : false;
+
+            // 评价期望统一重置为：无需求
+            _this.taskRelease.itemReviewRequired = 'review_by_showker_self';
+
+            // 晒图需求统一重置为: 无所谓
+            _this.taskRelease.donotPostPhoto = 'false';
 
             // 是否是首发活动标识
             _this.isFastPublish = res.data.fastPublish ? res.data.fastPublish : false;
@@ -3174,6 +3239,10 @@
               _this.trialCondition = 'refuseOldShowkerFor30Days'
             } else if (res.data.refuseOldShowkerFor15Days) {
               _this.trialCondition = 'refuseOldShowkerFor15Days'
+            } else if (res.data.refuseOldShowkerForMerchant30Days) {
+              _this.trialCondition = 'refuseOldShowkerForMerchant30Days'
+            } else if (res.data.refuseOldShowkerForMerchant15Days) {
+              _this.trialCondition = 'refuseOldShowkerForMerchant15Days'
             } else {
               _this.trialCondition = 'all'
             }
@@ -3475,7 +3544,7 @@
       confirmPayment(pwd) {
         const _this = this;
         api.editPromotion({
-          redEnvelopesState: _this.redEnvelopesState,
+          redEnvelopesState: _this.offerMethod === 'redEnvelopes',
           taskId: _this.taskPayId,
         }).then(res => {
           return res
@@ -4577,6 +4646,25 @@
 
     .text-orange {
       color: #fd6b22;
+    }
+
+    .common-service {
+      display: inline-block;
+      width: 86px;
+      height: 24px;
+      background-color: #E5E5E5;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background-repeat: no-repeat;
+      background-position: 4px 2px;
+      padding-left: 25px;
+      text-align: left;
+      font-size: 14px;
+      color: #000;
+      margin-top: 10px;
+      &.qq-service {
+        background-image: url("~assets/img/common/qq-icon.png");
+      }
     }
   }
 

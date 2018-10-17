@@ -201,7 +201,8 @@
           if (res.status) {
             self.$store.commit({
               type: 'RECORD_USER_INFO',
-              info: res.data
+              info: res.data,
+              token: res.token
             });
             if (res.data.role === 1) {
               self.$router.push({name: 'Home'});

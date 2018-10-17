@@ -536,7 +536,7 @@
           type: 'NEED_ORDER_VISITOR_FLOW',
           status: needVisitorFlow
         });
-        this.showOrder();
+        this.showOrder('showNextModal');
       },
       lookTaskDetail(id) {
         this.$router.push({name: 'ActivityDetail', query: {q: encryption(id)}})

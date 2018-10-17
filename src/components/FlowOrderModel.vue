@@ -16,7 +16,7 @@
             <span>选择条数</span>
             <i-button v-for="item in orderList" :key="item.id" class="ml-15 collection-option"
                       :class="{'is-active':item.id === selectItem.id}" @click="selectItem = item">
-              <span class="fs-14 order-num">{{item.count}}条</span><br/>
+              <span class="fs-14 order-num">{{item.count - item.additiveCount}}条</span><span v-if="item.additiveCount" class="gift-count">送{{item.additiveCount}}条</span><br/>
               <span class="fs-14 order-price">￥{{(item.price/100).toFixed(2)}}元</span><br/>
               <span class="fs-12 text-decoration-through cl666">{{item.memberLevel === 100 ? 'VIP' : '原价'}}:￥{{(item.showPrice/100).toFixed(2)}}元</span>
             </i-button>
@@ -27,7 +27,7 @@
             <span v-show="defaultTab.type === 'visitor_flow'">单价：￥0.20元/条</span>
             <span v-show="defaultTab.type === 'visitor_flow'"
                   class="ml-15 mr-15 text-decoration-through">VIP：￥0.10元/条</span>
-            <span>(<span class="blue text-decoration-underline">升级VIP</span><span
+            <span @click="toVipOrder" class="cursor-p">(<span class="blue text-decoration-underline">升级VIP</span><span
               class="main-color text-decoration-underline">，享受5折订购</span>)</span>
           </p>
           <p v-else class="mt-15 ml-56">
@@ -86,6 +86,10 @@
         type: Boolean,
         default: false
       },
+      showNextStepModal: {
+        type: Boolean,
+        default: false
+      }
     },
     data() {
       return {
@@ -184,14 +188,20 @@
         }).then(res => {
           if (res.status) {
             if (res.data.length > 0) {
-              _this.orderList = res.data;
-              _this.selectItem = res.data[0];
+              _this.orderList = res.data.filter(item => {
+                return item.showFront
+              });
+              _this.selectItem = _this.orderList[0];
             }
           } else {
             _this.$Message.error(res.msg);
           }
         })
 
+      },
+      toVipOrder() {
+        let routeData = this.$router.resolve({path: '/user/vip-member/order'});
+        window.open(routeData.href,'_blank');
       },
       change(value) {
         if (!value) {
@@ -235,7 +245,7 @@
             _this.$Message.success('恭喜您，支付成功！');
             _this.selectItem = {};
             _this.$emit('input', false);
-            _this.$emit('on-success');
+            _this.$emit('on-success',this.showNextStepModal);
           } else {
             _this.$Message.error(res.msg);
           }
@@ -270,6 +280,8 @@
     .flow-option {
       width: 120px;
       background: #F7F7F7;
+      padding-left: 5px;
+      padding-right: 5px;
       &:hover {
         border-color: $mainColor;
         background-color: #FFF4F1;
@@ -284,6 +296,12 @@
       .order-price {
         color: $mainColor;
       }
+    }
+    .gift-count {
+      padding: 2px 3px;
+      border-radius: 4px;
+      background: $mainColor;
+      color: #fff;
     }
     .order-btn {
       background: $mainColor;

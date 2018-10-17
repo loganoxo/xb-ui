@@ -98,7 +98,7 @@
         </div>
       </div>
     </div>
-    <!--商家通过试用报告返款给拿手弹框-->
+    <!--商家通过评测报告返款给拿手弹框-->
     <div class="confirm-refund-model" v-if="showRefundModel">
       <div class="confirm-refund-con fadeIn">
         <i class="right mr-10" @click="closeRefundModel">&times;</i>

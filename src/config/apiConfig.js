@@ -577,14 +577,14 @@ export default {
   },
 
   /**
-   * 根据拿手任务ID获取试用报告
+   * 根据拿手任务ID获取评测报告
    */
   showkerTaskReport(params) {
     return axiosConfig.post("/api/showker-task-report.json", params)
   },
 
   /**
-   * 根据试用报告ID获取试用报告
+   * 根据评测报告ID获取评测报告
    */
   getTrialReport(params) {
     return axiosConfig.post("/api/trial-report.json", params)
@@ -1060,21 +1060,21 @@ export default {
   },
 
   /**
-   * 商家开启活动一键加速功能
+   * 商家开启活动审批托管功能
    */
   taskSpeedUp(params) {
     return axiosConfig.post('/api/task-speed-up.json', params)
   },
 
   /**
-   * 获取用户是否有火眼金睛功能试用资格（每个用户仅有一次试用机会）
+   * 获取用户是否有火眼金睛功能评测资格（每个用户仅有一次评测机会）
    */
   eyeTrialQualification(params) {
     return axiosConfig.get('/api/eye-trial-qualification.json', params)
   },
 
   /**
-   * 购买火眼金睛功能一天试用资格
+   * 购买火眼金睛功能一天评测资格
    */
   buyEyeTrialOneDay(params) {
     return axiosConfig.post('/api/buy-eye-trial-one-day.json', params)
@@ -1350,13 +1350,62 @@ export default {
    * 商家提前进行任务结算
    */
   taskSettlement(params) {
-    return axiosConfig.post('/api/task-settlement.json', params)
+    return axiosConfig.get('/api/task-settlement.json', params)
   },
+
   /**
    * 商家备注
    */
   merchantRemark(params) {
     return axiosConfig.post('/api/merchant-remark.json', params)
-  }
+  },
 
+  /**
+   * 获取充值卡全部套餐
+   */
+  getRechargeCardConfig() {
+    return axiosConfig.get('/api/get-recharge-card-config.json')
+  },
+
+  /**
+   * 购买充值卡
+   */
+  orderRechargeCard(params) {
+    return axiosConfig.post('/api/recharge-card-order.json', params)
+  },
+
+  /**
+   * 获取充值卡充值明细
+   */
+  getRechargeCardRechargeDetail(params) {
+    return axiosConfig.get('/api/recharge-card-order-detail.json',params)
+  },
+
+  /**
+   * 获取充值卡收支明细
+   */
+  getRechargeCardRecordDetail(params) {
+    return axiosConfig.get('/api/get-recharge-card-record-detail.json',params)
+  },
+
+  /**
+   * 获取充值卡下一级收支明细
+   */
+  getRechargeCardRecordTradeDetail(params) {
+    return axiosConfig.get('/api/get-recharge-card-record-trade-detail.json',params)
+  },
+
+  /**
+   * 查看违规扣分情况
+   */
+  getPunishInfo(params) {
+    return axiosConfig.get('/api/get-punish.json', params)
+  },
+
+  /**
+   * 检查邀请码是否匹配
+   */
+  checkInvitationCode(params) {
+    return axiosConfig.get('/api/get-invitation-code.json', params)
+  }
 }

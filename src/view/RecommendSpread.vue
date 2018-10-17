@@ -49,7 +49,7 @@
               立即登录
             </router-link>
             <p class="mt-10">
-              还没有账号？点我 <router-link to="/register">注册</router-link>
+              还没有账号？点我 <router-link to="/register/seller-register">注册</router-link>
             </p>
           </div>
         </div>

@@ -11,7 +11,7 @@
       </div>
       <div class="inline-block step left clear">
         <div class="inline-block step-number left">2</div>
-        <div class="inline-block step-text left">活动上线后，商家可审核来申请试用的拿手旺旺号。</div>
+        <div class="inline-block step-text left">活动上线后，商家可审核来申请评测的拿手旺旺号。</div>
         <icon class="left mt-20 mr-5" type="chevron-right" size="30" color="#ccc"/>
       </div>
       <div class="inline-block step left clear">
@@ -39,7 +39,7 @@
       <i-button type="primary" @click="goTaskCreate">启用完整版发布通道</i-button>
     </div>
     <!--选择活动类型-->
-    <div class="activity-type mt-20" v-show="stepName === 'information'">
+    <!--<div class="activity-type mt-20" v-show="stepName === 'information'">
       <div class="activity-type-title">请选择活动类型：</div>
       <div class="clear mt-10">
         <div class="left mr-10 activity-type-box" :class="{isSelect:taskRelease.activityCategory === 'free_get'}" @click="changeSelectActivity('free_get')">
@@ -48,13 +48,13 @@
         <div class="left activity-type-box mr-10" :class="{isSelect:taskRelease.activityCategory === 'present_get'}" @click="changeSelectActivity('present_get')">
           <p class="mt-22">模版B</p>
         </div>
-        <!--<div class="left activity-type-box mr-10" @click="toTaskFans">-->
-          <!--<p>微信加粉</p>-->
-          <!--<p>尾货/试用商品/赠品</p>-->
-          <!--<p>均可兑换高质量粉丝</p>-->
-        <!--</div>-->
+        &lt;!&ndash;<div class="left activity-type-box mr-10" @click="toTaskFans">&ndash;&gt;
+          &lt;!&ndash;<p>微信加粉</p>&ndash;&gt;
+          &lt;!&ndash;<p>尾货/评测商品/赠品</p>&ndash;&gt;
+          &lt;!&ndash;<p>均可兑换高质量粉丝</p>&ndash;&gt;
+        &lt;!&ndash;</div>&ndash;&gt;
       </div>
-    </div>
+    </div>-->
     <!--填写活动信息详情-->
     <div class="activity-con mt-20">
       <div class="activity-info" v-show="stepName === 'information'">
@@ -76,7 +76,7 @@
           <i-input v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"/>
           <span>元</span>
           <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><icon
-            color="#f9284f" type="information-circled"/>&nbsp;每份试用品的价值必须在1元以上</span>
+            color="#f9284f" type="information-circled"/>&nbsp;每份评测品的价值必须在1元以上</span>
           <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
         </div>
         <div v-show="taskRelease.activityCategory === 'present_get'" class="order-quantity  ml-20 mt-20 mb-20">
@@ -499,7 +499,15 @@
               [{'color': []}, {'background': []}],
               [{'align': []}],
               ['image']
-            ]
+            ],
+            handlers: {
+              image: function (image) {
+                if (image) {
+                  let fileInput = document.getElementById('presentGet');
+                  fileInput.click();
+                }
+              }
+            }
           }
         },
         showPayModel: false,
@@ -566,7 +574,7 @@
           orderQuantity: null,
           presentPrice: null,
           discountType: 'discount_0',
-          activityCategory: 'free_get',
+          activityCategory: 'present_get',
           pinkage: true,
           donotPostPhoto: true,
           paymentMethod: 'no_hua_and_credit_pay',
@@ -598,7 +606,7 @@
       }
     },
     mounted() {
-      const _this = this;
+    /*  const _this = this;
       const imgHandlerPresentGet = async function (image) {
         _this.addImgRangePresentGet = _this.$refs.myTextEditorPresent.quill.getSelection();
         if (image) {
@@ -606,7 +614,7 @@
           fileInput.click()
         }
       };
-      _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);
+      _this.$refs.myTextEditorPresent.quill.getModule("toolbar").addHandler("image", imgHandlerPresentGet);*/
     },
     created() {
       this.getItemCatalog();
@@ -990,7 +998,7 @@
           return;
         }
         if (_this.taskRelease.itemPrice < 1) {
-          _this.$Message.warning('亲，每份试用品的价值必须在1元以上！');
+          _this.$Message.warning('亲，每份评测品的价值必须在1元以上！');
           return;
         }
         if (_this.taskRelease.activityCategory === 'present_get') {

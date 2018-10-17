@@ -12,7 +12,7 @@
             <Breadcrumb-item>{{commodityData.task.itemCatalog.parentItemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item>{{commodityData.task.itemCatalog.name}}</Breadcrumb-item>
             <Breadcrumb-item v-if="commodityData.task.discountType === 'price_low'">
-              {{parseFloat(commodityData.task.discountPrice/100)}}试用
+              {{parseFloat(commodityData.task.discountPrice/100)}}评测
             </Breadcrumb-item>
           </Breadcrumb>
         </div>
@@ -39,7 +39,7 @@
               <span class="fs-18">{{commodityData.task.taskTypeDesc}}</span>
               <span v-if="commodityData.task.discountType === 'price_low'" class="fs-14"
                     style="color: #fff; padding: 2px 5px;"
-                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}试用</span>
+                    :style="{backgroundColor: $store.state.discountPriceType[parseFloat(commodityData.task.discountPrice/100)].backgroundColor}">{{parseFloat(commodityData.task.discountPrice/100)}}评测</span>
             </p>
             <p class="fs-14">
               宝贝单价：<span class="fs-18" style="text-decoration: line-through;">{{(commodityData.task.itemPrice/100).toFixed(2)}}</span>
@@ -54,11 +54,11 @@
                     v-if="!commodityData.task.discountPrice && !commodityData.task.discountRate">
                 ￥0
               </span>元
-              <span class="cl999">（需垫付约{{(commodityData.task.perMarginNeed/100).toFixed(2)}}）</span>
+              <!--<span class="cl999">（需垫付约{{(commodityData.task.perMarginNeed/100).toFixed(2)}}）</span>-->
               &nbsp;&nbsp;&nbsp;&nbsp;
               活动份数：<span class="fs-18"> {{commodityData.task.taskCount}} </span>份
             </p>
-            <p class="fs-14">（商家已存入总活动担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>
+            <!--<p class="fs-14">（商家已存入总活动担保金&nbsp;{{commodityData.task.totalMarginNeed/100}}&nbsp;元，请放心申请）</p>-->
             <p class="fs-14">{{commodityData.task.showkerApplyTotalCount}} 人申请，{{parseInt(commodityData.trailOn) ?
               commodityData.trailOn: 0}} 人正在参与活动，{{parseInt(commodityData.trailDone) ? commodityData.trailDone : 0}}
               人完成活动， 剩余 {{commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount >= 0 ? commodityData.task.taskCount - commodityData.task.showkerApplySuccessCount : 0}} 份
@@ -126,49 +126,49 @@
           </div>
         </div>
       </div>
+      <!--<div class="container">-->
+        <!--<div class="task-details-step">-->
+          <!--<div class="left title">平台流程<span></span></div>-->
+          <!--<ul class="left ctt">-->
+            <!--<li>-->
+              <!--<span>1</span>-->
+              <!--<em>提交申请</em>-->
+              <!--<Icon type="ios-arrow-forward" />-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<span>2</span>-->
+              <!--<em>商家审核，通过后即可获得拿手资格 </em>-->
+              <!--<Icon type="ios-arrow-forward" />-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<span>3</span>-->
+              <!--<em v-if="commodityData.task.activityCategory === 'free_get'"> 按照商家指定的方式，以{{(commodityData.task.itemPrice/100).toFixed(2)}}的价格购买本宝贝</em>-->
+              <!--<em v-if="commodityData.task.activityCategory === 'present_get'"> 按照商家指定的方式，以{{(commodityData.task.perMarginNeed/100).toFixed(2)}}的价格购买本宝贝</em>-->
+              <!--<Icon type="ios-arrow-forward" />-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<span>4</span>-->
+              <!--<em>收到宝贝后，提交买家秀</em>-->
+              <!--<Icon type="ios-arrow-forward" />-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<span>5</span>-->
+              <!--<em v-if="commodityData.task.activityCategory === 'free_get' && !commodityData.task.discountPrice && !commodityData.task.discountRate">-->
+                <!--商家返还{{(parseInt(commodityData.task.itemPrice)/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>-->
+              <!--<em v-if="commodityData.task.activityCategory === 'free_get' && commodityData.task.discountPrice"> 商家返还{{((parseInt(commodityData.task.itemPrice) - -->
+                <!--parseInt(commodityData.task.discountPrice))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>-->
+              <!--<em v-if="commodityData.task.activityCategory === 'free_get' && !commodityData.task.discountPrice && commodityData.task.discountRate">-->
+                <!--商家返还{{(Math.ceil(commodityData.task.itemPrice * (1 - -->
+                <!--commodityData.task.discountRate/100))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>-->
+              <!--<em v-if="commodityData.task.activityCategory === 'present_get'">-->
+                <!--商家返还{{(commodityData.task.perMarginNeed/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束-->
+              <!--</em>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="container">
-        <div class="task-details-step">
-          <div class="left title">平台流程<span></span></div>
-          <ul class="left ctt">
-            <li>
-              <span>1</span>
-              <em>提交申请</em>
-              <Icon type="ios-arrow-forward" />
-            </li>
-            <li>
-              <span>2</span>
-              <em>商家审核，通过后即可获得拿手资格 </em>
-              <Icon type="ios-arrow-forward" />
-            </li>
-            <li>
-              <span>3</span>
-              <em v-if="commodityData.task.activityCategory === 'free_get'"> 按照商家指定的方式，以{{(commodityData.task.itemPrice/100).toFixed(2)}}的价格购买本宝贝</em>
-              <em v-if="commodityData.task.activityCategory === 'present_get'"> 按照商家指定的方式，以{{(commodityData.task.perMarginNeed/100).toFixed(2)}}的价格购买本宝贝</em>
-              <Icon type="ios-arrow-forward" />
-            </li>
-            <li>
-              <span>4</span>
-              <em>收到宝贝后，提交买家秀</em>
-              <Icon type="ios-arrow-forward" />
-            </li>
-            <li>
-              <span>5</span>
-              <em v-if="commodityData.task.activityCategory === 'free_get' && !commodityData.task.discountPrice && !commodityData.task.discountRate">
-                商家返还{{(parseInt(commodityData.task.itemPrice)/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
-              <em v-if="commodityData.task.activityCategory === 'free_get' && commodityData.task.discountPrice"> 商家返还{{((parseInt(commodityData.task.itemPrice) -
-                parseInt(commodityData.task.discountPrice))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
-              <em v-if="commodityData.task.activityCategory === 'free_get' && !commodityData.task.discountPrice && commodityData.task.discountRate">
-                商家返还{{(Math.ceil(commodityData.task.itemPrice * (1 -
-                commodityData.task.discountRate/100))/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束 </em>
-              <em v-if="commodityData.task.activityCategory === 'present_get'">
-                商家返还{{(commodityData.task.perMarginNeed/100).toFixed(2)}}元到您的平台账户（可提现），圆满结束
-              </em>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="container">
-        <div class="graphic-info">
+        <div class="graphic-info mt-10">
           <div class="graphic-info-sel">
             <a :class="[graphicInfoSelClass === graphicSel.isClass ? 'active' : '' ]"
                v-for="graphicSel in graphicInfoSels" :key="graphicSel.isClass" @click="graphicSelFunc(graphicSel)">
@@ -182,67 +182,67 @@
                 <place-order-step v-if="Object.keys(showkerTask).length > 0" :showkerTaskInfo="showkerTask" :isShowPrecautions="false" @changeTask="getShowkerToProcessOrder"/>
               </div>
               <div class="fs-18 text-ct">
-                <div class="precautions mb-20 pt-10">
-                  <p>注意事项：</p>
-                  <p class="mt-10" v-if="commodityData.task.showkerOrderTimeLimit">
-                    <span>下单速度：</span>
-                    <span>{{commodityData.task.showkerOrderTimeLimit}}小时</span>
-                    <tooltip content="通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期" placement="top-start">
-                      <Icon type="md-help-circle" size="14" class="ml-5 vtc-text-btm"/>
-                    </tooltip>
-                  </p>
-                  <p class="mt-10" v-if="commodityData.task.orderQuantity">
-                    <span>拍下件数：</span>
-                    <span>{{commodityData.task.orderQuantity || 1}}</span>
-                  </p>
-                  <p class="mt-10">
-                    <span>付款方式：</span>
-                    <span v-if="commodityData.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>
-                    <span v-if="commodityData.task.paymentMethod === 'no_hua_and_credit_pay'">禁止使用花呗和信用卡付款</span>
-                    <span v-if="commodityData.task.paymentMethod === 'no_hua_pay'">禁止使用花呗付款</span>
-                    <span v-if="commodityData.task.paymentMethod === 'no_credit_pay'">禁止使用信用卡付款</span>
-                  </p>
-                  <p class="mt-10 mr-10" v-if="commodityData.task.remark && commodityData.showkerTask">
-                    <span>下单要求：</span>
-                    <span>{{commodityData.task.remark}}</span>
-                  </p>
-                  <p class="mt-10"
-                     v-if="!commodityData.showkerTask && commodityData.task.itemReviewRequired !== 'review_by_showker_self'">
-                    <span>评价要求：</span>
-                    <span>商家对淘宝评价有要求，</span>
-                    <span class="cl000">获得活动资格后需按商家要求进行评价！</span>
-                  </p>
-                  <p class="mt-10"
-                     v-if="commodityData.task.itemReviewRequired === 'offer_review_summary' && commodityData.showkerTask">
-                    <span>评论要求：</span>
-                    <span class="cl000">商家希望亲</span>
-                    <span class="cl-red">在淘宝</span>
-                    <span class="cl000">从以下角度进行评价！</span>
-                  </p>
-                  <p class="evaluation-content-tip cl666"
-                     v-if="commodityData.task.itemReviewRequired === 'offer_review_summary' && commodityData.showkerTask">
-                    {{commodityData.task.itemReviewSummary}}</p>
-                  <p class="mt-10"
-                     v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
-                    <span>评论要求：</span>
-                    <span class="cl000">商家要求</span>
-                    <span class="cl-red">在淘宝</span>
-                    <span class="cl000">使用下方提供的内容进行评价，为避免纠纷，</span>
-                    <span>请务必按照要求操作！</span>
-                  </p>
-                  <p class="mt-10" v-if="commodityData.vasCount">
-                    <span>浏览截图：</span>
-                    <span>
-                      {{commodityData.vasCount}}张
-                      <span v-if="commodityData.task.perVasFee && commodityData.task.createTime > uplineTime"> （奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元）</span>
-                    </span>
-                  </p>
-                  <div class="evaluation-content-tip cl666"
-                       v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">
-                    <div v-if="showkerTask.other && showkerTask.other.itemReviewAssign">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>
-                    <!--<div class="copy-evaluation-tbn mt-10 copy-btn" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</div>-->
-                  </div>
-                </div>
+                <!--<div class="precautions mb-20 pt-10">-->
+                  <!--<p>注意事项：</p>-->
+                  <!--<p class="mt-10" v-if="commodityData.task.showkerOrderTimeLimit">-->
+                    <!--<span>下单速度：</span>-->
+                    <!--<span>{{commodityData.task.showkerOrderTimeLimit}}小时</span>-->
+                    <!--<tooltip content="通过审批后需要指定时间内完成淘宝下单并在本平台提交订单号，否则资格自动过期" placement="top-start">-->
+                      <!--<Icon type="md-help-circle" size="14" class="ml-5 vtc-text-btm"/>-->
+                    <!--</tooltip>-->
+                  <!--</p>-->
+                  <!--<p class="mt-10" v-if="commodityData.task.orderQuantity">-->
+                    <!--<span>拍下件数：</span>-->
+                    <!--<span>{{commodityData.task.orderQuantity || 1}}</span>-->
+                  <!--</p>-->
+                  <!--<p class="mt-10">-->
+                    <!--<span>付款方式：</span>-->
+                    <!--<span v-if="commodityData.task.paymentMethod === 'all'">无所谓（可以使用花呗、信用卡等付款，也可以不用）</span>-->
+                    <!--<span v-if="commodityData.task.paymentMethod === 'no_hua_and_credit_pay'">禁止使用花呗和信用卡付款</span>-->
+                    <!--<span v-if="commodityData.task.paymentMethod === 'no_hua_pay'">禁止使用花呗付款</span>-->
+                    <!--<span v-if="commodityData.task.paymentMethod === 'no_credit_pay'">禁止使用信用卡付款</span>-->
+                  <!--</p>-->
+                  <!--<p class="mt-10 mr-10" v-if="commodityData.task.remark && commodityData.showkerTask">-->
+                    <!--<span>下单要求：</span>-->
+                    <!--<span>{{commodityData.task.remark}}</span>-->
+                  <!--</p>-->
+                  <!--<p class="mt-10"-->
+                     <!--v-if="!commodityData.showkerTask && commodityData.task.itemReviewRequired !== 'review_by_showker_self'">-->
+                    <!--<span>评价要求：</span>-->
+                    <!--<span>商家对淘宝评价有要求，</span>-->
+                    <!--<span class="cl000">获得活动资格后需按商家要求进行评价！</span>-->
+                  <!--</p>-->
+                  <!--<p class="mt-10"-->
+                     <!--v-if="commodityData.task.itemReviewRequired === 'offer_review_summary' && commodityData.showkerTask">-->
+                    <!--<span>评论要求：</span>-->
+                    <!--<span class="cl000">商家希望亲</span>-->
+                    <!--<span class="cl-red">在淘宝</span>-->
+                    <!--<span class="cl000">从以下角度进行评价！</span>-->
+                  <!--</p>-->
+                  <!--<p class="evaluation-content-tip cl666"-->
+                     <!--v-if="commodityData.task.itemReviewRequired === 'offer_review_summary' && commodityData.showkerTask">-->
+                    <!--{{commodityData.task.itemReviewSummary}}</p>-->
+                  <!--<p class="mt-10"-->
+                     <!--v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">-->
+                    <!--<span>评论要求：</span>-->
+                    <!--<span class="cl000">商家要求</span>-->
+                    <!--<span class="cl-red">在淘宝</span>-->
+                    <!--<span class="cl000">使用下方提供的内容进行评价，为避免纠纷，</span>-->
+                    <!--<span>请务必按照要求操作！</span>-->
+                  <!--</p>-->
+                  <!--<p class="mt-10" v-if="commodityData.vasCount">-->
+                    <!--<span>浏览截图：</span>-->
+                    <!--<span>-->
+                      <!--{{commodityData.vasCount}}张-->
+                      <!--<span v-if="commodityData.task.perVasFee && commodityData.task.createTime > uplineTime"> （奖励{{computeVasReturnFee(commodityData.task.perVasFee,commodityData.task.systemVasFeeCommissionPercent)}}元）</span>-->
+                    <!--</span>-->
+                  <!--</p>-->
+                  <!--<div class="evaluation-content-tip cl666"-->
+                       <!--v-if="commodityData.task.itemReviewRequired === 'assign_review_detail' && commodityData.showkerTask">-->
+                    <!--<div v-if="showkerTask.other && showkerTask.other.itemReviewAssign">{{showkerTask.other.itemReviewAssign.reviewContent}}</div>-->
+                    <!--&lt;!&ndash;<div class="copy-evaluation-tbn mt-10 copy-btn" :data-clipboard-text="showkerTask.other.itemReviewAssign.reviewContent">复制评价内容</div>&ndash;&gt;-->
+                  <!--</div>-->
+                <!--</div>-->
                 <div v-if="commodityData.cannotShowItemDescriptionOfQualification">
                   <icon type="md-alert" color="#FF6633" size="30" style="vertical-align: sub;"/>
                   获得资格后才能看到活动品信息哦~
@@ -758,7 +758,7 @@
             self.$nextTick(() => {
               self.initJS();
               self.initCss();
-              self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【秀吧365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " ' + self.commodityData.task.taskName + ' ' + self.copyValue + '秀吧365，万千商品每日更新，赶快和我一起来免费试用吧！" class="social-share" data-url=' + self.copyValue + '></div>';
+              self.copyHtml = '<div style="display: inline-block" data-sites="qzone, qq, weibo" data-title="【秀吧365】' + self.commodityData.task.taskName + '" data-image=' + self.commodityData.task.taskMainImage + ' data-description= " ' + self.commodityData.task.taskName + ' ' + self.copyValue + '秀吧365，万千商品每日更新，赶快和我一起来免费评测吧！" class="social-share" data-url=' + self.copyValue + '></div>';
             });
           } else {
             self.$Message.error(res.msg);

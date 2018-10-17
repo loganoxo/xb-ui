@@ -19,19 +19,19 @@
         </router-link>
         </span>
         <span @click="goOut">[ 退出登录 ]</span>
-        <a v-if="getUserInfo.role === 1" target="_blank" :href="pcMerchantQqGroup.remark" class="ml-10 qq-tip">
-          <img src="~assets/img/common/qq.png" alt="">
-          加入QQ交流群：
-          <span>{{pcMerchantQqGroup.configValue}}</span>
-          <span class="cl000">(内幕玩法抢先得)</span>
-        </a>
-        <a v-if="getUserInfo.role === 0" target="_blank" href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu"
-           class="ml-10 qq-tip">
-          <img src="~assets/img/common/qq.png" alt="">
-          加入QQ交流群：
-          <span>672268939</span>
-          <span class="cl000">(第一时间抢便宜)</span>
-        </a>
+        <!--<a v-if="getUserInfo.role === 1" target="_blank" :href="pcMerchantQqGroup.remark" class="ml-10 qq-tip">-->
+          <!--<img src="~assets/img/common/qq.png" alt="">-->
+          <!--加入QQ交流群：-->
+          <!--<span>{{pcMerchantQqGroup.configValue}}</span>-->
+          <!--<span class="cl000">(内幕玩法抢先得)</span>-->
+        <!--</a>-->
+        <!--<a v-if="getUserInfo.role === 0" target="_blank" href="https://jq.qq.com/?_wv=1027&k=5ZMH7Iu"-->
+           <!--class="ml-10 qq-tip">-->
+          <!--<img src="~assets/img/common/qq.png" alt="">-->
+          <!--加入QQ交流群：-->
+          <!--<span>672268939</span>-->
+          <!--<span class="cl000">(第一时间抢便宜)</span>-->
+        <!--</a>-->
       </p>
       <p v-show="!isLogin" class="left">
         你好，欢迎来到白拿拿！
@@ -39,7 +39,7 @@
           <router-link to="/login">登录白拿拿</router-link>
         </span>
         <span class="user-name">
-          <router-link to="/sel-role">免费注册</router-link>
+          <router-link to="/register/seller-register">免费注册</router-link>
         </span>
       </p>
       <p class="right">

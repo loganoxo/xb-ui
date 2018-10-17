@@ -10,20 +10,15 @@ export default {
     state.login = false;
     state.userInfo = {};
     removeStorage("userInfo");
-    removeStorage("taskCreateFastStatus");
+    removeStorage("token");
   },
 
   //登录成功后存储用户信息到localStorage和vuex
-  [types.RECORD_USER_INFO](state, {info}) {
-    state.userInfo = {};
+  [types.RECORD_USER_INFO](state, {info, token}) {
     state.userInfo = info;
     state.login = true;
-    let userInfo = getStorage("userInfo");
-
-    if (userInfo) {
-      removeStorage("userInfo");
-    }
     setStorage('userInfo', info);
+    if (token) setStorage('token', token);
   },
 
   //页面刷新的时候从本地缓存获取用户信息数据存储到vuex

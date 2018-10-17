@@ -25,15 +25,10 @@
             <sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>
             <span v-if="!item.oldKeyword && item.index === keywordPlanInfo.length - 1 && item.index !== 0" class="close-tag" @click="handleClose(item.index)"><icon type="ios-close"/></span>
           </div>
-          <i-button class="ml-5 mt-15" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加关键词方案</i-button>
+          <i-button v-if="data.taskType === 'pc_search'" class="ml-5 mt-15" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd('pc_search')">添加关键词方案</i-button>
+          <i-button v-if="data.taskType === 'app_search'" class="ml-5 mt-15" icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd('app_search')">添加关键词方案</i-button>
         </template>
         <!--原来的逻辑-->
-        <!--<template v-if="data.isMoreKeywordsPlan">-->
-          <!--<div class="inline-block tag" v-for="item in keywordPlanInfo" :class="selectKeywordScheme === item.index ? 'select-tag-bg' : ''">-->
-            <!--<span @click="selectChangeScheme(item.index)">{{item.title ? item.title : `关键词方案${item.index + 1}`}}</span>-->
-            <!--<sup class="badge-count" v-show="item.countAssigned > 0">{{item.countAssigned}}</sup>-->
-          <!--</div>-->
-        <!--</template>-->
         <div v-for="(item,index) in keywordPlanInfo" v-show="selectKeywordScheme === item.index && !item.oldKeyword">
           <div class="keyword-plan-detail">
             <div class="search-keyword mt-10">
@@ -55,7 +50,7 @@
               <span class="required">展示价格：</span>
               <i-input v-model="item.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"/>
             </div>
-            <div class="baby-location mt-10 clear">
+            <div v-if="data.taskType === 'pc_search'" class="baby-location mt-10 clear">
               <span class="required">宝贝搜索位置：</span>
               <span>第</span>
               <i-input v-model.number="item.searchPagePositionMin" style="width: 40px"/>
@@ -63,6 +58,16 @@
               <i-input v-model.number="item.searchPagePositionMax" style="width: 40px"/>
               <span>页</span>
               <span class="blue right mr-15 cursor-p select-none" @click="moreDetail">更多设置 <icon type="md-arrow-dropdown" color="#2D8cF0" size="20" :class="{'select-style' : hasSelect}"/></span>
+            </div>
+            <div v-if="data.taskType === 'app_search'" class="baby-location mt-10">
+              <span class="required">宝贝搜索位置：</span>
+              <span>从上往下数第</span>
+              <i-input v-model="item.searchRankPosition" style="width: 40px"/>
+              <span>个宝贝左右</span>
+              <p class="sizeColor2 ml-80 mt-6 clear">
+                <span>位置统一切换为一列展示后，在数位置。（如果移动端排名在100名以后，可使用下面的卡条件功能）</span>
+                <span class="blue right mr-15 cursor-p select-none" @click="moreDetail">更多设置 <icon type="md-arrow-dropdown" color="#2D8cF0" size="20" :class="{'select-style' : hasSelect}"/></span>
+              </p>
             </div>
             <div v-show="hasSelect">
               <div class="line"></div>
@@ -141,11 +146,6 @@
               </div>
             </div>
           </div>
-          <!--<div class="mt-10">-->
-            <!--<span>追加份数：</span>-->
-            <!--<i-input v-model.number="item.countAssigned" placeholder="请输入追加份数" class="width-100"/>-->
-            <!--<span class="ml-10 cl000 fs-14" v-if="item.searchKeyword">为{{` "${item.searchKeyword}" `}}追加的份数</span>-->
-          <!--</div>-->
         </div>
         <div v-for="item in keywordPlanInfo" v-show="selectKeywordScheme === item.index">
           <div class="mt-10">
@@ -177,7 +177,7 @@
             <i-button :disabled="itemReviewList.length === 1" type="dashed" icon="plus-round" @click="deleteItemReviewList(index)">删除</i-button>
           </p>
           <i-button :disabled="itemReviewList.length === allAddTaskNumber || allAddTaskNumber === 0" class="ml-45 mt-6 mb-5" type="dashed" icon="plus-round" @click="addItemReviewList">添加</i-button>
-          <span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；9月测试期免费，10月以后按标准收取。</span>
+          <span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；近期免费，收费待定。</span>
         </div>
       </div>
       <div class="mt-10 border-top pt-10">
@@ -237,14 +237,11 @@
         newSearchScheme: [],
         keywordDetail: {
           index: 0,
-          // addTaskNumber: null,
           itemMainImage: this.data.itemMainImage,
           countAssigned: null,
           searchKeyword: null,
           searchSort: 'zong_he',
           searchPagePrice: null,
-          searchPagePositionMin: null,
-          searchPagePositionMax: null,
           searchFilter: [],
           priceRangeMin: null,
           priceRangeMax: null,
@@ -469,26 +466,44 @@
           }, 200);
         }
       },
-      handleAdd() {
+      handleAdd(type) {
         this.addKeywordScheme = this.keywordPlanInfo.length - 1;
         this.addKeywordScheme ++ ;
         this.selectKeywordScheme = this.addKeywordScheme;
-        this.keywordPlanInfo.push({
-          index: this.addKeywordScheme,
-          itemMainImage: this.data.itemMainImage,
-          // countAssigned: null,
-          searchKeyword: null,
-          searchSort: 'zong_he',
-          searchPagePrice: null,
-          searchPagePositionMin: null,
-          searchPagePositionMax: null,
-          searchFilter: [],
-          priceRangeMin: null,
-          priceRangeMax: null,
-          deliverAddress: null,
-          oldKeyword: false,
-          countAssigned: 1,
-        })
+        if (type === 'pc_search') {
+          this.keywordPlanInfo.push({
+            index: this.addKeywordScheme,
+            itemMainImage: this.data.itemMainImage,
+            countAssigned: 1,
+            searchKeyword: null,
+            searchSort: 'zong_he',
+            searchPagePrice: null,
+            searchPagePositionMin: null,
+            searchPagePositionMax: null,
+            searchFilter: [],
+            priceRangeMin: null,
+            priceRangeMax: null,
+            deliverAddress: null,
+            oldKeyword: false,
+          })
+        } else if (type === 'app_search') {
+          this.keywordPlanInfo.push({
+            index: this.addKeywordScheme,
+            itemMainImage: this.data.itemMainImage,
+            countAssigned: 1,
+            searchKeyword: null,
+            searchSort: 'zong_he',
+            searchPagePrice: null,
+            searchRankPosition: null,
+            searchFilter: [],
+            priceRangeMin: null,
+            priceRangeMax: null,
+            deliverAddress: null,
+            oldKeyword: false,
+          })
+
+        }
+
       },
       handleClose(index) {
         this.keywordPlanInfo.splice(index,1);
@@ -541,29 +556,43 @@
               this.$Message.warning('亲，关键词方案' + index + '中的展示价格必须为数字！');
               return;
             }
-            if (!this.newSearchScheme[i].searchPagePositionMin) {
-              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索起始位置不能空！');
-              return;
+            // pc搜索
+            if (this.data.taskType === 'pc_search') {
+              if (!this.newSearchScheme[i].searchPagePositionMin) {
+                this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索起始位置不能空！');
+                return;
+              }
+              if (!this.newSearchScheme[i].searchPagePositionMax) {
+                this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索结束位置不能空！');
+                return;
+              }
+              if (!isInteger(this.newSearchScheme[i].searchPagePositionMin)) {
+                this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索起始位置必须为正整数！');
+                return;
+              }
+              if (!isInteger(this.newSearchScheme[i].searchPagePositionMax)) {
+                this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索结束位置必须为正整数！');
+                return;
+              }
+              if (this.newSearchScheme[i].searchPagePositionMax < this.newSearchScheme[i].searchPagePositionMin) {
+                this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索位置起始页不能大于结束页！');
+                return;
+              }
+              if (this.newSearchScheme[i].searchPagePositionMax - this.newSearchScheme[i].searchPagePositionMin > 2) {
+                this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索位置页数差值最大不大于3页！');
+                return;
+              }
             }
-            if (!this.newSearchScheme[i].searchPagePositionMax) {
-              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索结束位置不能空！');
-              return;
-            }
-            if (!isInteger(this.newSearchScheme[i].searchPagePositionMin)) {
-              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索起始位置必须为正整数！');
-              return;
-            }
-            if (!isInteger(this.newSearchScheme[i].searchPagePositionMax)) {
-              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索结束位置必须为正整数！');
-              return;
-            }
-            if (this.newSearchScheme[i].searchPagePositionMax < this.newSearchScheme[i].searchPagePositionMin) {
-              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索位置起始页不能大于结束页！');
-              return;
-            }
-            if (this.newSearchScheme[i].searchPagePositionMax - this.newSearchScheme[i].searchPagePositionMin > 2) {
-              this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索位置页数差值最大不大于3页！');
-              return;
+            // 手淘搜索
+            if (this.data.taskType === 'app_search') {
+              if (!this.newSearchScheme[i].searchRankPosition) {
+                this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索位置不能空！');
+                return;
+              }
+              if (!isInteger(this.newSearchScheme[i].searchRankPosition)) {
+                this.$Message.warning('亲，关键词方案' + index + '中的宝贝搜索位置需为正整数！');
+                return;
+              }
             }
             if (this.newSearchScheme[i].priceRangeMin) {
               if (!isInteger(this.newSearchScheme[i].priceRangeMin)) {
@@ -578,27 +607,23 @@
               }
             }
           }
-
-
         }
         let keywordPlanInfoIndex = 0;
-        const allOk = this.keywordPlanInfo.every((item, index) => {
+        const allOk = this.newSearchScheme.every((item, index) => {
           keywordPlanInfoIndex = index;
           return item.countAssigned && item.countAssigned > 0
         });
         if (!allOk) {
-          this.$Message.warning(`亲，请输入"${this.keywordPlanInfo[keywordPlanInfoIndex].searchKeyword}"中需要追加的活动份数！`);
+          this.$Message.warning(`亲，请输入"${this.newSearchScheme[keywordPlanInfoIndex].searchKeyword}"中需要追加的活动份数！`);
           return;
         }
-
         if (this.data.itemReviewRequired === 'assign_review_detail') {
           for (let l = 0, len = this.itemReviewList.length; l < len; l++) {
-            if (!this.itemReviewList[l].value || !delSpace(this.itemReviewList[l].value)) {
-              // 当用户输入连续空格的时候自动将空格去除
-              this.itemReviewList[l].value = delSpace(this.itemReviewList[l].value);
-              this.$Message.warning(`亲，追加评价 ${l + 1} 内容不能为空！`);
-              isItemReviewOk = false;
-              break;
+            // 当用户输入连续空格的时候自动将空格去除
+            this.itemReviewList[l].reviewContent = delSpace(this.itemReviewList[l].reviewContent);
+            // 如果不填写评价，也可以过
+            if (!this.itemReviewList[l].reviewContent && this.itemReviewList[l].reviewPictures.length === 0) {
+              this.itemReviewList[l] = {}
             }
           }
         }
@@ -657,6 +682,12 @@
         // 原关键词追加份数
         const additionSearchScheme = _this.oldSearchScheme.map(item => {
           return item.countAssigned > 0 ? item.countAssigned : 0;
+        });
+        // 价格区间传分
+        _this.newSearchScheme.forEach(item => {
+          item.searchPagePrice = (item.searchPagePrice * 100).toFixed(2) * 1;
+          item.priceRangeMax = item.priceRangeMax > 0 ? (item.priceRangeMax * 100).toFixed(2) * 1 : null;
+          item.priceRangeMin = item.priceRangeMin > 0 ? (item.priceRangeMin * 100).toFixed(2) * 1 : null;
         });
         if (_this.delayDays) {
           api.autoAuditTime({

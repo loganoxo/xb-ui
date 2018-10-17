@@ -354,6 +354,8 @@ export const taskErrorStatusList = (type) => {
     '11': '增值业务交易记录',
     '12': '钱包提取',
     '13': '流量订购',
+    '14': '人工扣款',
+    'PUNISH_SELLER': '商家扣款-商家',
     'waiting_resubmit': '待重新提交',
     'audit_pass': '审核通过',
     'deleted': '未通过',
@@ -406,6 +408,28 @@ export const merchantIncomeType = (type) => {
     '4': '增值服务费返利',
     '5': '流量订购返利',
     '10': '首次发布活动'
+  };
+  return mapList[type];
+};
+
+/**
+ * 商家奖惩映射
+ */
+export const merchantPunishType = (type) => {
+  const mapList = {
+    '11': '商品价格类',
+    '12': '商品运费类',
+    '13': '上下架类',
+    '14': '下单类',
+    '21': '发货时间',
+    '22': '发货快递',
+    '23': '实物商品',
+    '24': '错发漏发',
+    '25': '收货评价',
+    '31': '私下拉群',
+    '32': '领奖审核',
+    '33': '任务押金',
+    '41': '其他行为'
   };
   return mapList[type];
 };

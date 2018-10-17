@@ -144,7 +144,8 @@
             if (res.status) {
               _this.$store.commit({
                 type: 'RECORD_USER_INFO',
-                info: res.data
+                info: res.data,
+                token: res.token
               });
               _this.$emit('input', false);
               _this.pathName && _this.$router.push({name: _this.pathName});

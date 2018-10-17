@@ -1,9 +1,67 @@
 <template>
   <div class="user-home clear">
     <p class="user-home-account">我的主页</p>
-    <div class="fs-14 user-info-box">
+    <div v-if="getUserInfoRole === 1" class="fs-14 merchant-info-box clear">
+      <div class="avatar-box left text-ct">
+        <div class="box-top">
+          <router-link :to="{path:'/user/personal-setting/personal-account-info',query:{from:'userHome'}}">
+            <img class="border-radius-50 mt-10" :src="userHeadUrl" alt="" width="86" height="86">
+          </router-link>
+          <div class="mt-15"><span class="f-b fs-16 cl666">{{userData.phone}}</span><span v-if="isMember" class="vip-mark ml-5 fs-14">VIP</span></div>
+        </div>
+        <div v-if="isMember" class="box-bottom">
+          <span>到期时间：{{getMemberDeadline}}</span>
+          <span class="vip-operate-btn fs-14 ml-5 cursor-p" @click="toVipOrder">马上续费</span>
+        </div>
+        <div v-else class="box-bottom">
+          <span>升级VIP会员享受更多优惠</span>
+          <span class="vip-operate-btn fs-14 ml-5 cursor-p" @click="toVipOrder">马上升级</span>
+        </div>
+      </div>
+      <div class="account-box left">
+        <div class="account-title">我的账户</div>
+        <div class="account-detail">
+          <div>
+            <p class="account-item-num">8000.00</p>
+            <p class="account-item-desc">冻结金额</p>
+            <p class="account-item-operate blue" @click="toActivitySettle">结算</p>
+          </div>
+          <div>
+            <p class="account-item-num">{{(getUserBalance / 100).toFixed(2)}}</p>
+            <p class="account-item-desc">余额</p>
+            <p class="account-item-operate blue" @click="balanceRecharge">充值</p>
+          </div>
+          <div>
+            <p class="account-item-num">{{(totalInCome/100).toFixed(2)}}</p>
+            <p class="account-item-desc">钱包</p>
+            <p class="account-item-operate blue"><span class="pr-5" @click="toRecordRules">赚零钱</span><span class="pl-5" @click="toRecordDetail">明细</span></p>
+          </div>
+          <div class="pos-rel">
+            <div class="offer-poptip poptip">5个优惠即将过期</div>
+            <p class="account-item-num">20</p>
+            <p class="account-item-desc">优惠</p>
+            <p class="account-item-operate blue"><span class="pr-5">领券</span><span class="pl-5">查看</span></p>
+          </div>
+          <div class="pos-rel">
+            <div class="recharge-card-poptip poptip">冲1000送500</div>
+            <p class="account-item-num">{{getRechargeCardBalance}}</p>
+            <p class="account-item-desc">充值卡</p>
+            <p class="account-item-operate blue"><span class="pr-5" @click="showRechargeCard = true">充值</span><span class="pl-5" @click="toRechargeCardDetail">明细</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="getUserInfoRole === 1" class="flow-info-box">
+      <img src="~assets/img/icon/favorite_cart_flow.png" alt="" width="14" height="14">
+      <span class="ml-5">剩余收藏加购： {{getFlowNumInfo.favoriteCartFlowLeft || 0}} 条</span>
+      <img src="~assets/img/icon/visitor_flow.png" alt="" width="14" height="14" class="ml-20">
+      <span class="ml-5">剩余访客流量： {{getFlowNumInfo.visitorFlowLeft || 0}} 条</span>
+      <span class="ml-20 cursor-p blue" @click="showFlowOrder = true">购买</span>
+      <span class="ml-10 cursor-p blue" @click="toOrderDetail">明细</span>
+    </div>
+    <div v-if="getUserInfoRole === 0" class="fs-14 showker-info-box">
       <div class="clear">
-        <div class="lef">
+        <div class="left">
           <img class="left border-radius-50" :src="userHeadUrl" alt="" width="86" height="86">
         </div>
         <div class="left ml-20">
@@ -23,38 +81,37 @@
               to="/user/personal-setting/verified">去认证</router-link></span>
           </p>
           <div>
-             <span v-if="getUserInfoRole === 1 && !isMember">
-               <span>免费会员</span>
-               <router-link to="/user/vip-member/order">马上开通会员</router-link>
-             </span>
-            <span v-if="getUserInfoRole === 1 && isMember" class="mr-5">
-              <img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">
-              <img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">
-              <span class="cl-red" v-if="getMemberVersionLevel === 200">您已是VIP，<router-link
-                to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
-              <span class="cl-red" v-if="getMemberVersionLevel === 300">您已是SVIP，<router-link
-                to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>
-            </span>
+             <!--<span v-if="getUserInfoRole === 1 && !isMember">-->
+               <!--<span>免费会员</span>-->
+               <!--<router-link to="/user/vip-member/order">马上开通会员</router-link>-->
+             <!--</span>-->
+            <!--<span v-if="getUserInfoRole === 1 && isMember" class="mr-5">-->
+              <!--<img v-if="getMemberVersionLevel === 200" src="~assets/img/common/vip.png" alt="vipLogo">-->
+              <!--<img v-if="getMemberVersionLevel === 300" src="~assets/img/common/svip.png" alt="svipLogo">-->
+              <!--<span class="cl-red" v-if="getMemberVersionLevel === 200">您已是VIP，<router-link-->
+                <!--to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>-->
+              <!--<span class="cl-red" v-if="getMemberVersionLevel === 300">您已是SVIP，<router-link-->
+                <!--to="/user/vip-member/instructions?q=VipMemberInstructions">查看我的权限</router-link></span>-->
+            <!--</span>-->
             <span>可用金额：{{(getUserBalance / 100).toFixed(2)}} 元 </span>
             <span v-if="getUserInfoRole === 0">提现中：{{userData.userAccount.enChashingMoney ? (userData.userAccount.enChashingMoney/100).toFixed(2): 0 }} 元  </span>
-            <router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>
-            <span class="ml-10" v-if="getUserInfoRole === 1 && isRedEnvelopesExpirationTime">
-              <img class="vtc-text-btm" src="~assets/img/common/red-envelopes-logo.png" alt="">
-              <span>推广费减免红包</span>
-              <tooltip
-                :content="`有效期至${getMemberDeadline}，仅限于推广费抵扣，最多抵扣${(redEnvelopeDeductionLimit /100).toFixed(2)}元 / 单`"
-                placement="top">
-                <icon type="md-help-circle"/>
-              </tooltip>
-            </span>
-            <span class="ml-10" v-if="getUserInfoRole === 1">
-              <img src="~assets/img/merchant-promotion/purse-on.png" alt="" class="vtc-mid">
-              <span>钱包：{{(totalInCome/100).toFixed(2)}}元</span>
-              <!--<span class="blue ml-10 cursor-p" @click="toWithdrawal">提现</span>-->
-              <span class="blue ml-10 cursor-p" @click="toRecordDetail">明细</span>
-            </span>
-            <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现
-            </router-link>
+            <!--<router-link v-if="getUserInfoRole === 1" :to="{path: '/user/money-management/pay-money'}">充值</router-link>-->
+            <!--<span class="ml-10" v-if="getUserInfoRole === 1 && isRedEnvelopesExpirationTime">-->
+              <!--<img class="vtc-text-btm" src="~assets/img/common/red-envelopes-logo.png" alt="">-->
+              <!--<span>推广费减免红包</span>-->
+              <!--<tooltip-->
+                <!--:content="`有效期至${getMemberDeadline}，仅限于推广费抵扣，最多抵扣${(redEnvelopeDeductionLimit /100).toFixed(2)}元 / 单`"-->
+                <!--placement="top">-->
+                <!--<icon type="md-help-circle"/>-->
+              <!--</tooltip>-->
+            <!--</span>-->
+            <!--<span class="ml-10" v-if="getUserInfoRole === 1">-->
+              <!--<img src="~assets/img/merchant-promotion/purse-on.png" alt="" class="vtc-mid">-->
+              <!--<span>钱包：{{(totalInCome/100).toFixed(2)}}元</span>-->
+              <!--&lt;!&ndash;<span class="blue ml-10 cursor-p" @click="toWithdrawal">提现</span>&ndash;&gt;-->
+              <!--<span class="blue ml-10 cursor-p" @click="toRecordDetail">明细</span>-->
+            <!--</span>-->
+            <router-link v-if="getUserInfoRole === 0" :to="{path: '/user/money-management/getout-money'}">提现</router-link>
             <div v-if="limit && getUserInfoRole === 0" class="inline-block ml-20 pos-rel clear vtc-btm">
               <span class="left">剩余申请次数<span class="blue">{{residue}}</span></span>
               <span class="pos-rel apply-num left">
@@ -65,14 +122,14 @@
                 </em>
               </span>
             </div>
-            <div v-if="getUserInfoRole === 1" class="mt-10">
-              <img src="~assets/img/icon/favorite_cart_flow.png" alt="" width="14" height="14">
-              <span class="ml-5">剩余收藏加购： {{getFlowNumInfo.favoriteCartFlowLeft || 0}} 条</span>
-              <img src="~assets/img/icon/visitor_flow.png" alt="" width="14" height="14" class="ml-20">
-              <span class="ml-5">剩余访客流量： {{getFlowNumInfo.visitorFlowLeft || 0}} 条</span>
-              <span class="ml-20 cursor-p blue" @click="showFlowOrder = true">购买</span>
-              <span class="ml-10 cursor-p blue" @click="toOrderDetail">明细</span>
-            </div>
+            <!--<div v-if="getUserInfoRole === 1" class="mt-10">-->
+              <!--<img src="~assets/img/icon/favorite_cart_flow.png" alt="" width="14" height="14">-->
+              <!--<span class="ml-5">剩余收藏加购： {{getFlowNumInfo.favoriteCartFlowLeft || 0}} 条</span>-->
+              <!--<img src="~assets/img/icon/visitor_flow.png" alt="" width="14" height="14" class="ml-20">-->
+              <!--<span class="ml-5">剩余访客流量： {{getFlowNumInfo.visitorFlowLeft || 0}} 条</span>-->
+              <!--<span class="ml-20 cursor-p blue" @click="showFlowOrder = true">购买</span>-->
+              <!--<span class="ml-10 cursor-p blue" @click="toOrderDetail">明细</span>-->
+            <!--</div>-->
           </div>
         </div>
       </div>
@@ -214,6 +271,8 @@
     </div>
     <!--流量购买弹窗-->
     <flow-order-model v-model="showFlowOrder"/>
+    <!--充值卡购买弹窗-->
+    <recharge-card-model v-model="showRechargeCard"/>
   </div>
 </template>
 
@@ -223,6 +282,7 @@
   import api from '@/config/apiConfig'
   import {setStorage, getStorage, getSeverTime, encryption, timeToDate} from '@/config/utils'
   import FlowOrderModel from '@/components/FlowOrderModel'
+  import RechargeCardModal from '@/components/RechargeCardModal'
 
   export default {
     name: 'user-home',
@@ -245,7 +305,8 @@
       Carousel: Carousel,
       CarouselItem: Carousel.Item,
       Tooltip: Tooltip,
-      FlowOrderModel: FlowOrderModel
+      FlowOrderModel: FlowOrderModel,
+      RechargeCardModel: RechargeCardModal
     },
     data() {
       return {
@@ -258,6 +319,7 @@
         limit: true,
         freshman: null,
         showFlowOrder: false,
+        showRechargeCard: false
       }
     },
     created() {
@@ -312,9 +374,27 @@
       },
       getFlowNumInfo() {
         return this.$store.state.flowNumberInfo
+      },
+      getRechargeCardBalance() {
+        return this.$store.getters.getRechargeCardBalance
       }
     },
     methods: {
+      toRechargeCardDetail() {
+        this.$router.push({path: '/user/recharge-card-detail'})
+      },
+      toVipOrder() {
+        this.$router.push({path: '/user/vip-member/order'});
+      },
+      toActivitySettle() {
+        this.$router.push({path: '/user/activity-management/list',query: {status: 'waiting_settlement'}});
+      },
+      toRecordRules() {
+        this.$router.push({path: '/promotion/promotion-regulation'});
+      },
+      balanceRecharge() {
+        this.$router.push({path: '/user/money-management/pay-money'});
+      },
       getUserMemberLevelInfo() {
         let _this = this;
         if (!_this.getMemberLevel) {
@@ -403,7 +483,7 @@
       font-size: 20px;
       border-bottom: 1px solid #eee;
     }
-    .user-info-box {
+    .showker-info-box {
       padding: 40px 0 20px 0;
       /*overflow: hidden;*/
       border-bottom: 1px solid #EEEEEE;
@@ -418,6 +498,108 @@
           margin-right: 20px;
         }
       }
+    }
+    .merchant-info-box{
+      padding: 5px 0;
+      border-bottom: 1px solid #EEE;
+      .avatar-box {
+        width: 30%;
+        min-height: 196px;
+        .box-top {
+          height: 155px;
+          background-image: url("~assets/img/userhome-merchant/51bainana.png");
+          background-position: center 20px;
+          background-repeat: no-repeat;
+          background-color: #F4CA3D;
+          .vip-mark {
+            padding: 3px 6px 3px 24px;
+            background-image: url("~assets/img/icon/diamond-icon.png");
+            background-position: 5px center;
+            background-repeat: no-repeat;
+            background-color: #444;
+            border-radius: 5px;
+            color: #F5EB79;
+          }
+        }
+        .box-bottom {
+          padding: 10px 0;
+          background-color: #444;
+          color: #F5EB79;
+          .vip-operate-btn {
+            padding: 3px 5px;
+            background-color: #F5EB79;
+            color: #333;
+            border-radius: 10px;
+          }
+        }
+      }
+      .account-box {
+        width: 70%;
+        min-height: 196px;
+        background: #eee;
+        padding: 0 10px;
+        .account-title {
+          padding: 10px 0 10px 10px;
+          border-bottom: 1px solid #ccc;
+        }
+        .account-detail {
+          display: flex;
+          flex-direction: row;
+          >div {
+            flex: 1;
+            text-align: center;
+            .account-item-num {
+              font-size: 16px;
+              color: #444;
+              font-weight: bold;
+              padding: 10px 0;
+            }
+            .account-item-operate {
+              margin-top: 20px;
+              cursor: pointer;
+            }
+            .poptip {
+              position: absolute;
+              top: -17px;
+              padding: 2px 3px;
+              border-radius: 4px;
+              color: #fff;
+            }
+            .offer-poptip {
+              background-color: #FF9900;
+              left: 10px;
+              &::after {
+                content: '';
+                width: 6px;
+                height: 6px;
+                position: absolute;
+                left: 50%;
+                bottom: -3px;
+                transform: rotate(45deg);
+                background-color: #FF9900;
+              }
+            }
+            .recharge-card-poptip {
+              background-color: #FF3666;
+              left: 20px;
+              &::after {
+                content: '';
+                width: 6px;
+                height: 6px;
+                position: absolute;
+                left: 50%;
+                bottom: -3px;
+                transform: rotate(45deg);
+                background-color: #FF3666;
+              }
+            }
+          }
+        }
+      }
+    }
+    .flow-info-box {
+      padding: 20px 0;
+      border-bottom: 1px solid #EEE;
     }
   }
 

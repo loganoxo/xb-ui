@@ -25,7 +25,7 @@ export default new Router({
       name: 'Home',
       component: _import('Home'),
       meta: {
-        title: "白拿拿 - 海量优质商品 免费试用",
+        title: "白拿拿 - 海量优质商品评测",
         logInAuthority: false,
         topShow: true,
         bottomShow: true,
@@ -97,7 +97,7 @@ export default new Router({
       name: 'ShowkerDrainage',
       component: _import('ShowkerDrainage'),
       meta: {
-        title: "拿手引流",
+        title: "拿手白拿拿 - 海量优质商品 免费评测引流",
         logInAuthority: true,
         topShow: false,
         bottomShow: true,
@@ -276,6 +276,13 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: _import('Register'),
+      // meta: {
+      //   title: "用户注册",
+      //   logInAuthority: false,
+      //   topShow: false,
+      //   bottomShow: true,
+      //   role: null,
+      // },
       children: [
         {
           path: 'seller-register',
@@ -288,17 +295,17 @@ export default new Router({
             role: null,
           },
         },
-        {
-          path: 'buyer-register',
-          name: 'buyer',
-          meta: {
-            title: "用户注册",
-            logInAuthority: false,
-            topShow: false,
-            bottomShow: true,
-            role: null,
-          },
-        },
+        // {
+        //   path: 'buyer-register',
+        //   name: 'buyer',
+        //   meta: {
+        //     title: "用户注册",
+        //     logInAuthority: false,
+        //     topShow: false,
+        //     bottomShow: true,
+        //     role: null,
+        //   },
+        // },
       ]
     },
     {
@@ -364,6 +371,18 @@ export default new Router({
             topShow: true,
             bottomShow: true,
             role: 1,
+          }
+        },
+        {
+          path: 'recharge-card-detail',
+          name: 'RechargeCardDetail',
+          component: _import('personalCenter/children/rechargeCardDetail/index'),
+          meta: {
+            title: "充值卡",
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: 1
           }
         },
         {
@@ -813,6 +832,18 @@ export default new Router({
             },
           ]
         },
+        {
+          path: 'service-clause',
+          name: 'ServiceClause',
+          component: _import('personalCenter/children/ServiceClause'),
+          meta: {
+            title: '扣分明细及条款',
+            logInAuthority: true,
+            topShow: true,
+            bottomShow: true,
+            role: 1,
+          }
+        },
         // {
         //   path: 'task-fans',
         //   name: 'TaskFans',
@@ -825,30 +856,30 @@ export default new Router({
         //     role: 1,
         //   }
         // },
-        {
-          path: 'release-good',
-          name: 'releaseGood',
-          component: _import('personalCenter/children/ReleaseGood'),
-          meta: {
-            title: "发布商品",
-            logInAuthority: true,
-            topShow: true,
-            bottomShow: true,
-            role: 1,
-          }
-        },
-        {
-          path: 'good-management',
-          name: 'goodManagement',
-          component: _import('personalCenter/children/GoodManagement'),
-          meta: {
-            title: "商品管理",
-            logInAuthority: true,
-            topShow: true,
-            bottomShow: true,
-            role: 1,
-          }
-        }
+        // {
+        //   path: 'release-good',
+        //   name: 'releaseGood',
+        //   component: _import('personalCenter/children/ReleaseGood'),
+        //   meta: {
+        //     title: "发布商品",
+        //     logInAuthority: true,
+        //     topShow: true,
+        //     bottomShow: true,
+        //     role: 1,
+        //   }
+        // },
+        // {
+        //   path: 'good-management',
+        //   name: 'goodManagement',
+        //   component: _import('personalCenter/children/GoodManagement'),
+        //   meta: {
+        //     title: "商品管理",
+        //     logInAuthority: true,
+        //     topShow: true,
+        //     bottomShow: true,
+        //     role: 1,
+        //   }
+        // }
       ]
     },
     {

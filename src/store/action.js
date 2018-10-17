@@ -27,7 +27,7 @@ export default {
         if (res.status) {
           commit({
             type: 'RECORD_USER_INFO',
-            info: res.data
+            info: res.data,
           })
         } else {
           console.error('获取用户信息：', res.msg);
