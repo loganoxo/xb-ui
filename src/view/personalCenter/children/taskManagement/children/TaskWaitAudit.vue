@@ -92,10 +92,10 @@
               <tr>
                 <th width="20%" class="pt-10 pb-10">
                   <p class="mb-5">淘宝账号（旺旺号）</p>
-                  <!--<i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">-->
-                    <!--<span>{{item.name}}</span>-->
-                    <!--<icon :type="item.sort === 'desc' ? 'md-arrow-round-down' : 'md-arrow-up'"/>-->
-                  <!--</i-button>-->
+                  <i-button :class="[sortList.select === item.sortField ? 'ww-active' : '']" size="small" v-for="(item,index) in sortList.defaultList" :key="index" @click="sortChange(item.sortField,index)">
+                    <span>{{item.name}}</span>
+                    <icon :type="item.sort === 'desc' ? 'md-arrow-round-down' : 'md-arrow-up'"/>
+                  </i-button>
                 </th>
                 <th width="20%">申请时间/IP地址</th>
                 <th width="20%">拿手活动概况</th>
