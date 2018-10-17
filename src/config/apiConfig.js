@@ -1350,7 +1350,7 @@ export default {
    * 商家提前进行任务结算
    */
   taskSettlement(params) {
-    return axiosConfig.post('/api/task-settlement.json', params)
+    return axiosConfig.get('/api/task-settlement.json', params)
   },
 
   /**

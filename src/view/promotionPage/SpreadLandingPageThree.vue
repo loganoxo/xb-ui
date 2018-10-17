@@ -150,7 +150,8 @@
             if (res.status) {
               _this.$store.commit({
                 type: 'RECORD_USER_INFO',
-                info: res.data
+                info: res.data,
+                token: res.token
               });
               _this.$router.push({name: 'TaskRelease'})
             } else {

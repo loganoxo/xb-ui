@@ -6,10 +6,10 @@ import qs from 'qs'
 import router from '@/router'
 import store from '@/store'
 import {LoadingBar} from 'iview'
+import {getStorage, removeStorage} from "./utils";
 
 axios.defaults.timeout = 100000;//配置请求响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';//配置post请求头类型
-// axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use(config => {
@@ -18,6 +18,8 @@ axios.interceptors.request.use(config => {
     LoadingBar.start();
   }
   config.headers.platForm = 'PC';
+  const token = getStorage('token');
+  if (token) config.headers['Authorization'] = `Bearer ${token}`;
   return config;
 }, (error) => {
   LoadingBar.error();
@@ -39,9 +41,8 @@ axios.interceptors.response.use(res => {
   LoadingBar.error();
   if (error.response && error.response.status === 401) {
     store.commit('OUT_LOGIN');
-    if (store.state.logInAuthority) {
-      router.replace({name: 'Login'});
-    }
+    removeStorage('token');
+    router.replace({name: 'Login'});
   }
   return Promise.reject(error);
 });
