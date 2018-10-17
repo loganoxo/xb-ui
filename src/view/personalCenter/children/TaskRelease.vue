@@ -1432,7 +1432,7 @@
           discountType: 'discount_0',
           activityCategory: 'present_get',
           pinkage: "true",
-          donotPostPhoto: "true",
+          donotPostPhoto: "false",
           paymentMethod: "all",
           remark: null,
           itemDescription: null,
@@ -3155,8 +3155,11 @@
             // 活动免审状态
             _this.doNotAudit.doNotAuditStatus = res.data.withoutAudit ? res.data.withoutAudit : false;
 
-            // 评价期望全部重置为：无需求
+            // 评价期望统一重置为：无需求
             _this.taskRelease.itemReviewRequired = 'review_by_showker_self';
+
+            // 晒图需求统一重置为: 无所谓
+            _this.taskRelease.donotPostPhoto = 'false';
 
             // 是否是首发活动标识
             _this.isFastPublish = res.data.fastPublish ? res.data.fastPublish : false;
