@@ -58,7 +58,7 @@
         <h2>第一步：转账到官方账号：</h2>
         <div class="step-one pt-20 pb-20 pl-15">
           <p>到账时间：<span class="main-color">自动到账，7*24小时</span></p>
-          <p>浙商银行 <span class="main-color">6223 0933 1001 2598 036</span> （户名：胡红红 开户行：浙商银行运河支行）</p>
+          <p>浙商银行 <span class="main-color">6223 0933 1001 2333 137</span> （户名：钱斌； 开户行：浙商银行运河支行）</p>
           <p class="qq-consult" @click="qqConsult"><img class="vtc-text-btm mr-5" src="~assets/img/common/qq-icon.png" alt="">转账问题点此咨询 QQ：3416123233</p>
         </div>
         <h2>第二步：每次打完钱都必需提交如下信息，否则<span>无法到账</span></h2>
@@ -142,6 +142,11 @@
         <icon type="md-information-circle" color="#f9284f" size="18"/>
         <span class="main-color">充值提示</span>
       </p>
+      <div class="notice mt-10 mb-20 fs-18 f-b">
+        <p class="green">注意！！！！ 即日起转账银行卡号替换，新卡如下：</p>
+        <p class="cl000">浙商银行卡号： <span class="main-color">6223 0933 1001 2333 137</span></p>
+        <p class="cl000">户名：<span class="main-color">钱斌</span>  ；  开户行：<span class="main-color">浙商银行运河支行</span></p>
+      </div>
       <div class="lht28 cl000">
         <p>1、请<span class="main-color">尽量使用手机银行</span>APP转账，绝大多数手机银行APP都免手续费,且即时到帐。</p>
         <p>2、<span class="main-color">不推荐使用支付宝</span>转账到银行卡，除超出额度会收取千分之一的手续费外，频繁支付宝对银行卡转出可能存在风险！</p>
@@ -497,6 +502,9 @@
 </script>
 <style lang="scss" scoped>
   @import 'src/css/mixin';
+  .green {
+    color: #2F9200;
+  }
   .upgroup-btn{
     display: inline-block;
     padding:0 10px;

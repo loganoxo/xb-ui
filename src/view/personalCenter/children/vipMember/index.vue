@@ -8,7 +8,7 @@
         <span v-if="getUserAccountRole === item.disabledRole" v-for="item in infoSelectList" :class="{active:infoSelect === item.isSelect}" @click="switchTab(item.isSelect)">{{item.text}}</span>
       </div>
       <router-view></router-view>
-      <div class="vip-footer">
+     <!-- <div class="vip-footer">
         <div class="title">
           <icon type="android-walk" size="25"/>
           <strong class="ml-10">他们在奔跑，你呢...</strong></div>
@@ -43,9 +43,8 @@
           <p class="ml-22 mt-5">4.流程完整：<span class="we-do">包括了点击浏览收藏加购下单评价的所有环节，缺一不可</span></p>
           <p class="ml-22 mt-5">5.真实有效：<span class="we-do">不仅仅能提升排名，带来真实流量，还能提高转化！宝贝深度优化专家，实至名归！</span></p>
         </div>
-      </div>
+      </div>-->
     </div>
-
   </div>
 
 </template>

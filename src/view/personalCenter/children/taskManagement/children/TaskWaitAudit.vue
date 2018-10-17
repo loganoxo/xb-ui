@@ -38,6 +38,10 @@
       <!--<span v-show="eyesStatus === 'on' && !valueAddedServiceStatusInfo.isMemberOK" class="blue text-decoration-underline ml-10 cursor-p" @click="renewalEyes">续费</span>-->
       <span v-show="eyesStatus === 'on' && valueAddedServiceStatusInfo.isMemberOK" class="ml-10 cl999">VIP免费使用火眼金睛功能 ^_^  </span>
     </div>
+    <div class="mt-10 mb-10">
+      <img src="~assets/img/icon/warning.png" alt="" class="vtc-text-btm">
+      <span class="main-color f-b">审批提示：22:30分至次日7:00之间建议不要进行拿手的审批，否则审批通过的拿手可能会因为时间不足导致无法完成任务！</span>
+    </div>
     <template v-if="taskWaitAuditList.length > 0">
       <div class="mt-12 pos-rel collapse-header" v-for="(item,index) in taskWaitAuditList" :key="item.id">
         <div class="clear task-remarks">
@@ -57,12 +61,15 @@
             <p>参与概况：总份数<span class="main-color">{{item.taskCount || 0}}</span>，
               <span class="main-color">{{item.trailOn || 0}}</span>人正在参与活动，<span class="main-color">{{item.trailDone || 0}}</span>人完成活动，剩余名额<span
                 class="main-color">{{item.residueCount || 0}}</span>个
-              <template v-if="item.fastPublish">
-                <i-button v-if="item.taskCount < 20" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>
+              <template v-if="(item.settlementStatus !== 'settlement_finished' || item.settlementStatus !== 'waiting_audit') && !item.speedUp">
+                <i-button v-if="(item.fastPublish === null || !item.fastPublish) || (item.fastPublish && item.taskCount < 20)" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>
               </template>
-              <template v-else>
-                <i-button v-if="(item.settlementStatus !== 'settlement_finished' || item.settlementStatus !== 'waiting_audit') && !item.speedUp" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>
-              </template>
+              <!--<template v-if="item.fastPublish">-->
+                <!--<i-button v-if="item.taskCount < 20" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>-->
+              <!--</template>-->
+              <!--<template v-else>-->
+                <!--<i-button v-if="(item.settlementStatus !== 'settlement_finished' || item.settlementStatus !== 'waiting_audit') && !item.speedUp" type="primary" size="small" @click.stop="taskAdditionalQuota(item)">追加名额</i-button>-->
+              <!--</template>-->
             </p>
           </div>
           <icon :class="{'show-table-styles' : selectId === item.id}" class="right mt-20 mr-5" size="20" type="md-arrow-dropright"/>
@@ -71,7 +78,7 @@
               <p class="task-wait-fail">新增待审批<span>{{item.newestTaskApplyCount || 0}}</span>人</p>
               <p class="task-wait-fail">共有待审批<span>{{item.totalTaskApplyCount || 0}}</span>人</p>
             </div>
-            <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp && item.zone !== 'coin_earn'" type="error" @click.stop="openSpeedUp(item.id, item.userId)"><span class="mr-5">一键加速</span>
+            <i-button v-if="item.taskStatus === 'under_way' && !item.speedUp && item.zone !== 'coin_earn'" type="error" @click.stop="openSpeedUp(item.id, item.userId)"><span class="mr-5">审批托管</span>
               <tooltip class="vtc-text-btm" style="line-height: 0" content="启用后，系统会匹配拿手进行审核，无需商家干预" placement="top">
                 <icon type="help-circled" size="14" color="#fff"/>
               </tooltip>
@@ -160,7 +167,7 @@
                 </td>
                 <td>
                   <p class="del-edit">
-                    <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId, allTask.id, allTask.applySuccessCount7Days)">通过</span>
+                    <span class="ml-5" @click="checkShowkerApply(item.id, allTask.showkerId, allTask.id, allTask.orderCount7Days, allTask.todayApplySuccessCountGreaterThan2)">通过</span>
                     <tooltip placement="top" content="加入黑名单后该用户将无法申请你发布的活动">
                       <span class="ml-5" @click="addToBlackListFun(allTask.alitmAccount)">加入黑名单</span>
                     </tooltip>
@@ -228,7 +235,7 @@
       <div class="text-ct">
         <i-button v-if="hasBalance" type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即购买</i-button>
         <i-button v-else type="error" class="pl-40 pr-40 mt-20 fs-14" @click="eyesPayModel = true">立即充值</i-button>
-        <i-button v-if="hasTrialQualification" class="pl-40 pr-40 mt-20 fs-14 ml-20" @click="openTheTrial">开通一天试用</i-button>
+        <i-button v-if="hasTrialQualification" class="pl-40 pr-40 mt-20 fs-14 ml-20" @click="openTheTrial">开通一天评测</i-button>
       </div>
       <div slot="footer">
         <div class="text-lf text-indent f-b"><span class="main-color">火眼金睛</span>是平台增值服务功能，激活该功能后可查看平台拿手旺旺号的私密数据，如被商家拉黑的次数及原因，完成活动后收到的商家评价和打标，旺旺号姓别、年龄、地址、购物标签等（功能陆续开发添加中...），使用火眼金睛让你对拿手审核一百个放心！</div>
@@ -272,24 +279,27 @@
            src="~assets/img/task-management/eyes-demo-01.png" width="100%" alt="火眼金睛功能截图1">
       <img v-if="lookScreenShot === 2" class="border-radius-5 border-ddd cursor-p"
            src="~assets/img/task-management/eyes-demo-02.png" width="100%" alt="火眼金睛功能截图2">
+
     </modal>
-    <!--开启一键加速功能确认弹框-->
-    <modal v-model="speedUpModal" width="360">
+    <!--开启审批托管功能确认弹框-->
+    <modal v-model="speedUpModal" width="360" @on-visible-change="modalChange">
       <p slot="header" class="text-ct">
         <icon color="#f9284f" type="md-alert"/>
-        <span class="main-color">一键加速</span>
+        <span class="main-color">审批托管</span>
       </p>
-      <div class="text-ct">
+      <div>
         <p>启用后，该活动剩余名额将全部由系统进行匹配和审核，且无法修改，适合于需要快速消化单量的商家！</p>
+        <p v-show="unSuitableTime">22:30至次日7:00之间不建议开启，避免系统对已申请拿手进行处理时，用于通过时间太晚而导致用户没有足够时间完成任务！</p>
       </div>
-      <div slot="footer">
-        <iButton type="error" size="large" long :loading="speedUpLoading" @click="speedUp">确认开启</iButton>
+      <div slot="footer" class="text-ct">
+        <iButton v-show="unSuitableTime" type="error" @click="speedUpModal = false">我知道了</iButton>
+        <iButton type="error" :loading="speedUpLoading" @click="speedUp">确认开启</iButton>
       </div>
     </modal>
     <!--追加活动名额弹框-->
     <task-additional-quota-modal v-model="additionalQuotaModal" :data="taskAdditionalQuotaInfo" @addTaskSuccess="addTaskSuccess"/>
     <!--检测拿手近期申请活动情况弹框-->
-    <modal v-model="showkerApplyInfoModal" width="480">
+    <modal v-model="showkerApplyInfoModal" width="480" @on-visible-change="modalChange">
       <p slot="header" class="text-ct">
         <icon color="#f9284f" type="md-alert"/>
         <span class="main-color">温馨提示</span>
@@ -297,9 +307,10 @@
       <div class="text-ct">
         <p v-html="showkerApplyInfoModalText"></p>
       </div>
-      <div class="clear" slot="footer">
-        <i-button class="left ml-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(taskApplyId)">仍然通过</i-button>
-        <i-button class="right mr-40 pl-40 pr-40" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToReject(taskApplyId)">拒绝试用</i-button>
+      <div class="text-ct" slot="footer">
+        <i-button v-show="unSuitableTime" class="pl-40 pr-40 mr-10" type="error" size="large" @click="showkerApplyInfoModal = false">我知道了</i-button>
+        <i-button class="pl-40 pr-40 ml-10 mr-10" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToPass(taskApplyId)">仍然通过</i-button>
+        <i-button v-show="!unSuitableTime" class="pl-40 pr-40 ml-10" type="error" size="large" :loading="speedUpLoading" @click="taskWaitToReject(taskApplyId)">拒绝评测</i-button>
       </div>
     </modal>
     <!--普通会员使用火眼金睛功能提示升级会员弹框-->
@@ -319,6 +330,7 @@
     </modal>
     <!--修改活动备注弹窗-->
     <task-remarks-modal v-model="showRemarksModal" :activityInfo="activityInfo" @remarkSuccess="remarkSuccess"/>
+    <!---->
   </div>
 </template>
 
@@ -331,7 +343,7 @@
   import AddToBlackListModal from '@/components/AddToBlackListModal'
   import TaskAdditionalQuotaModal from '@/components/TaskAdditionalQuotaModal'
   import TaskRemarksModal from '@/components/TaskRemarksModal'
-  import {taskErrorStatusList, encryption} from '@/config/utils'
+  import {taskErrorStatusList, encryption, getSeverTime} from '@/config/utils'
   import {aliCallbackImgUrl} from '@/config/env'
   import commonConfig from '@/config/commonConfig'
   import api from '@/config/apiConfig'
@@ -435,7 +447,8 @@
         showkerApplyInfoModalText: null,
         upgradeMembershipModal: false,
         showRemarksModal: false,
-        activityInfo: {}
+        activityInfo: {},
+        unSuitableTime: false
       }
     },
     created() {
@@ -486,9 +499,29 @@
        */
       showkerApplySuccessCount7Limit() {
         return this.$store.getters.getSysConfigValue('showkerApplySuccessCount7Limit').configValue
+      },
+
+      /** 获取拿手近7天下单次数限制配置
+       * @return {number}
+       */
+      showkerOrderFillCount7Limit() {
+        return this.$store.getters.getSysConfigValue('showkerOrderFillCount7Limit').configValue
       }
+
     },
     methods: {
+      // 处理时间段 （在22:30~次日7:00之间建议不要审批拿手）return Boolean
+      doNotAuditPeriod() {
+        let tempTime = new Date(getSeverTime());
+        let hour = tempTime.getHours();
+        let minute = tempTime.getMinutes();
+        let condition = (hour > 22) || (hour === 22 && minute > 30) || (hour < 7);
+        if (condition) {
+          return true;
+        } else {
+          return false;
+        }
+      },
       changeLookScreenShot(num) {
         this.lookScreenShotModel = true;
         this.lookScreenShot = num;
@@ -584,24 +617,35 @@
         this.pageIndex = 1;
         this.appliesWaitingAuditTask();
       },
-      checkShowkerApply(taskId, showkerId, taskApplyId, applySuccessCount7Days) {
+      checkShowkerApply(taskId, showkerId, taskApplyId, orderCount7Days,todayApplySuccessCountGreaterThan2) {
         const _this = this;
         _this.taskApplyId = taskApplyId;
-        if (applySuccessCount7Days >= _this.showkerApplySuccessCount7Limit * 1) {
+        if (this.doNotAuditPeriod()) {
+          _this.$nextTick(() => {
+            _this.unSuitableTime = true;
+          });
+          _this.showkerApplyInfoModalText = '目前审批通过后，拿手可能会因为时间不足导致无法完成任务，建议22:30分至次日7点之间不要进行审批操作！';
           _this.showkerApplyInfoModal = true;
-          _this.showkerApplyInfoModalText = '该用户近七天下单数较为频繁，请谨慎选择！'
         } else {
-          api.merchantCheckShowkerApply({
-            taskId: taskId,
-            showkerId: showkerId,
-          }).then(res => {
-            if (res.status) {
-              _this.showkerApplyInfoModal = true;
-              _this.showkerApplyInfoModalText = `该用户在&nbsp;<span class="main-color">${res.data.daysAgo > 0 ? res.data.daysAgo + '天前' : '24小时'}</span>&nbsp;获得您该店铺的试用资格，${res.data.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}，是否仍然审批通过？`;
-            } else {
-              _this.taskWaitToPass(taskApplyId)
-            }
-          })
+          if (orderCount7Days > this.showkerOrderFillCount7Limit) {
+            _this.showkerApplyInfoModal = true;
+            _this.showkerApplyInfoModalText = '该用户近七天下单数较为频繁，请谨慎选择！'
+          } else if (orderCount7Days <= this.showkerOrderFillCount7Limit && todayApplySuccessCountGreaterThan2) {
+            _this.showkerApplyInfoModal = true;
+            _this.showkerApplyInfoModalText = '该用户今日中奖的次数已经超过2次，请谨慎选择！！'
+          } else {
+            api.merchantCheckShowkerApply({
+              taskId: taskId,
+              showkerId: showkerId,
+            }).then(res => {
+              if (res.status) {
+                _this.showkerApplyInfoModal = true;
+                _this.showkerApplyInfoModalText = `该用户在&nbsp;<span class="main-color">${res.data.daysAgo > 0 ? res.data.daysAgo + '天前' : '24小时'}</span>&nbsp;获得您该店铺的评测资格，${res.data.orderedIn30Days ? '并且已成功下单' : '但还未成功下单'}，是否仍然审批通过？`;
+              } else {
+                _this.taskWaitToPass(taskApplyId)
+              }
+            })
+          }
         }
       },
       taskWaitToPass(taskApplyId) {
@@ -872,7 +916,7 @@
           if (res.status) {
             _this.getValueAddedServiceStatus();
             _this.getEyeTrialQualification();
-            _this.$Message.success('开通试用成功!');
+            _this.$Message.success('开通评测成功!');
             _this.orderEyesModel = false;
           } else {
             _this.$Message.error(res.msg)
@@ -886,9 +930,12 @@
         }
       },
       openSpeedUp(taskId, userId) {
-        this.speedUpModal = true;
         this.speedUpInfo.taskId = taskId;
         this.speedUpInfo.userId = userId;
+        if (this.doNotAuditPeriod()) {
+          this.unSuitableTime = true;
+        }
+        this.speedUpModal = true;
       },
       speedUp() {
         const _this = this;
@@ -900,7 +947,7 @@
           if (res.status) {
             _this.appliesWaitingAuditTask();
             _this.selectId = null;
-            _this.$Message.success('一键加速开启成功！');
+            _this.$Message.success('审批托管开启成功！');
           } else {
             _this.$Message.error(res.msg)
           }
@@ -953,8 +1000,14 @@
       },
       remarkSuccess() {
         this.appliesWaitingAuditTask();
+      },
+      // 在审批托管和审核拿手的提示弹窗消失之后，要将unSuitableTime重置为false
+      modalChange(value) {
+        if (!value) {
+          this.unSuitableTime = false;
+        }
       }
-    }
+    },
   }
 </script>
 

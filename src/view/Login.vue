@@ -83,12 +83,12 @@
                 </iButton>
               </iForm>
               <p class="fs-14 login-rt-ctt-btm">
-                <a class="left"
-                   href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.51bainana.com%2Fqq-login">
-                  <img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">
-                  QQ账号登录
-                </a>
-                <iButton class="right mt-6 ml-5" size="small" type="primary" @click="goSelRole">注册</iButton>
+                <!--<a class="left"-->
+                   <!--href="https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101432052&response_type=token&scope=all&redirect_uri=https%3A%2F%2Fwww.51bainana.com%2Fqq-login">-->
+                  <!--<img class="left   mt-7 mr-5" src="~assets/img/common/qq_logo.png" alt="">-->
+                  <!--QQ账号登录-->
+                <!--</a>-->
+                <iButton class="right mt-6 ml-5" size="small" type="primary" @click="toRegister">注册</iButton>
                 <span class="right">没有账号，点击</span>
               </p>
             </div>
@@ -234,12 +234,15 @@
       }
     },
     methods: {
+      toRegister() {
+        this.$router.push({path: '/register/seller-register'});
+      },
       getVrcode() {
         this.imgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
-      goSelRole() {
-        this.$router.push({path: '/sel-role'})
-      },
+      // goSelRole() {
+      //   this.$router.push({path: '/sel-role'})
+      // },
       pressEnterLoginNormal(event) {
         if (event.keyCode === 13) {
           this.handleSubmit('loginNormalCustom', this.setUserInfo)
@@ -328,19 +331,20 @@
               });
               self.$store.dispatch('getFlowNumInfo');
               self.$Message.success({top: 50, content: '登录成功', duration: 1,});
-              self.btnState.trendsLoginBtn = false;
               setStorage('weChartPop', 1);
               self.$router.go(-1);
             } else if (res.statusCode === 'need_reg') {
-              self.$router.push({
-                name: 'SelRole',
-                query: {
-                  phone: self.loginTrendsCustom.phone,
-                  validateCode: self.loginTrendsCustom.validateCode,
-                  smsCode: self.loginTrendsCustom.smsCode,
-                  role: self.loginTrendsCustom.role,
-                }
-              });
+              // 动态验证码只登录，不注册
+              self.$Message.info('该用户不存在，请先注册！！');
+              // self.$router.push({
+              //   name: 'SelRole',
+              //   query: {
+              //     phone: self.loginTrendsCustom.phone,
+              //     validateCode: self.loginTrendsCustom.validateCode,
+              //     smsCode: self.loginTrendsCustom.smsCode,
+              //     role: self.loginTrendsCustom.role,
+              //   }
+              // });
             }
           } else {
             if (res.statusCode === 'merchant_has_been_frozen') {
@@ -354,9 +358,9 @@
             } else {
               self.instance('error', '', res.msg);
               self.getVrcode();
-              self.btnState.trendsLoginBtn = false;
             }
           }
+          self.btnState.trendsLoginBtn = false;
         })
       },
       sendCodeSuccess(res) {

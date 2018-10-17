@@ -62,7 +62,7 @@
         <icon type="md-alert"/>
         <span>结束确认</span>
       </p>
-      <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台试用体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
+      <p style="text-indent:25px;font-weight: bold;">您好，为了更好地改善平台评测体验并提高活动的质量，请告诉我们您结束活动的原因：</p>
       <p>
         <radio-group v-model="endReason">
           <radio label="流程太繁琐了" class="mt-20 mr-40"/>

@@ -39,7 +39,7 @@
         <div v-show="!$route.query.searchKey">
           <div v-if="$store.state.TaskCategoryActive === 'price_low'" class="task-category-sel" >
             折扣类型：
-            <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive === discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}试用</a>
+            <a v-for="(k,discountPrice) in $store.state.discountPriceType" :class="[discountTaskCategoryActive === discountPrice ? 'active' : '' ]" @click="selDiscountPriceTypeFunc(k,discountPrice)">{{discountPrice}}评测</a>
           </div>
         </div>
         <div v-if="!$route.query.activityCategory || $route.query.categroyId || $route.query.categroy" class="task-category-sel">
@@ -111,9 +111,9 @@
                   <em class="price-list left">
                     <span class="cl666 block text-decoration-through">￥{{searchTask.itemPrice }}</span>
                   </em>
-                  <em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="searchTask.perVasFee && searchTask.createTime > uplineTime">
+                  <!--<em class="vas-fee-return left ml-10 pl-5 pr-5" v-if="searchTask.perVasFee && searchTask.createTime > uplineTime">
                     奖励{{computeVasReturnFee(searchTask.perVasFee,searchTask.systemVasFeeCommissionPercent)}}元
-                  </em>
+                  </em>-->
                 </p>
                 <p>
                   <em class="price-list">

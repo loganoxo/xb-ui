@@ -95,7 +95,7 @@
             <td colspan="7">
               <span>活动编号：{{item.number || '------'}}</span>
               <span class="ml-10">创建时间：{{item.createTime | dateFormat('YYYY-MM-DD hh:mm:ss') || '------'}}</span>
-              <span class="ml-10">活动模板：{{item.activityCategoryDesc}}</span>
+              <!--<span class="ml-10">活动模板：{{item.activityCategoryDesc}}</span>-->
             </td>
           </tr>
           <tr>

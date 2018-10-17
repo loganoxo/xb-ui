@@ -50,20 +50,20 @@
         <div>{{vipMemberInfo.taskAudit}}</div>
         <!--<div>{{svipMemberInfo.taskAudit}}</div>-->
       </li>
-      <li class="clear">
-        <div class="activity-top developing">活动置顶显示，开发中...</div>
-        <div class="activity-top">{{freeMemberInfo.taskStickUp}}</div>
-        <div class="check-demo">
-          <p>每日上新页置顶<span class="check cursor-p" @click="showDemo('demo-1')">（查看）</span></p>
-          <p class="mt-5" v-if="vipMemberInfo.taskStickUp">
-            每天{{vipMemberInfo.taskStickUp.frequency}}次，每次{{vipMemberInfo.taskStickUp.time}}分钟</p>
-        </div>
+      <!--<li class="clear">-->
+        <!--<div class="activity-top developing">活动置顶显示，开发中...</div>-->
+        <!--<div class="activity-top">{{freeMemberInfo.taskStickUp}}</div>-->
+        <!--<div class="check-demo">-->
+          <!--<p>每日上新页置顶<span class="check cursor-p" @click="showDemo('demo-1')">（查看）</span></p>-->
+          <!--<p class="mt-5" v-if="vipMemberInfo.taskStickUp">-->
+            <!--每天{{vipMemberInfo.taskStickUp.frequency}}次，每次{{vipMemberInfo.taskStickUp.time}}分钟</p>-->
+        <!--</div>-->
         <!--<div class="check-demo">-->
           <!--<p>首页最新活动置顶<span class="check cursor-p" @click="showDemo('demo-2')">（查看）</span></p>-->
           <!--<p class="mt-5" v-if="svipMemberInfo.taskStickUp">-->
             <!--每天{{svipMemberInfo.taskStickUp.frequency}}次，每次{{svipMemberInfo.taskStickUp.time}}分钟</p>-->
         <!--</div>-->
-      </li>
+      <!--</li>-->
       <li class="clear">
         <div>同一宝贝每日发布活动次数</div>
         <div v-if="freeMemberInfo.itemReleaseTaskOneDayLimit">

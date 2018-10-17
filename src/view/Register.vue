@@ -16,37 +16,41 @@
         <div class="register-ctt-top-line"></div>
       </div>
       <div class="register-form-box">
-        <div class="register-form-sel">
-            <span class="left" :class="[selLogin.buyer ? 'buyActive' : '']" @click="selLoginFunc(0)">
-              <img v-show="selLogin.buyer" src="~assets/img/register/register_01.png" alt="">
-              <img v-show="!selLogin.buyer" src="~assets/img/register/register_03.png" alt="">
-              拿手注册
-            </span>
-          <span class="left" :class="[selLogin.seller ? 'sellerActive' : '']" @click="selLoginFunc(1)">
-              <img v-show="selLogin.seller" src="~assets/img/register/register_04.png" alt="">
-              <img v-show="!selLogin.seller" src="~assets/img/register/register_02.png" alt="">
-              商家注册
-            </span>
-        </div>
+        <!--<div class="register-form-sel">-->
+            <!--<span class="left" :class="[selLogin.buyer ? 'buyActive' : '']" @click="selLoginFunc(0)">-->
+              <!--<img v-show="selLogin.buyer" src="~assets/img/register/register_01.png" alt="">-->
+              <!--<img v-show="!selLogin.buyer" src="~assets/img/register/register_03.png" alt="">-->
+              <!--拿手注册-->
+            <!--</span>-->
+          <!--<span class="left" :class="[selLogin.seller ? 'sellerActive' : '']" @click="selLoginFunc(1)">-->
+              <!--<img v-show="selLogin.seller" src="~assets/img/register/register_04.png" alt="">-->
+              <!--<img v-show="!selLogin.seller" src="~assets/img/register/register_02.png" alt="">-->
+              <!--商家注册-->
+            <!--</span>-->
+        <!--</div>-->
         <div class="mt-80 form-box">
           <i-form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="400">
-            <form-item label="手机号码:" prop="phone" class="" style="width: 650px">
+            <form-item v-if="needInvitationCode" label="邀请码" prop="invitationCode" required>
+              <i-input type="text" v-model="formCustom.invitationCode" size="large" class="width-150"/>
+              <a :href="link" target="_blank" class="text-decoration-underline ml-20">获取邀请码</a>
+            </form-item>
+            <form-item label="手机号码" prop="phone" class="" style="width: 650px" required>
               <i-input type="text" size="large" v-model="formCustom.phone"></i-input>
             </form-item>
-            <form-item label="设置登录密码" prop="pwd" style="width: 650px">
+            <form-item label="设置登录密码" prop="pwd" style="width: 650px" required>
               <i-input type="password" v-model="formCustom.pwd" size="large"></i-input>
             </form-item>
-            <form-item label="确认密码" prop="repwd" style="width: 650px">
+            <form-item label="确认密码" prop="repwd" style="width: 650px" required>
               <i-input type="password" v-model="formCustom.repwd" size="large"></i-input>
             </form-item>
-            <form-item label="QQ号" prop="qqNumber" style="width: 650px">
+            <form-item label="QQ号" prop="qqNumber" style="width: 650px" required>
               <i-input type="text" v-model="formCustom.qqNumber" size="large"></i-input>
             </form-item>
-            <form-item label="图形验证码" prop="validateCode" class="pos-rel" style="width: 550px">
+            <form-item label="图形验证码" prop="validateCode" class="pos-rel" style="width: 550px" required>
               <i-input type="text" size="large" v-model="formCustom.validateCode"></i-input>
               <img class="vrcode-image" :src="regImgSrc" width="100" alt="图形验证码" @click="getRegVrcode">
             </form-item>
-            <form-item class="pos-rel" label="短信验证码" prop="smsCode" style="width: 650px">
+            <form-item class="pos-rel" label="短信验证码" prop="smsCode" style="width: 650px" required>
               <i-input type="text" v-model="formCustom.smsCode" number size="large"></i-input>
               <sms-countdown style="top:3px;" :on-success="sendCodeSuccess"
                              :phone="formCustom.phone"
@@ -58,12 +62,16 @@
               <checkbox v-model="formCustom.agreeStrip">我已仔细阅读并同意接受</checkbox>
               <a class="fs-12" @click="agreementShow = true">《用户使用协议》</a>
             </form-item>
-            <form-item v-show="selLogin.buyer">
-              <i-button :class="[btnState.registerBuyerBtn ? '' : 'register-buyer-btn']" @click="handleSubmit('formCustom',registerBuyer)" :disabled="btnState.registerBuyerBtn">立即注册</i-button>
-              <i-button class="ml-8" type="primary" ghost @click="handleReset('formCustom')">重置</i-button>
-            </form-item>
-            <form-item v-show="selLogin.seller">
-              <i-button :class="[btnState.registerSellerBtn ? '' : 'register-seller-btn']" @click="handleSubmit('formCustom',registerSeller)">立即注册</i-button>
+            <!--<form-item v-show="selLogin.buyer">-->
+              <!--<i-button :class="[btnState.registerBuyerBtn ? '' : 'register-buyer-btn']" @click="handleSubmit('formCustom',registerBuyer)" :disabled="btnState.registerBuyerBtn">立即注册</i-button>-->
+              <!--<i-button class="ml-8" type="primary" ghost @click="handleReset('formCustom')">重置</i-button>-->
+            <!--</form-item>-->
+            <!--<form-item v-show="selLogin.seller">-->
+              <!--<i-button :class="[btnState.registerSellerBtn ? '' : 'register-seller-btn']" @click="handleSubmit('formCustom',registerSeller)">立即注册</i-button>-->
+              <!--<i-button class="ml-8" type="primary" ghost @click="handleReset('formCustom')">重置</i-button>-->
+            <!--</form-item>-->
+            <form-item>
+              <i-button class="register-seller-btn" @click="handleSubmit('formCustom',registerSeller)">立即注册</i-button>
               <i-button class="ml-8" type="primary" ghost @click="handleReset('formCustom')">重置</i-button>
             </form-item>
           </i-form>
@@ -181,7 +189,7 @@
         <br>
         <br>
 
-        1、通过白拿拿及其关联公司提供的白拿拿平台服务和其它服务，会员可在白拿拿平台上创建活动、发布推广信息、查询商品和服务信息、达成试用意向并获取试用资格、对其他会员进行评价、参加白拿拿组织的活动以及使用其它信息服务及技术服务，具体以所开通的平台提供的服务内容为准。
+        1、通过白拿拿及其关联公司提供的白拿拿平台服务和其它服务，会员可在白拿拿平台上创建活动、发布推广信息、查询商品和服务信息、达成评测意向并获取评测资格、对其他会员进行评价、参加白拿拿组织的活动以及使用其它信息服务及技术服务，具体以所开通的平台提供的服务内容为准。
         <br>
         <br>
 
@@ -303,7 +311,7 @@
         <br>
         <br>
 
-        4、白拿拿或白拿拿授权的第三方或您与白拿拿一致同意的第三方有权基于您不可撤销得授权受理您与其他会员因交易产生的争议，并有权单方判断与该争议相关的事实及应适用的规则，进而作出处理决定，包括但不限于调整相关试用的参与流程状态，将争议款项的全部或部分支付给交易一方或双方。该处理决定对您有约束力。如您未在限期内执行处理决定的，则白拿拿有权利（但无义务）直接使用您账户内的款项，或您向白拿拿及其关联公司交纳的保证金/违约金代为支付。您应及时补足保证金/违约金并弥补白拿拿及其关联公司的损失，否则白拿拿及其关联公司有权直接抵减您在其它合同项下的权益，并有权继续追偿。
+        4、白拿拿或白拿拿授权的第三方或您与白拿拿一致同意的第三方有权基于您不可撤销得授权受理您与其他会员因交易产生的争议，并有权单方判断与该争议相关的事实及应适用的规则，进而作出处理决定，包括但不限于调整相关评测的参与流程状态，将争议款项的全部或部分支付给交易一方或双方。该处理决定对您有约束力。如您未在限期内执行处理决定的，则白拿拿有权利（但无义务）直接使用您账户内的款项，或您向白拿拿及其关联公司交纳的保证金/违约金代为支付。您应及时补足保证金/违约金并弥补白拿拿及其关联公司的损失，否则白拿拿及其关联公司有权直接抵减您在其它合同项下的权益，并有权继续追偿。
 
         您理解并同意，白拿拿或白拿拿授权的第三方或您与白拿拿一致同意的第三方并非司法机构，仅能以普通人的身份对证据进行鉴别，白拿拿或白拿拿授权的第三方或您与白拿拿一致同意的第三方对争议的调处完全是基于您不可撤销得授权，其无法保证争议处理结果符合您的期望，也不对争议调处结论承担任何责任。如您因此遭受损失，您同意自行向受益人索偿。
         <br>
@@ -321,7 +329,7 @@
         <br>
         <br>
 
-        c)通过白拿拿平台服务试用或获取任何商品、样品、数据、信息或进行试用等行为或替代行为产生的费用及损失。
+        c)通过白拿拿平台服务评测或获取任何商品、样品、数据、信息或进行评测等行为或替代行为产生的费用及损失。
         <br>
         <br>
 
@@ -393,11 +401,11 @@
         <br>
         <br>
 
-        b)您在服务中止或终止之前已经与其他会员达成试用关系，但试用流程尚未实际履行的，白拿拿有权删除该试用活动及其活动商品或服务的相关信息；
+        b)您在服务中止或终止之前已经与其他会员达成评测关系，但评测流程尚未实际履行的，白拿拿有权删除该评测活动及其活动商品或服务的相关信息；
         <br>
         <br>
 
-        c)您在服务中止或终止之前已经与其他会员达成试用关系且试用流程已部分履行的，白拿拿可以不删除该项活动，但白拿拿有权在中止或终止服务的同时将相关情形通知您的试用对方。
+        c)您在服务中止或终止之前已经与其他会员达成评测关系且评测流程已部分履行的，白拿拿可以不删除该项活动，但白拿拿有权在中止或终止服务的同时将相关情形通知您的评测对方。
         <br>
         <br>
         八、隐私权政策
@@ -470,9 +478,32 @@
           return null
         }
       },
+
+      /**
+       * 处理邀请码的判断（在注册商家账号时，补人气、查排名、卖家巴士、补订单、大师傅渠道正常注册，其他渠道需要获取并验证邀请码）
+       * @return {boolean} true:需邀请码 false:无需要邀请码
+       */
+      needInvitationCode() {
+        let qudao = getCookie('from_qudao');
+        let condition1 = qudao && qudao === ('MJBS' || 'CPM' || 'BRQ' || 'BDD');
+        let condition2 = this.isDSF === 'acceptDisciple';
+        // let condition3 = this.selLogin.seller;
+        if (condition1 || condition2) {
+          return false;
+        } else {
+          return true;
+        }
+      }
     },
     data() {
       //表单验证
+      const validateInvitationCode = (rule, value, callback) => {
+        if (this.needInvitationCode && !value) {
+          callback(new Error('请输入邀请码'));
+        } else {
+          callback();
+        }
+      };
       const validatePhone = (rule, value, callback) => {
         if (!(/^1\d{10}$/.test(value))) {
           callback(new Error('请输入正确手机号'));
@@ -537,17 +568,18 @@
         countRegTimeText: "获取动态码",
         regImgSrc: null,
         selLogin: {
-          buyer: true,
-          seller: false
+          buyer: false,
+          seller: true
         },
         formRes: {
           phoneRes: false,
         },
-        btnState: {
-          registerBuyerBtn: false,
-          registerSellerBtn: false,
-        },
+        // btnState: {
+        //   registerBuyerBtn: false,
+        //   registerSellerBtn: false,
+        // },
         formCustom: {
+          invitationCode: null,
           phone: null,
           pwd: null,
           repwd: null,
@@ -559,6 +591,9 @@
           agreeStrip: true,
         },
         ruleCustom: {
+          invitationCode: [
+            {validator: validateInvitationCode, trigger: 'blur'}
+          ],
           phone: [
             {validator: validatePhone, trigger: 'blur'}
           ],
@@ -581,14 +616,16 @@
             {validator: validateAgreeStrip, trigger: 'blur'}
           ]
         },
+        link: null,
+        qqGroup:[2331878513,1601200804,2922384498,5151719917,380022398,507532103,3166255711,2837915788,1504366981,3406860086,312696008,1072462088,1628680163,1149784829]
       }
     },
     created() {
       this.getRegVrcode();
-      if (this.$route.name === 'seller') {
-        this.selLogin.buyer = false;
-        this.selLogin.seller = true;
-      }
+      // if (this.$route.name === 'seller') {
+      //   this.selLogin.buyer = false;
+      //   this.selLogin.seller = true;
+      // }
       // 在由销售代表链接进入该页面时，将链接中的标识存储为sessionStorage,保持在跳转其他页面再回来注册是标识还是有效的
       if (!getSessionStorage('saleInvite') && this.saleInvite) {
         setSessionStorage('saleInvite',this.saleInvite);
@@ -600,31 +637,36 @@
       if (!getSessionStorage('recommendCode') && this.recommendCode) {
         setSessionStorage('recommendCode',this.recommendCode);
       }
+      this.getCodeLink();
     },
     methods: {
+      getCodeLink() {
+        let index = Math.floor(Math.random() * this.qqGroup.length);
+        this.link = `http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=${this.qqGroup[index]}`;
+      },
       getRegVrcode() {
         this.regImgSrc = "/api/vrcode.json?rand=" + new Date() / 100
       },
-      selLoginFunc(num) {
-        if (num === 0) {
-          if (this.fromPage && this.fromPage === 'spreadLandingPage') {
-            this.selLogin.seller = true;
-            this.selLogin.buyer = false;
-          } else if (this.isDSF && this.isDSF === 'acceptDisciple') {
-            this.selLogin.seller = true;
-            this.selLogin.buyer = false;
-          } else if (this.saleInvite) {
-            this.selLogin.seller = true;
-            this.selLogin.buyer = false;
-          } else {
-            this.selLogin.buyer = true;
-            this.selLogin.seller = false
-          }
-        } else {
-          this.selLogin.seller = true;
-          this.selLogin.buyer = false;
-        }
-      },
+      // selLoginFunc(num) {
+      //   if (num === 0) {
+      //     if (this.fromPage && this.fromPage === 'spreadLandingPage') {
+      //       this.selLogin.seller = true;
+      //       this.selLogin.buyer = false;
+      //     } else if (this.isDSF && this.isDSF === 'acceptDisciple') {
+      //       this.selLogin.seller = true;
+      //       this.selLogin.buyer = false;
+      //     } else if (this.saleInvite) {
+      //       this.selLogin.seller = true;
+      //       this.selLogin.buyer = false;
+      //     } else {
+      //       this.selLogin.buyer = true;
+      //       this.selLogin.seller = false
+      //     }
+      //   } else {
+      //     this.selLogin.seller = true;
+      //     this.selLogin.buyer = false;
+      //   }
+      // },
       handleSubmit(name, callback) {
         let res = false;
         this.$refs[name].validate((valid) => {
@@ -637,53 +679,78 @@
       handleReset(name) {
         this.$refs[name].resetFields();
       },
-      registerBuyer() {
-        const self = this;
-        self.formCustom.role = 0;
-        let recommendCode = '';
-        self.btnState.registerBuyerBtn = true;
-        if (getCookie('recommendCode')) {
-          recommendCode = getCookie('recommendCode');
-        }
-        api.register({
-          phone: self.formCustom.phone,
-          pwd: self.formCustom.pwd,
-          repwd: self.formCustom.repwd,
-          nickName: '',
-          smsCode: self.formCustom.smsCode,
-          validateCode: self.formCustom.validateCode,
-          role: self.formCustom.role,
-          qqNumber: self.formCustom.qqNumber,
-          purpose: 'reg',
-          recommendCode: recommendCode,
-          platForm: 'PC',
-        }).then((res) => {
-          if (res.status) {
-            self.$Message.success({
-              content: "注册成功",
-              duration: 1,
-              onClose: function () {
-                delCookie('recommendCode');
-                self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
-              }
-            });
-          } else {
-            self.$Message.error(res.msg);
-            self.getRegVrcode();
-          }
-          self.btnState.registerBuyerBtn = false;
-        })
+      // 验证邀请码（邀请码的校验在node端进行，返回布尔值）
+      checkInvitationCode() {
+        const _this = this;
+        return new Promise((resolve, reject) => {
+          api.checkInvitationCode({
+            invitationCode: _this.formCustom.invitationCode
+          }).then(res => {
+            if (res.status) {
+              resolve(res);
+            } else {
+              reject(res.msg);
+              _this.$Message.error(res.msg);
+            }
+          })
+        });
       },
-      registerSeller() {
+      // registerBuyer() {
+      //   const self = this;
+      //   self.formCustom.role = 0;
+      //   let recommendCode = '';
+      //   self.btnState.registerBuyerBtn = true;
+      //   if (getCookie('recommendCode')) {
+      //     recommendCode = getCookie('recommendCode');
+      //   }
+      //   api.register({
+      //     phone: self.formCustom.phone,
+      //     pwd: self.formCustom.pwd,
+      //     repwd: self.formCustom.repwd,
+      //     nickName: '',
+      //     smsCode: self.formCustom.smsCode,
+      //     validateCode: self.formCustom.validateCode,
+      //     role: self.formCustom.role,
+      //     qqNumber: self.formCustom.qqNumber,
+      //     purpose: 'reg',
+      //     recommendCode: recommendCode,
+      //     platForm: 'PC',
+      //   }).then((res) => {
+      //     if (res.status) {
+      //       self.$Message.success({
+      //         content: "注册成功",
+      //         duration: 1,
+      //         onClose: function () {
+      //           delCookie('recommendCode');
+      //           self.setUserInfo(self.formCustom.phone, self.formCustom.pwd);
+      //         }
+      //       });
+      //     } else {
+      //       self.$Message.error(res.msg);
+      //       self.getRegVrcode();
+      //     }
+      //     self.btnState.registerBuyerBtn = false;
+      //   })
+      // },
+      async registerSeller() {
         const self = this;
         self.formCustom.role = 1;
         let recommendCode = '';
-        self.btnState.registerSellerBtn = true;
-        if (getCookie('recommendCode')) {
-          recommendCode = getCookie('recommendCode');
-        }
+        // self.btnState.registerSellerBtn = true;
+        // if (getCookie('recommendCode')) {
+        //   recommendCode = getCookie('recommendCode');
+        // }
         if (getSessionStorage('recommendCode')) {
           recommendCode = getSessionStorage('recommendCode');
+        }
+        if (this.needInvitationCode) {
+          const checkCodeResult = await self.checkInvitationCode();
+          if (checkCodeResult.status && checkCodeResult.data) {
+            console.log('邀请码正确，可以注册');
+          } else {
+            self.$Message.error(checkCodeResult.msg);
+            return
+          }
         }
         api.register({
           phone: self.formCustom.phone,
@@ -716,7 +783,7 @@
             self.$Message.error(res.msg);
             self.getRegVrcode();
           }
-          self.btnState.registerSellerBtn = false;
+          // self.btnState.registerSellerBtn = false;
         })
       },
       setUserInfo(phone, pwd) {
@@ -812,7 +879,7 @@
   .register-form-box {
     width: 1000px;
     margin: 40px auto auto auto;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     .form-box {
       padding-bottom: 30px;
       .register-seller-btn {
