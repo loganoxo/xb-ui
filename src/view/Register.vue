@@ -5,7 +5,7 @@
       <div class="register-ctt-top pos-rel">
         <div class="left active">
           <span>1</span>
-          填写注册信息
+          填写商家注册信息
         </div>
         <div class="left pos-rel">
           <div class="fs-22 left">
@@ -16,7 +16,7 @@
         <div class="register-ctt-top-line"></div>
       </div>
       <div class="register-form-box">
-        <!--<div class="register-form-sel">-->
+        <div class="register-form-sel">
             <!--<span class="left" :class="[selLogin.buyer ? 'buyActive' : '']" @click="selLoginFunc(0)">-->
               <!--<img v-show="selLogin.buyer" src="~assets/img/register/register_01.png" alt="">-->
               <!--<img v-show="!selLogin.buyer" src="~assets/img/register/register_03.png" alt="">-->
@@ -27,9 +27,14 @@
               <!--<img v-show="!selLogin.seller" src="~assets/img/register/register_02.png" alt="">-->
               <!--商家注册-->
             <!--</span>-->
-        <!--</div>-->
+          <div class="sellerActive">
+              <img v-show="selLogin.seller" src="~assets/img/register/register_04.png" alt="">
+              <img v-show="!selLogin.seller" src="~assets/img/register/register_02.png" alt="">
+              商家注册
+            </div>
+        </div>
         <div class="mt-80 form-box">
-          <i-form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="400">
+          <i-form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="300">
             <form-item v-if="needInvitationCode" label="邀请码" prop="invitationCode" required>
               <i-input type="text" v-model="formCustom.invitationCode" size="large" class="width-150"/>
               <a :href="link" target="_blank" class="text-decoration-underline ml-20">获取邀请码</a>
@@ -877,9 +882,9 @@
   }
 
   .register-form-box {
-    width: 1000px;
+    width: 800px;
     margin: 40px auto auto auto;
-    /*border: 1px solid #ccc;*/
+    border: 1px solid #ccc;
     .form-box {
       padding-bottom: 30px;
       .register-seller-btn {
@@ -913,8 +918,8 @@
       }
     }
     .register-form-sel {
-      > span {
-        width: 50%;
+      > div  {
+        width: 100%;
         height: 48px;
         line-height: 48px;
         background-color: #ccc;

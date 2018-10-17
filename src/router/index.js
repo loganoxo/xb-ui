@@ -288,7 +288,7 @@ export default new Router({
           path: 'seller-register',
           name: 'seller',
           meta: {
-            title: "用户注册",
+            title: "商家注册",
             logInAuthority: false,
             topShow: false,
             bottomShow: true,
