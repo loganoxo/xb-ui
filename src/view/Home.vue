@@ -489,21 +489,21 @@
             </div>-->
       <!--历史活动结束-->
       <!--达人-->
-      <!--<div class="talent-area clear">-->
-        <!--<div class="talent">-->
-          <!--<div class="talent-title">评测达人</div>-->
-          <!--<div class="rank-list mt-30 text-ct">-->
-            <!--<div class="list-item clear mt-20 pb-20" v-for="(item,index) in showkerReportList" :key="index">-->
-              <!--<div class="inline-block vtc-top mr-10 cl-fff ranking" :class="[index <= 2 ? 'ranking-top-3' : 'ranking']">{{index + 1}}</div>-->
-              <!--<img :src="getUserHead(item.portrait)" alt="" class="border-radius-50 mr-10" width="48" height="48">-->
-              <!--<div class="inline-block text-lf">-->
-                <!--<p>{{item.nickname}}</p>-->
-                <!--<p><span class="main-color">{{item.reportCount}}</span>篇买家秀</p>-->
-                <!--<p>共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
+      <div class="talent-area clear">
+        <div class="talent">
+          <div class="talent-title">评测达人</div>
+          <div class="rank-list mt-30 text-ct">
+            <div class="list-item clear mt-20 pb-20" v-for="(item,index) in showkerReportList" :key="index">
+              <div class="inline-block vtc-top mr-10 cl-fff ranking" :class="[index <= 2 ? 'ranking-top-3' : 'ranking']">{{index + 1}}</div>
+              <img :src="getUserHead(item.portrait)" alt="" class="border-radius-50 mr-10" width="48" height="48">
+              <div class="inline-block text-lf">
+                <p>{{item.nickname}}</p>
+                <p><span class="main-color">{{item.reportCount}}</span>篇买家秀</p>
+                <p>共获得<span class="main-color">{{item.likeCount}}</span>个赞</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
         <!--<div class="talent left">-->
@@ -534,7 +534,7 @@
             <!--</div>-->
           <!--</div>-->
         <!--</div>-->
-      <!--</div>-->
+      </div>
     </div>
 
     <!--添加微信弹窗-->
@@ -813,7 +813,7 @@
         // 人气活动数据去活动列表数据（按人气排）
         PopularityActivityParams: {
           pageIndex: 1,
-          pageSize: 10,
+          pageSize: 12,
           taskName: '',
           taskTypes: [],
           itemCatalogs: [],
