@@ -327,9 +327,9 @@
             <!--</radio>-->
           <!--</radio-group>-->
         <!--</div>-->
-        <div class="evaluation-requirements mt-20 clear">
+        <div class="evaluation-requirements clear">
           <!--<span class="left ml-20 mt-5 required">评价期望：</span>-->
-          <span class="left ml-28 mt-2">评价相关：</span>
+          <span class="ml-28">评价相关：</span>
           <!--<div class="left">-->
             <!--<radio-group v-model="taskRelease.itemReviewRequired" :vertical="true" @on-change="changeSelectEvaluation">-->
               <!--<radio label="review_by_showker_self">-->
@@ -370,7 +370,7 @@
               <!--<span class="ml-10"><icon type="md-alert" color="#f9284f"/>图文评价2元/条，文字评价1元/条；近期免费，收费待定。</span>-->
             <!--</div>-->
           <!--</div>-->
-          <span class="main-color left">本平台要求拿手根据实际收货情况对商品做出客观真实评价，如果有疑问请联系平台客服！ <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="common-service qq-service text-ct">点击咨询</a></span>
+          <span class="main-color">本平台要求拿手根据实际收货情况对商品做出客观真实评价，如果有疑问请联系平台客服！ <a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzgwMDAxOTQwNF80ODQ2MjlfODAwMDE5NDA0XzJf" target="_blank" class="common-service qq-service text-ct">点击咨询</a></span>
         </div>
         <div class="task-remark ml-52 mt-15 clear">
           <!--<span class="left">下单要求：</span>-->
@@ -690,7 +690,7 @@
           </div>
         </template>
         <!--增值服务设置-->
-        <template>
+ <!--       <template>
           <div class="activity-info-title mt-20">增值服务设置</div>
           <div class="value-added-services mt-20">
             <p class="main-color"><img src="~assets/img/common/vip.png" alt="vipLogo"/>&nbsp;增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
@@ -739,7 +739,7 @@
             </i-button>
             <div class="value-added-charge mt-15">单品增值服务费合计：{{(oneValueAddedCost / 100).toFixed(2)}} 元</div>
           </div>
-        </template>
+        </template>-->
         <!--拿手审批条件设置-->
         <template>
           <div class="activity-info-title">拿手审批条件限制</div>
