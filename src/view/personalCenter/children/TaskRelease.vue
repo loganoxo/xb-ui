@@ -21,15 +21,16 @@
       </div>
       <div class="inline-block step left clear">
         <div class="inline-block step-number left">4</div>
-        <div class="inline-block step-text left">拿手收到宝贝后，提交买家秀（即淘宝评价）。</div>
+        <div class="inline-block step-text left">拿手收到宝贝之后，针对商品做出真实客观的评价，并在平台提交。</div>
         <icon class="left mt-20" type="ios-arrow-forward" size="26" color="#ccc"/>
       </div>
       <div class="inline-block step left clear">
         <div class="inline-block step-number left">5</div>
-        <div class="inline-block step-text left">商家审核完买家秀后向拿手返款，活动圆满结束。</div>
+        <div class="inline-block step-text left">商家查看拿手的评价内容，向拿手返款，活动圆满结束。</div>
       </div>
     </div>
-    <div class="activity-tip mb-20">
+    <div class="activity-tip-new mb-20">
+      <div class="text-ct fs-14 f-b main-color pb-10">本平台为商品测评平台，目的是商家在提供免费商品的前提下，获取消费者对商品真实客观的评价，严禁出现发送货品与实际拍下商品不一致的情况！</div>
       <icon type="md-alert" color="#FF0100"/>
       <span><b class="sizeColor3">注意：</b> 1、请关闭活动链接淘客计划；2、请确认关键词能够找到；3、严厉杜绝活动期间改价；</span>
     </div>
@@ -76,7 +77,7 @@
     <div class="activity-con mt-20">
       <!--填写活动详情-->
       <div class="activity-info" v-show="stepName === 'information'">
-        <div class="activity-info-title">填写活动信息</div>
+        <div class="activity-info-title">填写活动信息<span class="main-color fs-18 f-b ml-10">（该模块填写信息是为了使参与测评的拿手能在规定时间内完成测评任务。）</span></div>
         <div class="activity-type ml-20 mt-22">
           <span class="required">下单方式：</span>
           <radio-group v-model="taskRelease.orderType" @on-change="taskSalesChange">
@@ -188,7 +189,7 @@
             class="main-color f-b">强烈建议勾选！</span>（选择后，该活动所有名额的审批由系统推荐和控制，适合需要快速消化单量的商家）</span>
         </div>
         <div class="mt-20">
-          <div class="activity-info-title">店铺宝贝信息</div>
+          <div class="activity-info-title">店铺宝贝信息 <span class="main-color fs-18 f-b ml-10">（该模块请正确填写用于测评的宝贝链接，以及愿意提供几份商品进行测评）</span></div>
           <div class="baby-url ml-20 mt-20">
             <span class="required">宝贝链接：</span>
             <i-input v-model="taskRelease.itemUrl" placeholder="请输入宝贝链接" class="width-300"/>
@@ -230,7 +231,7 @@
             </radio-group>
           </div>
         </div>
-        <div class="activity-info-title mt-20">白拿拿活动展示信息</div>
+        <div class="activity-info-title mt-20">白拿拿活动展示信息<span class="main-color fs-18 f-b ml-10">（该模块请详细描述用于测评的宝贝情况，更具吸引力的描述将带来更多测评拿手的申请哦）</span></div>
         <div class="baby-title ml-20 mt-20">
           <span class="required">活动标题：</span>
           <i-input v-model="taskRelease.taskName" placeholder="请输入活动标题" style="width: 296px"/>
@@ -395,7 +396,7 @@
           </quill-editor>
           <input v-show="false" id="presentGet" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImgPresentGet">
         </div>
-        <div class="activity-info-title mt-20">进店方式设置</div>
+        <div class="activity-info-title mt-20">进店方式设置<span class="main-color fs-18 f-b ml-10">（该模块填写内容用于指导测评拿手能正确快速的找到被测评的宝贝）</span></div>
         <div class="required mt-20 ml-40">
           <span>进店方式：</span>
           <radio-group v-model="taskRelease.taskType" @on-change="taskTypeChange">
@@ -742,7 +743,7 @@
         </template>-->
         <!--拿手审批条件设置-->
         <template>
-          <div class="activity-info-title">拿手审批条件限制</div>
+          <div class="activity-info-title">拿手审批条件限制<span class="main-color fs-18 f-b ml-10">（您可以使用该模块，对商品测评的拿手进行提前筛选）</span></div>
           <div class="sizeColor2 ml-20 mt-20">说明：此处设置符合标签的拿手旺旺才可被系统审批通过。过多限制可能造成展示量/申请量下降，请综合考虑。</div>
           <div class="mt-20 ml-20 mb-20 clear">
             <span class="ml-5 left">拿手旺旺标签设置：</span>
@@ -886,7 +887,7 @@
         </template>
         <!--收藏加购及访客流量设置-->
         <template v-if="taskRelease.taskType === 'pc_search' || taskRelease.taskType === 'app_search'">
-          <div class="activity-info-title">收藏加购及访客流量</div>
+          <div class="activity-info-title">收藏加购及访客流量<span class="ml-10">（该模块服务为合作平台提供，请联系客服取得相关服务人员联系方式）</span></div>
           <div class="mt-20 ml-20">
             <span class="ml-5">收藏加购/访客：</span>
             <checkbox v-model="favoriteCartFlowInfo.favoriteCartFlowStatus">需要</checkbox>
@@ -1246,7 +1247,10 @@
     </modal>
     <!--商家须知-->
     <modal v-model="merchantInformationModal.status" :closable="false" :mask-closable="false" :scrollable="true">
-      <div slot="header" class="text-ct main-color fs-16 f-b">商家须知</div>
+      <div slot="header" class="text-ct main-color fs-16 f-b">
+        <div class="fs-18 pb-10">免费提供商品，获取真实客观评价！</div>
+        <span>商家须知</span>
+      </div>
       <p class="fs-14">白拿拿平台旨在为大家提供更优质的评测服务，为保证评测活动的顺利进行，也为了保证商家朋友的权益，以下条款请务必认真阅读并遵守：</p>
       <p class="mt-10 fs-14">1、实际发货的商品须与平台上发布活动所展示的商品一致；</p>
       <p class="mt-10 fs-14">2、请认真审核拿手提交的订单编号，确认无误之后，及时安排发货；</p>
@@ -2078,7 +2082,8 @@
        * @return {number}
        */
       oneValueAddedCost() {
-        return this.vasMainItemCost + this.vasSimilarItemCost
+        // return this.vasMainItemCost + this.vasSimilarItemCost
+        return 0
       },
 
       /**
@@ -4301,6 +4306,15 @@
     }
     .task-remark-input {
       width: 600px;
+    }
+    .activity-tip-new{
+      border: 1px solid #FFB9B8;
+      border-radius: 5px;
+      background-color: #FFF4F1;
+      text-align: center;
+      color: #000;
+      font-size: 14px;
+      padding: 10px;
     }
     .activity-tip {
       height: 36px;
