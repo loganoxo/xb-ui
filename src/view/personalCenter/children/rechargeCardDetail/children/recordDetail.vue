@@ -2,7 +2,7 @@
   <div class="record-detail">
     <div class="search-box pt-10 pb-10">
       <datePicker type="daterange" :options="dateOption" placeholder="使用日期区间进行搜索" format="yyyy-MM-dd" class="width-300" @on-change="dataPickerChange"></datePicker>
-      <i-button :loading="loading" class="bg-main-color cl-fff ml-20">搜索</i-button>
+      <i-button :loading="loading" class="bg-main-color cl-fff ml-20" @click="getRechargeCardRecordDetail">搜索</i-button>
     </div>
     <table width="100%" class="record-table text-lf mt-10">
       <thead>
@@ -20,7 +20,7 @@
         <td>支付活动推广费-充值卡</td>
         <td>PS142251552825454548451854515</td>
         <td class="light-green">+150</td>
-        <td class="cursor-p blue">查看</td>
+        <td class="cursor-p blue" @click="getReturnDetail">查看</td>
       </tr>
       </tbody>
       <tbody class="text-ct">
@@ -33,7 +33,7 @@
       <page :total="recordPage.totalElements" :current="recordPage.pageIndex" :page-size="recordPage.pageSize" @on-change="changeRecordPage" class="right"></page>
     </div>
     <!--查看返还到充值卡的推广费明细-->
-    <modal v-model="showRetrunDetailModal" width="800">
+    <modal v-model="showReturnDetailModal" width="800">
       <div slot="header">活动编号：<span style="color: red;">1515151515151555151,&nbsp;</span>共返还推广费：<span
         style="color: red;">{{(10000 / 100).toFixed(2)}}</span>&nbsp;元
       </div>
@@ -133,14 +133,14 @@
           totalElements: 0,
         },
         returnDetailList: [],
-        showRetrunDetailModal: true
+        showReturnDetailModal: false
       }
     },
     computed: {
 
     },
     created() {
-
+      this.getRechargeCardRecordDetail();
     },
     mounted() {
 
@@ -161,6 +161,42 @@
       changeReturnPage(page) {
 
       },
+      getRechargeCardRecordDetail() {
+        const _this = this;
+        _this.loading = true;
+        api.getRechargeCardRecordDetail({
+          tradTimeStart: _this.tradTimeStart,
+          tradTimeEnd: _this.tradTimeEnd,
+          pageIndex: _this.recordPage.pageIndex,
+          pageSize: _this.recordPage.pageSize
+        }).then(res => {
+          if (res.status) {
+            console.log(res.data);
+          } else {
+            _this.$Message.error(res.msg);
+          }
+          _this.loading = false;
+        })
+      },
+      getReturnDetail(tradeType,taskNum) {
+        const _this = this;
+        api.getRechargeCardRecordTradeDetail({
+          tradeType: tradeType,
+          taskNum: taskNum,
+          pageIndex: _this.returnPage.pageIndex,
+          pageSize: _this.returnPage.pageSize
+        }).then(res => {
+          if (res.status) {
+            console.log(res.data);
+            _this.showReturnDetailModal = true;
+          } else {
+            _this.$Message.error(res.msg);
+          }
+        })
+      },
+      getRechargeCardRecordTradeDetail(tradeType,taskNum) {
+
+      }
 
 
     }
