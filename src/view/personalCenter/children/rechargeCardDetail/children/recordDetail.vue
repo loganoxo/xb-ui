@@ -2,7 +2,7 @@
   <div class="record-detail">
     <div class="search-box pt-10 pb-10">
       <datePicker type="daterange" :options="dateOption" placeholder="使用日期区间进行搜索" format="yyyy-MM-dd" class="width-300" @on-change="dataPickerChange"></datePicker>
-      <i-button :loading="loading" class="bg-main-color cl-fff ml-20">搜索</i-button>
+      <i-button :loading="loading" class="bg-main-color cl-fff ml-20" @click="getRechargeCardRecordDetail">搜索</i-button>
     </div>
     <table width="100%" class="record-table text-lf mt-10">
       <thead>
@@ -140,7 +140,7 @@
 
     },
     created() {
-
+      this.getRechargeCardRecordDetail();
     },
     mounted() {
 
@@ -161,6 +161,23 @@
       changeReturnPage(page) {
 
       },
+      getRechargeCardRecordDetail() {
+        const _this = this;
+        _this.loading = true;
+        api.getRechargeCardRecordDetail({
+          tradTimeStart: _this.tradTimeStart,
+          tradTimeEnd: _this.tradTimeEnd,
+          pageIndex: _this.recordPage.pageIndex,
+          pageSize: _this.recordPage.pageSize
+        }).then(res => {
+          if (res.status) {
+            console.log(res.data);
+          } else {
+            _this.$Message.error(res.msg);
+          }
+          _this.loading = false;
+        })
+      }
 
 
     }
