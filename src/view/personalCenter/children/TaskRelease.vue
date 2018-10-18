@@ -3125,7 +3125,7 @@
           taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
-            if (_this.taskRelease.orderType === 'day_reserve') {
+            if (res.data.orderType === 'day_reserve') {
               _this.getTaskVasSelectInfo(_this.editTaskId);
             }
             _this.mainDefaultList = [];
