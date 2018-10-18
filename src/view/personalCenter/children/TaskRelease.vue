@@ -2427,6 +2427,7 @@
           this.vasMainItem.forEach(item => {
             if (item.id === 3 && item.isSelect) {
               item.isDisabled = false;
+              item.isSelect = false;
             }
           })
         }
