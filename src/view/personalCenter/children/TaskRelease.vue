@@ -477,7 +477,7 @@
               <i-input v-model.number="item.searchPagePrice" placeholder="请输入搜索列表页展示价格" style="width: 160px"/>
               <span class="sizeColor2">（务必亲自搜索，确认价格准确）</span>
             </div>
-            <div class="baby-location ml-15 mt-20">
+            <div class="baby-location ml-15 mt-20">-
               <span class="required">宝贝搜索位置：</span>
               <span>第</span>
               <i-input v-model.number="item.searchPagePositionMin" style="width: 40px"/>
@@ -691,7 +691,7 @@
           </div>
         </template>
         <!--增值服务设置-->
- <!--       <template>
+        <!--<template>
           <div class="activity-info-title mt-20">增值服务设置</div>
           <div class="value-added-services mt-20">
             <p class="main-color"><img src="~assets/img/common/vip.png" alt="vipLogo"/>&nbsp;增值服务（平台已保证所有拿手安全下单，但您仍不放心，可选择以下增值服务，该服务会要求拿手上传截图留证）</p>
@@ -2054,8 +2054,7 @@
        * @return {number}
        */
       oneValueAddedCost() {
-        // return this.vasMainItemCost + this.vasSimilarItemCost
-        return 0
+        return this.vasMainItemCost + this.vasSimilarItemCost
       },
 
       /**
@@ -3126,7 +3125,9 @@
           taskId: _this.editTaskId
         }).then(res => {
           if (res.status) {
-            // _this.getTaskVasSelectInfo(_this.editTaskId);
+            if (_this.taskRelease.orderType === 'day_reserve') {
+              _this.getTaskVasSelectInfo(_this.editTaskId);
+            }
             _this.mainDefaultList = [];
             _this.pcDefaultList = [];
             _this.appDefaultList = [];
@@ -3211,9 +3212,6 @@
             if (res.data.donotPostPhoto && activityCategory === 'free_get') {
               _this.taskRelease.donotPostPhoto = 'false';
             }
-
-            // 重置所有增值服务为空
-
 
             if (res.data.refuseOldShowkerFor30Days) {
               _this.trialCondition = 'refuseOldShowkerFor30Days'
