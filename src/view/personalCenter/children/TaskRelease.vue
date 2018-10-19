@@ -219,11 +219,11 @@
           </div>
           <div class="order-sku ml-20">
             <span class="required">拍下规格：</span>
-            <radio-group v-model="taskRelease.sku">
+            <radio-group v-model="skuStatus" @on-change="changeSku">
               <radio label="randomSku">任意规格</radio>
-              <radio label="customizeSku">
-                <i-input v-model="sku.colorSku" placeholder="填写颜色类型" style="width:120px;"></i-input>
-                <i-input v-model="sku.sizeSku" placeholder="填写尺码大小" style="width:120px;"></i-input>
+              <radio label="diySku">
+                自定义规格
+                <i-input v-show="skuStatus === 'diySku'" v-model="taskRelease.sku" placeholder="填写颜色类型" style="width:120px;"></i-input>
               </radio>
             </radio-group>
           </div>
@@ -1452,12 +1452,9 @@
           popularFlow: null,
           popularFlowConfig: null,
           withoutAudit: false,
-          sku: 'randomSku'
+          sku: null
         },
-        sku: {
-          randomSku: null,
-          customizeSku: null
-        },
+        skuStatus: 'randomSku',
         trialCondition: 'all',
         taskCountInputPlaceholder: '请输入活动时长',
         taskCountInputDisabled: false,
@@ -2177,6 +2174,11 @@
 
     },
     methods: {
+      changeSku(type) {
+        if (type === 'randomSku') {
+          this.taskRelease.sku = null;
+        }
+      },
       formatNumber(num) {
         return num.toString().padStart(2, '0')
       },
@@ -2534,8 +2536,8 @@
             _this.$Message.warning('亲，拍下数量不能为空！');
             return;
           }
-          if (_this.taskRelease.sku === 'customizeSku') {
-            if (!_this.sku.colorSku || !_this.sku.sizeSku) {
+          if (_this.skuStatus === 'diySku') {
+            if (!_this.taskRelease.sku) {
               _this.$Message.warning('亲，请输入拍下规格信息！')
             }
           }
@@ -3167,6 +3169,7 @@
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
+            _this.skuStatus = _this.taskRelease.sku ? 'diySku' : 'randomSku';
 
             // 活动免审状态
             _this.doNotAudit.doNotAuditStatus = res.data.withoutAudit ? res.data.withoutAudit : false;

@@ -179,6 +179,16 @@
           <span>份</span>
           <span class="sizeColor2 ml-4">（每单需要拍下的件数）</span>
         </div>
+        <div class="order-sku ml-20">
+          <span class="required">拍下规格：</span>
+          <radio-group v-model="skuStatus">
+            <radio label="randomSku" disabled>任意规格</radio>
+            <radio label="diySku" disabled>
+              自定义规格
+              <i-input v-show="skuStatus === 'diySku'" disabled v-model="taskRelease.sku" placeholder="填写颜色类型" style="width:120px;"></i-input>
+            </radio>
+          </radio-group>
+        </div>
         <div class="baby-pinkage ml-20 mt-20">
           <span class="required left">是否包邮：</span>
           <radio-group v-model="taskRelease.pinkage">
@@ -906,7 +916,9 @@
           itemReviewSummary: null,
           itemReviewAssignString: [],
           withoutAudit: false,
+          sku: null
         },
+        skuStatus: 'randomSku',
         trialCondition: 'all',
         taskCountInputPlaceholder: '请输入活动时长',
         editTaskId: null,
@@ -1547,6 +1559,7 @@
             // _this.taskRelease.itemType = res.data.itemCatalog.id;
             _this.taskRelease.pinkage =  _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
+            _this.skuStatus = _this.taskRelease.sku ? 'diySku' : 'randomSku';
 
             if (_this.taskRelease.orderType === 'day_reserve' || _this.taskRelease.orderType === 'day_now') {
               _this.taskRelease.taskDaysDuration = null;
