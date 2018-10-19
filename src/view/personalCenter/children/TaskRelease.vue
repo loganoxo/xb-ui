@@ -206,10 +206,10 @@
             <span class="required">宝贝单价：</span>
             <i-input v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"/>
             <span>元</span>
-            <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><icon
-              color="#f9284f" type="md-alert"/>&nbsp;每份评测品的价值必须在1元以上</span>
+            <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 0.1" class="main-color ml-15"><icon
+              color="#f9284f" type="md-alert"/>&nbsp;每份评测品的价值必须在0.1元以上</span>
             <!--<span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="md-alert"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>-->
-            <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
+            <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 0.1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
           </div>
           <div v-show="taskRelease.activityCategory === 'present_get'" class="order-quantity  ml-20 mt-20 mb-20">
             <span class="required">拍下数量：</span>
