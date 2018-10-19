@@ -223,7 +223,7 @@
               <radio label="randomSku">任意规格</radio>
               <radio label="diySku">
                 自定义规格
-                <i-input v-show="skuStatus === 'diySku'" v-model="taskRelease.sku" placeholder="填写颜色类型" style="width:120px;"></i-input>
+                <i-input v-show="skuStatus === 'diySku'" v-model="taskRelease.sku" placeholder="填写拍下规格" style="width:240px;"></i-input>
               </radio>
             </radio-group>
           </div>
