@@ -2520,8 +2520,8 @@
           _this.$Message.warning('亲，宝贝单价必须为数字！');
           return;
         }
-        if (_this.taskRelease.itemPrice < 1) {
-          _this.$Message.warning('亲，每份评测品的价值必须在1元以上！');
+        if (_this.taskRelease.itemPrice < 0.1) {
+          _this.$Message.warning('亲，每份评测品的价值必须在0.1元以上！');
           return;
         }
         if (_this.taskRelease.activityCategory === 'present_get') {
