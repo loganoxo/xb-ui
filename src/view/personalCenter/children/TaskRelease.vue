@@ -2537,10 +2537,10 @@
             _this.$Message.warning('亲，赠品价格必须为数字！');
             return;
           }
-          if (_this.taskRelease.presentPrice < 10) {
-            _this.$Message.warning('亲，为保证活动质量和效果，平台展示价格需要在10元以上！');
-            return;
-          }
+          // if (_this.taskRelease.presentPrice < 10) {
+          //   _this.$Message.warning('亲，为保证活动质量和效果，平台展示价格需要在10元以上！');
+          //   return;
+          // }
         }
         if (_this.taskRelease.itemPrice < 10 && _this.taskRelease.activityCategory === 'pinkage_for_10') {
           _this.$Message.warning('亲，10元包邮活动宝贝最低价格不能低于10元！');
