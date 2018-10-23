@@ -27,14 +27,14 @@
       </div>
     </Tooltip>
 
-    <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 1 && !isMember">
-      <div class="side-box side-box-wx-bg"></div>
-      <div slot="content" class="text-ct">
-        <!--<img src="~assets/img/common/merchant-wx-group.jpg" alt="" height="140" width="140" class="mt-5">-->
-        <p class="fs-14">白拿拿商家运营交流群</p>
-        <p class="f-b fs-18">微信号：bainana51</p>
-      </div>
-    </Tooltip>
+    <!--<Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 1 && !isMember">-->
+      <!--<div class="side-box side-box-wx-bg"></div>-->
+      <!--<div slot="content" class="text-ct">-->
+        <!--&lt;!&ndash;<img src="~assets/img/common/merchant-wx-group.jpg" alt="" height="140" width="140" class="mt-5">&ndash;&gt;-->
+        <!--<p class="fs-14">白拿拿商家运营交流群</p>-->
+        <!--<p class="f-b fs-18">微信号：bainana51</p>-->
+      <!--</div>-->
+    <!--</Tooltip>-->
     <Tooltip placement="left" :transfer="true" class="mt-10 display-block" v-if="isLogin && getUserRole === 0">
       <div class="side-box side-box-bg wechat"></div>
       <div slot="content" class="text-ct">

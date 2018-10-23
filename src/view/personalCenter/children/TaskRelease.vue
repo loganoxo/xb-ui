@@ -206,10 +206,10 @@
             <span class="required">宝贝单价：</span>
             <i-input v-model.number="taskRelease.itemPrice" placeholder="请输入宝贝单价" style="width: 120px"/>
             <span>元</span>
-            <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 1" class="main-color ml-15"><icon
-              color="#f9284f" type="md-alert"/>&nbsp;每份评测品的价值必须在1元以上</span>
+            <span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 0.1" class="main-color ml-15"><icon
+              color="#f9284f" type="md-alert"/>&nbsp;每份评测品的价值必须在0.1元以上</span>
             <!--<span v-show="taskRelease.itemPrice && taskRelease.itemPrice < 10 && taskRelease.activityCategory === 'pinkage_for_10'" class="main-color ml-20"><Icon color="#f9284f" type="md-alert"></Icon>&nbsp;10元包邮活动，宝贝最低价格不能低于10元</span>-->
-            <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
+            <span class="sizeColor2 ml-5" v-show="!taskRelease.itemPrice || taskRelease.itemPrice > 0.1">（活动期间，商家不允许修改下单页商品信息，经核查属实，本平台有权将活动担保金返还已获得资格的拿手，商家账号按相应规则处罚）</span>
           </div>
           <div v-show="taskRelease.activityCategory === 'present_get'" class="order-quantity  ml-20 mt-20 mb-20">
             <span class="required">拍下数量：</span>
@@ -217,6 +217,16 @@
                      style="width: 120px"/>
             <span>份</span>
             <span class="sizeColor2 ml-4">（每单需要拍下的件数）</span>
+          </div>
+          <div class="order-sku ml-20">
+            <span class="required">拍下规格：</span>
+            <radio-group v-model="skuStatus" @on-change="changeSku">
+              <radio label="randomSku">任意规格</radio>
+              <radio label="diySku">
+                自定义规格
+                <i-input v-show="skuStatus === 'diySku'" v-model="taskRelease.sku" placeholder="填写拍下规格" style="width:240px;"></i-input>
+              </radio>
+            </radio-group>
           </div>
           <div class="baby-pinkage ml-20 mt-20">
             <span class="required left">是否包邮：</span>
@@ -1454,7 +1464,9 @@
           popularFlow: null,
           popularFlowConfig: null,
           withoutAudit: false,
+          sku: null
         },
+        skuStatus: 'randomSku',
         trialCondition: 'all',
         taskCountInputPlaceholder: '请输入活动时长',
         taskCountInputDisabled: false,
@@ -2199,6 +2211,11 @@
 
     },
     methods: {
+      changeSku(type) {
+        if (type === 'randomSku') {
+          this.taskRelease.sku = null;
+        }
+      },
       formatNumber(num) {
         return num.toString().padStart(2, '0')
       },
@@ -2548,14 +2565,19 @@
           _this.$Message.warning('亲，宝贝单价必须为数字！');
           return;
         }
-        if (_this.taskRelease.itemPrice < 1) {
-          _this.$Message.warning('亲，每份评测品的价值必须在1元以上！');
+        if (_this.taskRelease.itemPrice < 0.1) {
+          _this.$Message.warning('亲，每份评测品的价值必须在0.1元以上！');
           return;
         }
         if (_this.taskRelease.activityCategory === 'present_get') {
           if (!_this.taskRelease.orderQuantity) {
             _this.$Message.warning('亲，拍下数量不能为空！');
             return;
+          }
+          if (_this.skuStatus === 'diySku') {
+            if (!_this.taskRelease.sku) {
+              _this.$Message.warning('亲，请输入拍下规格信息！')
+            }
           }
           if (!_this.taskRelease.presentPrice) {
             _this.$Message.warning('亲，赠品价格不能为空！');
@@ -2565,10 +2587,10 @@
             _this.$Message.warning('亲，赠品价格必须为数字！');
             return;
           }
-          if (_this.taskRelease.presentPrice < 10) {
-            _this.$Message.warning('亲，为保证活动质量和效果，平台展示价格需要在10元以上！');
-            return;
-          }
+          // if (_this.taskRelease.presentPrice < 10) {
+          //   _this.$Message.warning('亲，为保证活动质量和效果，平台展示价格需要在10元以上！');
+          //   return;
+          // }
         }
         if (_this.taskRelease.itemPrice < 10 && _this.taskRelease.activityCategory === 'pinkage_for_10') {
           _this.$Message.warning('亲，10元包邮活动宝贝最低价格不能低于10元！');
@@ -3181,11 +3203,13 @@
             });
             _this.taskRelease.activityCategory = 'present_get';
             // 复制活动时活动份数为taskCount + returnCount
+            // 如果拍下规格为自定义的时候
             _this.taskRelease.taskCount = res.data.taskCount + res.data.returnCount * 1;
             _this.taskRelease.dayReserveToNow = _this.taskRelease.dayReserveToNow ? _this.taskRelease.dayReserveToNow : false;
             _this.taskRelease.speedUp = _this.taskRelease.speedUp ? _this.taskRelease.speedUp : false;
             _this.taskRelease.pinkage = _this.taskRelease.pinkage.toString();
             _this.taskRelease.donotPostPhoto = _this.taskRelease.donotPostPhoto.toString();
+            _this.skuStatus = _this.taskRelease.sku ? 'diySku' : 'randomSku';
 
             // 活动免审状态
             _this.doNotAudit.doNotAuditStatus = res.data.withoutAudit ? res.data.withoutAudit : false;

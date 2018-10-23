@@ -406,7 +406,7 @@
         let self = this;
         api.getShowkerReportRank().then((res) => {
           if (res.status) {
-            self.getShowkerReportList = res.data;
+            self.getShowkerReportList = res.data.splice(0,5);
           } else {
             self.$Message.error(res.msg)
           }
