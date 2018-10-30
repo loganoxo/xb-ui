@@ -73,9 +73,11 @@ router.beforeEach((to, from, next) => {
     }
   } else if (to.meta.role && to.meta.role !== store.getters.getUserRole) {
     next('/');
-  } else if (to.matched.length === 0) {
-    from.name ? next({name: from.name}) : next('/');
-  } else {
+  }
+  // else if (to.matched.length === 0) {
+  //   from.name ? next({name: from.name}) : next('/');
+   //}
+   else {
     next();
   }
 });
